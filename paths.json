@@ -1,8 +1,8 @@
 {
   "mappings": [
-    "/content/aem-boilerplate/:/"
+    "/content/movistarplus/:/"
   ],
   "includes": [
-    "/content/aem-boilerplate/"
+    "/content/movistarplus/"
   ]
 }
