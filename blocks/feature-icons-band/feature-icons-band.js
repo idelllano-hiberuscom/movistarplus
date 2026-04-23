@@ -111,7 +111,7 @@ export default function decorate(block) {
 
     // Extraer datos crudos de las 3 columnas esperadas.
     const iconPicture = cols[0]?.querySelector('picture') || null;
-    const headingText = cols[1]?.textContent.trim() || '';
+    const itemHeadingText = cols[1]?.textContent.trim() || '';
     const bodyCol = cols[2] || null;
 
     // Robustez: sin icono → omitir el item completo.
@@ -128,7 +128,7 @@ export default function decorate(block) {
     const originalImg = iconPicture.querySelector('img');
     const src = originalImg?.getAttribute('src') || '';
     const altRaw = originalImg?.getAttribute('alt') || '';
-    const alt = altRaw || headingText; // fallback al heading si el autor no puso alt
+    const alt = altRaw || itemHeadingText; // fallback al heading si el autor no puso alt
     const optimizedPic = createOptimizedPicture(src, alt, false, [{ width: '200' }]);
     optimizedPic.classList.add('feature-icons-band-icon');
     const optimizedImg = optimizedPic.querySelector('img');
@@ -147,10 +147,10 @@ export default function decorate(block) {
     li.append(optimizedPic);
 
     // Heading (omitir si vacío).
-    if (headingText) {
+    if (itemHeadingText) {
       const h3 = document.createElement('h3');
       h3.classList.add('feature-icons-band-heading');
-      h3.textContent = headingText;
+      h3.textContent = itemHeadingText;
       h3.dataset.aueProp = 'heading';
       h3.dataset.aueType = 'text';
       h3.dataset.aueLabel = 'Encabezado corto del feature';

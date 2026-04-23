@@ -1,27 +1,27 @@
 /**
- * Media Grid Block — AEM Edge Delivery Services
+ * Media Grid Block - AEM Edge Delivery Services
  *
- * Grid de 4 columnas × 2 filas en desktop. La primera celda (esquina
- * superior-izquierda) suele ser un panel de texto (editorial) con título,
- * cuerpo y CTA. El resto son imágenes con caption y enlace opcional.
+ * Grid de 4 columnas x 2 filas en desktop. La primera celda (esquina
+ * superior-izquierda) suele ser un panel de texto (editorial) con titulo,
+ * cuerpo y CTA. El resto son imagenes con caption y enlace opcional.
  *
- * Cada item soporta rowSpan y colSpan (1 o 2) para celdas "grandes" tipo
- * FA Cup (1×2) o banner horizontal (2×1).
+ * Cada item soporta rowSpan y colSpan (1 o 2) para celdas grandes tipo
+ * FA Cup (1x2) o banner horizontal (2x1).
  *
  * DOM de entrada (xwalk):
  *   block.media-grid
- *     └── div (fila 0: heading del bloque — opcional)
- *     └── div (fila N: item)
- *           ├── div (col 0) → cellType ("text" | "image")
- *           ├── div (col 1) → title / caption
- *           ├── div (col 2) → body (solo text)
- *           ├── div (col 3) → ctaText (solo text)
- *           ├── div (col 4) → ctaLink (solo text)
- *           ├── div (col 5) → image (solo image)
- *           ├── div (col 6) → imageAlt (solo image)
- *           ├── div (col 7) → link (solo image)
- *           ├── div (col 8) → rowSpan ("1" | "2")
- *           └── div (col 9) → colSpan ("1" | "2")
+ *     - div (fila 0: heading del bloque, opcional)
+ *     - div (fila N: item)
+ *       - div (col 0) -> cell ("text" | "image")
+ *       - div (col 1) -> title / caption
+ *       - div (col 2) -> body (solo text)
+ *       - div (col 3) -> ctaText (solo text)
+ *       - div (col 4) -> cta (solo text)
+ *       - div (col 5) -> image (solo image)
+ *       - div (col 6) -> imageAlt (solo image)
+ *       - div (col 7) -> link (solo image)
+ *       - div (col 8) -> rowSpan ("1" | "2")
+ *       - div (col 9) -> colSpan ("1" | "2")
  *
  * @param {Element} block - Root element of the block
  */
@@ -54,7 +54,7 @@ function buildTextCell(cols, li) {
     h3.textContent = title;
     h3.dataset.aueProp = 'title';
     h3.dataset.aueType = 'text';
-    h3.dataset.aueLabel = 'Título del panel editorial';
+    h3.dataset.aueLabel = 'Titulo del panel editorial';
     li.append(h3);
   }
 
@@ -71,7 +71,7 @@ function buildTextCell(cols, li) {
   if (ctaAnchor) {
     ctaAnchor.classList.add('media-grid__cta');
     if (ctaText) ctaAnchor.textContent = ctaText;
-    ctaAnchor.dataset.aueProp = 'ctaLink';
+    ctaAnchor.dataset.aueProp = 'cta';
     ctaAnchor.dataset.aueType = 'aem-content';
     ctaAnchor.dataset.aueLabel = 'Enlace del CTA';
     li.append(ctaAnchor);
@@ -124,11 +124,12 @@ function buildImageCell(cols, li) {
 export default function decorate(block) {
   const rows = [...block.children];
 
-  // Block-level field "heading" — primera fila sin <picture> y sin múltiples columnas (una sola celda de texto).
+  // Block-level field "heading": primera fila sin <picture>
+  // y sin multiples columnas (una sola celda de texto).
   let itemStart = 0;
   let headingRow = null;
   if (rows[0] && rows[0].children.length <= 1 && !rows[0].querySelector('picture')) {
-    headingRow = rows[0];
+    [headingRow] = rows;
     itemStart = 1;
   }
   const headingText = readText(headingRow);
@@ -143,7 +144,7 @@ export default function decorate(block) {
     if (headingRow) moveInstrumentation(headingRow, h2);
     h2.dataset.aueProp = 'heading';
     h2.dataset.aueType = 'text';
-    h2.dataset.aueLabel = 'Encabezado de la sección';
+    h2.dataset.aueLabel = 'Encabezado de la seccion';
     inner.append(h2);
   }
 

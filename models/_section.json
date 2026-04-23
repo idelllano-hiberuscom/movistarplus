@@ -49,8 +49,18 @@
         "title",
         "hero",
         "cards",
+        "channel-logos",
         "columns",
-        "fragment"
+        "content-carousel",
+        "faq-accordion",
+        "feature-icons-band",
+        "footer",
+        "fragment",
+        "header",
+        "hero-carousel",
+        "media-grid",
+        "plan-selector",
+        "promo-band"
       ]
     }
   ]

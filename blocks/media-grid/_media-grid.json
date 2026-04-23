@@ -51,7 +51,7 @@
         {
           "component": "select",
           "valueType": "string",
-          "name": "cellType",
+          "name": "cell",
           "label": "Tipo de celda",
           "required": true,
           "options": [
@@ -80,7 +80,7 @@
         },
         {
           "component": "aem-content",
-          "name": "ctaLink",
+          "name": "cta",
           "label": "Enlace del CTA (solo celda de texto)"
         },
         {

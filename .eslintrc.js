@@ -25,6 +25,7 @@ module.exports = {
       'hero-carousel-item': 10,
       'content-carousel': 8,
       'content-carousel-item': 12,
+      'media-grid-cell': 8,
     }],
   },
 };
