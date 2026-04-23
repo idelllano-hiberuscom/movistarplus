@@ -13,22 +13,21 @@
       "button",
       "title",
       "hero",
-      "hero-carousel",
       "cards",
       "columns",
-      "fragment",
-      "feature-icons-band",
-      "channel-logos",
-      "plan-selector",
-      "faq-accordion",
-      "content-carousel",
-      "promo-band"
+      "fragment"
     ]
   },
   {
     "id": "cards",
     "components": [
       "card"
+    ]
+  },
+  {
+    "id": "channel-logos",
+    "components": [
+      "channel-logos-item"
     ]
   },
   {
@@ -47,9 +46,21 @@
     ]
   },
   {
-    "id": "header",
+    "id": "content-carousel",
     "components": [
-      "header-nav-item"
+      "content-carousel-item"
+    ]
+  },
+  {
+    "id": "faq-accordion",
+    "components": [
+      "faq-accordion-item"
+    ]
+  },
+  {
+    "id": "feature-icons-band",
+    "components": [
+      "feature-icons-band-item"
     ]
   },
   {
@@ -77,27 +88,9 @@
     ]
   },
   {
-    "id": "feature-icons-band",
+    "id": "header",
     "components": [
-      "feature-icons-band-item"
-    ]
-  },
-  {
-    "id": "channel-logos",
-    "components": [
-      "channel-logos-item"
-    ]
-  },
-  {
-    "id": "plan-selector",
-    "components": [
-      "plan-selector-item"
-    ]
-  },
-  {
-    "id": "faq-accordion",
-    "components": [
-      "faq-accordion-item"
+      "header-nav-item"
     ]
   },
   {
@@ -107,9 +100,9 @@
     ]
   },
   {
-    "id": "content-carousel",
+    "id": "plan-selector",
     "components": [
-      "content-carousel-item"
+      "plan-selector-item"
     ]
   }
 ]

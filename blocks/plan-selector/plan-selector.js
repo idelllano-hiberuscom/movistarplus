@@ -54,125 +54,6 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-export default function decorate(block) {
-  const rows = [...block.children];
-  if (!rows.length) return;
-
-  // --- 1. Parse heading row (always first) ---
-  const headingRow = rows[0];
-  const headingText = headingRow?.textContent.trim() || '';
-
-  // --- 2. Build inner wrapper ---
-  const inner = document.createElement('div');
-  inner.classList.add('plan-selector__inner');
-
-  const h2 = document.createElement('h2');
-  h2.classList.add('plan-selector__heading');
-  h2.textContent = headingText;
-  moveInstrumentation(headingRow, h2);
-  h2.dataset.aueProp = 'heading';
-  h2.dataset.aueType = 'text';
-  h2.dataset.aueLabel = 'Encabezado de la sección';
-  inner.append(h2);
-
-  // --- 3. Build card list ---
-  const ul = document.createElement('ul');
-  ul.classList.add('plan-selector__list');
-  ul.setAttribute('role', 'list');
-
-  for (let i = 1; i < rows.length; i += 1) {
-    const row = rows[i];
-    const cols = [...row.children];
-
-    // Column extraction
-    const titleText = cols[0]?.textContent.trim() || '';
-    const featuresUl = cols[1]?.querySelector('ul');
-    const priceParagraphs = cols[2]
-      ? [...cols[2].querySelectorAll(':scope > p')]
-      : [];
-    const ctaAnchor = cols[3]?.querySelector('a');
-    const badgePicture = cols[4]?.querySelector('picture');
-    const isFeatured = (cols[5]?.textContent.trim().toLowerCase() === 'true');
-
-    // Build card <li>
-    const li = document.createElement('li');
-    li.classList.add('plan-card');
-    if (isFeatured) li.classList.add('plan-card--featured');
-    moveInstrumentation(row, li);
-
-    // Badge (optional — positioned absolute via CSS)
-    if (badgePicture) {
-      const origImg = badgePicture.querySelector('img');
-      const src = origImg?.getAttribute('src') || '';
-      const alt = origImg?.getAttribute('alt') || '';
-      const pic = createOptimizedPicture(src, alt, false, [{ width: '200' }]);
-      pic.classList.add('plan-card__badge');
-      const newImg = pic.querySelector('img');
-      if (newImg) {
-        newImg.setAttribute('width', '100');
-        newImg.setAttribute('height', '100');
-        newImg.setAttribute('loading', 'lazy');
-        newImg.setAttribute('decoding', 'async');
-        if (origImg) moveInstrumentation(origImg, newImg);
-      }
-      pic.dataset.aueProp = 'badgeImage';
-      pic.dataset.aueType = 'media';
-      pic.dataset.aueLabel = 'Badge esquina superior';
-      li.append(pic);
-    }
-
-    // Title
-    const h3 = document.createElement('h3');
-    h3.classList.add('plan-card__title');
-    h3.textContent = titleText;
-    h3.dataset.aueProp = 'title';
-    h3.dataset.aueType = 'text';
-    h3.dataset.aueLabel = 'Nombre del plan';
-    li.append(h3);
-
-    // Features list (move existing <ul> node)
-    if (featuresUl) {
-      featuresUl.classList.add('plan-card__features');
-      featuresUl.dataset.aueProp = 'features';
-      featuresUl.dataset.aueType = 'richtext';
-      featuresUl.dataset.aueLabel = 'Lista de beneficios';
-      li.append(featuresUl);
-    }
-
-    // Price area
-    const priceInt = priceParagraphs[0]?.textContent.trim() || '';
-    const priceDec = priceParagraphs[1]?.textContent.trim() || '';
-    const period = priceParagraphs[2]?.textContent.trim() || '';
-    const taxLabel = priceParagraphs[3]?.textContent.trim() || '';
-    const footnote = priceParagraphs[4]?.textContent.trim() || '';
-
-    const priceDiv = document.createElement('div');
-    priceDiv.classList.add('plan-card__price');
-    priceDiv.setAttribute('aria-label', buildPriceAriaLabel(priceInt, priceDec, period, taxLabel));
-
-    appendPriceSpan(priceDiv, 'plan-card__price-int', priceInt);
-    appendPriceSpan(priceDiv, 'plan-card__price-dec', priceDec);
-    appendPriceSpan(priceDiv, 'plan-card__price-period', period);
-    appendPriceSpan(priceDiv, 'plan-card__price-tax', taxLabel);
-    appendPriceSpan(priceDiv, 'plan-card__price-footnote', footnote);
-    li.append(priceDiv);
-
-    // CTA (move existing <a> node)
-    if (ctaAnchor) {
-      ctaAnchor.classList.add('plan-card__cta');
-      ctaAnchor.dataset.aueProp = 'ctaLink';
-      ctaAnchor.dataset.aueType = 'aem-content';
-      ctaAnchor.dataset.aueLabel = 'Enlace del CTA';
-      li.append(ctaAnchor);
-    }
-
-    ul.append(li);
-  }
-
-  inner.append(ul);
-  block.replaceChildren(inner);
-}
-
 /**
  * Creates a <span> with aria-hidden and appends it to parent. Skips if text is empty.
  * @param {Element} parent
@@ -204,4 +85,136 @@ function buildPriceAriaLabel(integer, decimals, period, tax) {
   if (period) parts.push(period);
   if (tax) parts.push(tax);
   return parts.join(', ');
+}
+
+export default function decorate(block) {
+  const rows = [...block.children];
+
+  // --- 1. Parent block field (heading): viene en block.dataset.heading ---
+  const headingText = block.dataset.heading || '';
+
+  // --- 2. Build inner wrapper ---
+  const inner = document.createElement('div');
+  inner.classList.add('plan-selector__inner');
+
+  if (headingText) {
+    const h2 = document.createElement('h2');
+    h2.classList.add('plan-selector__heading');
+    h2.textContent = headingText;
+    h2.dataset.aueProp = 'heading';
+    h2.dataset.aueType = 'text';
+    h2.dataset.aueLabel = 'Encabezado de la sección';
+    inner.append(h2);
+  }
+
+  // --- 3. Build card list (cada fila = una tarjeta de plan) ---
+  const ul = document.createElement('ul');
+  ul.classList.add('plan-selector__list');
+  ul.setAttribute('role', 'list');
+
+  for (let i = 0; i < rows.length; i += 1) {
+    const row = rows[i];
+    const cols = [...row.children];
+
+    // Column extraction (orden del modelo plan-selector-item, 12 campos):
+    // 0:title 1:features 2:priceInteger 3:priceDecimals 4:period 5:taxLabel
+    // 6:priceFootnote 7:ctaText 8:cta(link) 9:badge(img) 10:badgeAlt 11:featured
+    const titleText = cols[0]?.textContent.trim() || '';
+    const featuresUl = cols[1]?.querySelector('ul');
+    const priceInt = cols[2]?.textContent.trim() || '';
+    const priceDec = cols[3]?.textContent.trim() || '';
+    const period = cols[4]?.textContent.trim() || '';
+    const taxLabel = cols[5]?.textContent.trim() || '';
+    const footnote = cols[6]?.textContent.trim() || '';
+    const ctaText = cols[7]?.textContent.trim() || '';
+    const ctaAnchor = cols[8]?.querySelector('a');
+    const badgePicture = cols[9]?.querySelector('picture');
+    const badgeAlt = cols[10]?.textContent.trim() || '';
+    const isFeatured = (cols[11]?.textContent.trim().toLowerCase() === 'true');
+
+    // Build card <li>
+    const li = document.createElement('li');
+    li.classList.add('plan-card');
+    if (isFeatured) li.classList.add('plan-card--featured');
+    moveInstrumentation(row, li);
+
+    // Badge (optional — positioned absolute via CSS)
+    if (badgePicture) {
+      const origImg = badgePicture.querySelector('img');
+      const src = origImg?.getAttribute('src') || '';
+      const alt = origImg?.getAttribute('alt') || '';
+      const pic = createOptimizedPicture(src, alt, false, [{ width: '200' }]);
+      pic.classList.add('plan-card__badge');
+      const newImg = pic.querySelector('img');
+      if (newImg) {
+        newImg.setAttribute('width', '100');
+        newImg.setAttribute('height', '100');
+        newImg.setAttribute('loading', 'lazy');
+        newImg.setAttribute('decoding', 'async');
+        if (origImg) moveInstrumentation(origImg, newImg);
+      }
+      pic.dataset.aueProp = 'badge';
+      pic.dataset.aueType = 'media';
+      pic.dataset.aueLabel = 'Badge esquina superior';
+      li.append(pic);
+    }
+
+    // Title
+    const h3 = document.createElement('h3');
+    h3.classList.add('plan-card__title');
+    h3.textContent = titleText;
+    h3.dataset.aueProp = 'title';
+    h3.dataset.aueType = 'text';
+    h3.dataset.aueLabel = 'Nombre del plan';
+    li.append(h3);
+
+    // Features list (move existing <ul> node)
+    if (featuresUl) {
+      featuresUl.classList.add('plan-card__features');
+      featuresUl.dataset.aueProp = 'features';
+      featuresUl.dataset.aueType = 'richtext';
+      featuresUl.dataset.aueLabel = 'Lista de beneficios';
+      li.append(featuresUl);
+    }
+
+    // Price area (cada componente del precio en su propia columna)
+    const priceDiv = document.createElement('div');
+    priceDiv.classList.add('plan-card__price');
+    priceDiv.setAttribute('aria-label', buildPriceAriaLabel(priceInt, priceDec, period, taxLabel));
+
+    appendPriceSpan(priceDiv, 'plan-card__price-int', priceInt);
+    appendPriceSpan(priceDiv, 'plan-card__price-dec', priceDec);
+    appendPriceSpan(priceDiv, 'plan-card__price-period', period);
+    appendPriceSpan(priceDiv, 'plan-card__price-tax', taxLabel);
+    appendPriceSpan(priceDiv, 'plan-card__price-footnote', footnote);
+    li.append(priceDiv);
+
+    // CTA: usar <a> existente o construir uno con ctaText + ctaAnchor.href
+    if (ctaAnchor) {
+      ctaAnchor.classList.add('plan-card__cta');
+      if (ctaText) ctaAnchor.textContent = ctaText;
+      ctaAnchor.dataset.aueProp = 'cta';
+      ctaAnchor.dataset.aueType = 'aem-content';
+      ctaAnchor.dataset.aueLabel = 'Enlace del CTA';
+      li.append(ctaAnchor);
+    } else if (ctaText) {
+      const span = document.createElement('span');
+      span.classList.add('plan-card__cta');
+      span.textContent = ctaText;
+      span.dataset.aueProp = 'ctaText';
+      span.dataset.aueType = 'text';
+      li.append(span);
+    }
+
+    // badgeAlt aplicado al alt del badge si existe
+    if (badgeAlt) {
+      const badgeImg = li.querySelector('.plan-card__badge img');
+      if (badgeImg) badgeImg.setAttribute('alt', badgeAlt);
+    }
+
+    ul.append(li);
+  }
+
+  inner.append(ul);
+  block.replaceChildren(inner);
 }

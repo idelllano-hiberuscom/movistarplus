@@ -9,7 +9,8 @@
  *
  * QA Changes:
  * - Sin cambios técnicos: el código de Fase 2 cumplía DOM integrity y performance.
- * - Añadidos atributos data-aue-* en bgPicture, titlePicture, h2, description, ctaAnchor, disclaimer.
+ * - Añadidos atributos data-aue-* en bgPicture, titlePicture, h2, description,
+ *   ctaAnchor, disclaimer.
  *
  * DOM de entrada (matriz EDS) — 1 fila por slide, 11 columnas:
  *   block.hero-carousel
@@ -41,6 +42,117 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 const PREV_SVG = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const NEXT_SVG = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* -------------------------- Helpers de módulo -------------------------- */
+
+function goToSlide(state, index) {
+  const nextIndex = ((index % state.total) + state.total) % state.total;
+  if (nextIndex === state.current) return;
+
+  const prevSlide = state.slides[state.current];
+  const nextSlide = state.slides[nextIndex];
+  prevSlide.classList.remove('is-active');
+  prevSlide.setAttribute('aria-hidden', 'true');
+  nextSlide.classList.add('is-active');
+  nextSlide.setAttribute('aria-hidden', 'false');
+
+  const prevDot = state.dots[state.current];
+  const nextDot = state.dots[nextIndex];
+  prevDot.classList.remove('is-active');
+  prevDot.setAttribute('aria-current', 'false');
+  nextDot.classList.add('is-active');
+  nextDot.setAttribute('aria-current', 'true');
+
+  state.current = nextIndex;
+  state.liveRegion.textContent = `Slide ${nextIndex + 1} de ${state.total}`;
+}
+
+function next(state) {
+  goToSlide(state, state.current + 1);
+}
+
+function prev(state) {
+  goToSlide(state, state.current - 1);
+}
+
+function stopAutoplay(state) {
+  if (state.autoplayId) {
+    window.clearInterval(state.autoplayId);
+    state.autoplayId = null;
+  }
+}
+
+function startAutoplay(state) {
+  if (!state.autoplay || state.autoplayId) return;
+  state.autoplayId = window.setInterval(() => next(state), state.interval);
+}
+
+function restartAutoplay(state) {
+  if (!state.autoplay) return;
+  stopAutoplay(state);
+  if (!state.isHovering && !state.isFocused) startAutoplay(state);
+}
+
+function setupKeyboard(carousel, state) {
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prev(state);
+      restartAutoplay(state);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      next(state);
+      restartAutoplay(state);
+    }
+  });
+}
+
+function setupSwipe(track, state) {
+  const THRESHOLD = 50;
+  let startX = 0;
+  let startY = 0;
+  let tracking = false;
+
+  track.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    tracking = true;
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    if (!tracking) return;
+    tracking = false;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - startX;
+    const dy = touch.clientY - startY;
+    if (Math.abs(dx) < THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < 0) next(state);
+    else prev(state);
+    restartAutoplay(state);
+  }, { passive: true });
+}
+
+function appendPriceSpan(parent, className, text) {
+  if (!text) return;
+  const span = document.createElement('span');
+  span.classList.add(className);
+  span.textContent = text;
+  span.setAttribute('aria-hidden', 'true');
+  parent.append(span);
+}
+
+function buildPriceAriaLabel(integer, decimals, suffix) {
+  const parts = [];
+  if (integer || decimals) {
+    const decClean = decimals.replace(/[^\d,€$]/g, '').replace(/€/g, ' euros');
+    parts.push(`${integer}${decClean}`.trim());
+  }
+  if (suffix) parts.push(suffix);
+  return parts.join(', ');
+}
+
+/* -------------------------- decorate -------------------------- */
 
 export default function decorate(block) {
   // 1. Cache filas ANTES de mutar
@@ -166,18 +278,25 @@ export default function decorate(block) {
       content.append(priceDiv);
     }
 
-    // col 9: CTA (mover <a> existente)
-    const ctaAnchor = cols[9]?.querySelector('a');
+    // col 9: ctaText | col 10: cta (aem-content link)
+    const ctaText = cols[9]?.textContent.trim() || '';
+    const ctaAnchor = cols[10]?.querySelector('a');
     if (ctaAnchor) {
       ctaAnchor.classList.add('hero-carousel__cta');
-      ctaAnchor.dataset.aueProp = 'ctaLink';
+      if (ctaText) ctaAnchor.textContent = ctaText;
+      ctaAnchor.dataset.aueProp = 'cta';
       ctaAnchor.dataset.aueType = 'aem-content';
       ctaAnchor.dataset.aueLabel = 'Enlace destino del CTA';
       content.append(ctaAnchor);
+    } else if (ctaText) {
+      const span = document.createElement('span');
+      span.classList.add('hero-carousel__cta');
+      span.textContent = ctaText;
+      content.append(span);
     }
 
-    // col 10: disclaimer
-    const disclaimerText = cols[10]?.textContent.trim() || '';
+    // col 11: disclaimer
+    const disclaimerText = cols[11]?.textContent.trim() || '';
     if (disclaimerText) {
       const disclaimer = document.createElement('p');
       disclaimer.classList.add('hero-carousel__disclaimer');
@@ -303,113 +422,4 @@ export default function decorate(block) {
 
   // 15. Autoplay si procede
   if (state.autoplay) startAutoplay(state);
-}
-
-/* -------------------------- Helpers de módulo -------------------------- */
-
-function goToSlide(state, index) {
-  const next = ((index % state.total) + state.total) % state.total;
-  if (next === state.current) return;
-
-  const prevSlide = state.slides[state.current];
-  const nextSlide = state.slides[next];
-  prevSlide.classList.remove('is-active');
-  prevSlide.setAttribute('aria-hidden', 'true');
-  nextSlide.classList.add('is-active');
-  nextSlide.setAttribute('aria-hidden', 'false');
-
-  const prevDot = state.dots[state.current];
-  const nextDot = state.dots[next];
-  prevDot.classList.remove('is-active');
-  prevDot.setAttribute('aria-current', 'false');
-  nextDot.classList.add('is-active');
-  nextDot.setAttribute('aria-current', 'true');
-
-  state.current = next;
-  state.liveRegion.textContent = `Slide ${next + 1} de ${state.total}`;
-}
-
-function next(state) {
-  goToSlide(state, state.current + 1);
-}
-
-function prev(state) {
-  goToSlide(state, state.current - 1);
-}
-
-function startAutoplay(state) {
-  if (!state.autoplay || state.autoplayId) return;
-  state.autoplayId = window.setInterval(() => next(state), state.interval);
-}
-
-function stopAutoplay(state) {
-  if (state.autoplayId) {
-    window.clearInterval(state.autoplayId);
-    state.autoplayId = null;
-  }
-}
-
-function restartAutoplay(state) {
-  if (!state.autoplay) return;
-  stopAutoplay(state);
-  if (!state.isHovering && !state.isFocused) startAutoplay(state);
-}
-
-function setupKeyboard(carousel, state) {
-  carousel.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      prev(state);
-      restartAutoplay(state);
-    } else if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      next(state);
-      restartAutoplay(state);
-    }
-  });
-}
-
-function setupSwipe(track, state) {
-  const THRESHOLD = 50;
-  let startX = 0;
-  let startY = 0;
-  let tracking = false;
-
-  track.addEventListener('touchstart', (e) => {
-    if (e.touches.length !== 1) return;
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    tracking = true;
-  }, { passive: true });
-
-  track.addEventListener('touchend', (e) => {
-    if (!tracking) return;
-    tracking = false;
-    const touch = e.changedTouches[0];
-    const dx = touch.clientX - startX;
-    const dy = touch.clientY - startY;
-    if (Math.abs(dx) < THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
-    if (dx < 0) next(state);
-    else prev(state);
-    restartAutoplay(state);
-  }, { passive: true });
-}
-
-function appendPriceSpan(parent, className, text) {
-  if (!text) return;
-  const span = document.createElement('span');
-  span.classList.add(className);
-  span.textContent = text;
-  span.setAttribute('aria-hidden', 'true');
-  parent.append(span);
-}
-
-function buildPriceAriaLabel(integer, decimals, suffix) {
-  const parts = [];
-  if (integer || decimals) {
-    const decClean = decimals.replace(/[^\d,€$]/g, '').replace(/€/g, ' euros');
-    parts.push(`${integer}${decClean}`.trim());
-  }
-  if (suffix) parts.push(suffix);
-  return parts.join(', ');
 }

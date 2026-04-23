@@ -43,139 +43,6 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
-export default function decorate(block) {
-  const rows = [...block.children];
-  if (!rows.length) return;
-
-  // --- 1. Parse header row (always first) ---
-  const headerRow = rows[0];
-  const headerCols = headerRow ? [...headerRow.children] : [];
-  const headingText = headerCols[0]?.textContent.trim() || '';
-  const subtitleText = headerCols[1]?.textContent.trim() || '';
-
-  // --- 2. Detect config row (optional second row) ---
-  let scrollMode = 'manual';
-  let logoStartIndex = 1;
-
-  if (rows.length > 1) {
-    const possibleConfig = rows[1];
-    const configText = possibleConfig.textContent.trim().toLowerCase();
-    if (!possibleConfig.querySelector('picture')
-        && (configText === 'auto-marquee' || configText === 'manual')) {
-      scrollMode = configText;
-      logoStartIndex = 2;
-    }
-  }
-
-  // --- 3. Build header ---
-  const header = document.createElement('div');
-  header.classList.add('channel-logos__header');
-  moveInstrumentation(headerRow, header);
-
-  const h2 = document.createElement('h2');
-  h2.classList.add('channel-logos__heading');
-  h2.textContent = headingText;
-  // UE: inline editing for heading field
-  h2.dataset.aueProp = 'heading';
-  h2.dataset.aueType = 'text';
-  h2.dataset.aueLabel = 'Encabezado de la sección (H2)';
-  header.append(h2);
-
-  // Always create subtitle element for UE inline editing target (hidden via CSS :empty)
-  const subtitle = document.createElement('p');
-  subtitle.classList.add('channel-logos__subtitle');
-  if (subtitleText) subtitle.textContent = subtitleText;
-  // UE: inline editing for subtitle field
-  subtitle.dataset.aueProp = 'subtitle';
-  subtitle.dataset.aueType = 'text';
-  subtitle.dataset.aueLabel = 'Subtítulo descriptivo';
-  header.append(subtitle);
-
-  // --- 4. Build viewport + track ---
-  const viewport = document.createElement('div');
-  viewport.classList.add('channel-logos__viewport');
-  viewport.dataset.scrollMode = scrollMode;
-
-  const track = document.createElement('ul');
-  track.classList.add('channel-logos__track');
-  track.setAttribute('role', 'list');
-  track.setAttribute('tabindex', '0');
-  track.setAttribute('aria-label', headingText || 'Logos de canales');
-
-  // --- 5. Process logo rows ---
-  const logoRows = rows.slice(logoStartIndex);
-
-  logoRows.forEach((row) => {
-    const cols = [...row.children];
-    const pictureEl = cols[0]?.querySelector('picture');
-    if (!pictureEl) return;
-
-    const li = document.createElement('li');
-    li.classList.add('channel-logos__item');
-    moveInstrumentation(row, li);
-
-    // Extract optional link from col 1
-    const linkEl = cols[1]?.querySelector('a');
-    const linkHref = linkEl?.getAttribute('href') || '';
-    const linkText = linkEl?.textContent.trim() || '';
-
-    // Original image data
-    const originalImg = pictureEl.querySelector('img');
-    const imgSrc = originalImg?.getAttribute('src') || '';
-    const imgAlt = originalImg?.getAttribute('alt') || linkText || '';
-
-    // Optimized picture (below-the-fold — lazy, not LCP)
-    const optimizedPic = createOptimizedPicture(imgSrc, imgAlt, false, [{ width: '164' }]);
-    const optimizedImg = optimizedPic.querySelector('img');
-    if (optimizedImg) {
-      optimizedImg.setAttribute('width', '164');
-      optimizedImg.setAttribute('height', '107');
-      optimizedImg.setAttribute('loading', 'lazy');
-      optimizedImg.setAttribute('decoding', 'async');
-      if (originalImg) moveInstrumentation(originalImg, optimizedImg);
-    }
-
-    // UE: media selector for image field (on <picture>)
-    optimizedPic.dataset.aueProp = 'image';
-    optimizedPic.dataset.aueType = 'media';
-    optimizedPic.dataset.aueLabel = 'Logo del canal';
-
-    // Wrap in link if href exists
-    if (linkHref) {
-      const a = document.createElement('a');
-      a.classList.add('channel-logos__link');
-      a.href = linkHref;
-      a.setAttribute('aria-label', `Canal ${imgAlt}`);
-      // UE: content selector for link field
-      a.dataset.aueProp = 'link';
-      a.dataset.aueType = 'aem-content';
-      a.dataset.aueLabel = 'URL destino';
-      a.append(optimizedPic);
-      li.append(a);
-    } else {
-      li.append(optimizedPic);
-    }
-
-    track.append(li);
-  });
-
-  viewport.append(track);
-
-  // --- 6. Replace block content (precedent: cards.js / feature-icons-band.js) ---
-  block.replaceChildren(header, viewport);
-
-  // --- 7. Marquee: clone items for seamless infinite CSS loop ---
-  if (scrollMode === 'auto-marquee') {
-    setupMarquee(track);
-  }
-
-  // --- 8. Drag-to-scroll (manual mode; no-op when overflow is clip) ---
-  setupDragScroll(viewport);
-
-  // --- 9. Keyboard navigation (arrow keys on focused track) ---
-  setupKeyboardNav(track, viewport);
-}
-
 /**
  * Clones track items for seamless infinite CSS marquee.
  * Cloned items are aria-hidden and removed from tab order.
@@ -263,4 +130,126 @@ function setupKeyboardNav(track, viewport) {
       viewport.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   });
+}
+
+export default function decorate(block) {
+  const rows = [...block.children];
+
+  // --- 1. Parent block fields (en block.dataset.*, NO en filas) ---
+  // xwalk renderiza dataset en camelCase: heading, subtitle, scrollMode, marqueeSpeed
+  const headingText = block.dataset.heading || '';
+  const subtitleText = block.dataset.subtitle || '';
+  const scrollModeAttr = (block.dataset.scrollMode || 'manual').toLowerCase();
+  const scrollMode = scrollModeAttr === 'auto-marquee' ? 'auto-marquee' : 'manual';
+
+  // --- 2. Item rows: cada fila = un logo (cols: image, name, link) ---
+  const logoStartIndex = 0;
+
+  // --- 3. Build header ---
+  const header = document.createElement('div');
+  header.classList.add('channel-logos__header');
+
+  const h2 = document.createElement('h2');
+  h2.classList.add('channel-logos__heading');
+  h2.textContent = headingText;
+  // UE: inline editing for heading field (parent block field)
+  h2.dataset.aueProp = 'heading';
+  h2.dataset.aueType = 'text';
+  h2.dataset.aueLabel = 'Encabezado de la sección (H2)';
+  header.append(h2);
+
+  // Always create subtitle element for UE inline editing target (hidden via CSS :empty)
+  const subtitle = document.createElement('p');
+  subtitle.classList.add('channel-logos__subtitle');
+  if (subtitleText) subtitle.textContent = subtitleText;
+  // UE: inline editing for subtitle field (parent block field)
+  subtitle.dataset.aueProp = 'subtitle';
+  subtitle.dataset.aueType = 'text';
+  subtitle.dataset.aueLabel = 'Subtítulo descriptivo';
+  header.append(subtitle);
+
+  // --- 4. Build viewport + track ---
+  const viewport = document.createElement('div');
+  viewport.classList.add('channel-logos__viewport');
+  viewport.dataset.scrollMode = scrollMode;
+
+  const track = document.createElement('ul');
+  track.classList.add('channel-logos__track');
+  track.setAttribute('role', 'list');
+  track.setAttribute('tabindex', '0');
+  track.setAttribute('aria-label', headingText || 'Logos de canales');
+
+  // --- 5. Process logo rows ---
+  const logoRows = rows.slice(logoStartIndex);
+
+  logoRows.forEach((row) => {
+    const cols = [...row.children];
+    const pictureEl = cols[0]?.querySelector('picture');
+    if (!pictureEl) return;
+
+    const li = document.createElement('li');
+    li.classList.add('channel-logos__item');
+    moveInstrumentation(row, li);
+
+    // Extract optional link from col 1
+    // Extract name (col 1) and link (col 2)
+    const nameText = cols[1]?.textContent.trim() || '';
+    const linkEl = cols[2]?.querySelector('a');
+    const linkHref = linkEl?.getAttribute('href') || '';
+
+    // Original image data
+    const originalImg = pictureEl.querySelector('img');
+    const imgSrc = originalImg?.getAttribute('src') || '';
+    const imgAlt = originalImg?.getAttribute('alt') || nameText || '';
+
+    // Optimized picture (below-the-fold — lazy, not LCP)
+    const optimizedPic = createOptimizedPicture(imgSrc, imgAlt, false, [{ width: '164' }]);
+    const optimizedImg = optimizedPic.querySelector('img');
+    if (optimizedImg) {
+      optimizedImg.setAttribute('width', '164');
+      optimizedImg.setAttribute('height', '107');
+      optimizedImg.setAttribute('loading', 'lazy');
+      optimizedImg.setAttribute('decoding', 'async');
+      if (originalImg) moveInstrumentation(originalImg, optimizedImg);
+    }
+
+    // UE: media selector for image field (on <picture>)
+    optimizedPic.dataset.aueProp = 'image';
+    optimizedPic.dataset.aueType = 'media';
+    optimizedPic.dataset.aueLabel = 'Logo del canal';
+
+    // Wrap in link if href exists
+    if (linkHref) {
+      const a = document.createElement('a');
+      a.classList.add('channel-logos__link');
+      a.href = linkHref;
+      a.setAttribute('aria-label', `Canal ${imgAlt}`);
+      // UE: content selector for link field
+      a.dataset.aueProp = 'link';
+      a.dataset.aueType = 'aem-content';
+      a.dataset.aueLabel = 'URL destino';
+      a.append(optimizedPic);
+      li.append(a);
+    } else {
+      li.append(optimizedPic);
+    }
+
+    track.append(li);
+  });
+
+  viewport.append(track);
+
+  // --- 6. Replace block content (precedent: cards.js / feature-icons-band.js) ---
+  block.replaceChildren(header, viewport);
+
+  // --- 7. Marquee: clone items for seamless infinite CSS loop ---
+  if (scrollMode === 'auto-marquee') {
+    setupMarquee(track);
+  }
+
+  // --- 8. Drag-to-scroll (manual mode; no-op when overflow is clip) ---
+  setupDragScroll(viewport);
+
+  // --- 9. Keyboard navigation (arrow keys on focused track) ---
+  setupKeyboardNav(track, viewport);
 }

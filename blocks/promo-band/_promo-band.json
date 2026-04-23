@@ -1,68 +1,73 @@
 {
-  "definition": {
-    "title": "Promo Band",
-    "id": "promo-band",
-    "plugins": {
-      "xwalk": {
-        "page": {
-          "resourceType": "core/franklin/components/block/v1/block",
-          "template": {
-            "name": "Promo Band",
-            "model": "promo-band"
+  "definitions": [
+    {
+      "title": "Promo Band",
+      "id": "promo-band",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Promo Band",
+              "model": "promo-band"
+            }
           }
         }
       }
     }
-  },
-  "model": {
-    "id": "promo-band",
-    "fields": [
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "variant",
-        "label": "Variante de fondo",
-        "required": true,
-        "options": [
-          { "name": "Con imagen de fondo", "value": "with-image" },
-          { "name": "Fondo liso", "value": "plain" }
-        ]
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "backgroundImage",
-        "label": "Imagen decorativa de fondo",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "backgroundImageAlt",
-        "label": "Texto alternativo de la imagen de fondo"
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "icon",
-        "label": "Icono o logo",
-        "multi": false,
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "iconAlt",
-        "label": "Texto alternativo del icono",
-        "required": true
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "text",
-        "label": "Texto con enlace embebido",
-        "required": true
-      }
-    ]
-  }
+  ],
+  "models": [
+    {
+      "id": "promo-band",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "variant",
+          "label": "Variante de fondo",
+          "required": true,
+          "options": [
+            { "name": "Con imagen de fondo", "value": "with-image" },
+            { "name": "Fondo liso", "value": "plain" }
+          ]
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "backgroundImage",
+          "label": "Imagen decorativa de fondo",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "backgroundImageAlt",
+          "label": "Texto alternativo de la imagen de fondo"
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "icon",
+          "label": "Icono o logo",
+          "multi": false,
+          "required": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "iconAlt",
+          "label": "Texto alternativo del icono",
+          "required": true
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "text",
+          "label": "Texto con enlace embebido",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "filters": []
 }

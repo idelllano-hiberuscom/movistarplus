@@ -63,7 +63,7 @@
         },
         {
           "component": "aem-content",
-          "name": "ctaLink",
+          "name": "cta",
           "label": "Enlace destino del botón"
         },
         {

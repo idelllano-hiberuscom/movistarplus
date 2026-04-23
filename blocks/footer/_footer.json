@@ -95,7 +95,7 @@
         {
           "component": "text",
           "valueType": "string",
-          "name": "socialTitle",
+          "name": "socialHeading",
           "label": "Título de la zona de redes",
           "value": "Síguenos en redes"
         }

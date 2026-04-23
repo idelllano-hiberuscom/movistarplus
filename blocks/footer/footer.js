@@ -235,7 +235,8 @@ function populateColumns(columnsEl, data) {
 
 function resolveCopyright(raw) {
   const year = String(new Date().getFullYear());
-  // ⚠️ TODO: confirmar con cliente si el año debe ser dinámico siempre o respetar el literal del fragmento.
+  // ⚠️ TODO: confirmar con cliente si el año debe ser dinámico siempre
+  // o respetar el literal del fragmento.
   if (!raw) return `© Telefónica de España, S.A.U. ${year}`;
   if (raw.includes('{year}')) return raw.replace(/\{year\}/g, year);
   if (/\b(19|20)\d{2}\b/.test(raw)) return raw; // respetar año literal
@@ -457,7 +458,7 @@ function instrumentUE(block, footerPath) {
   if (socialEl) {
     const socialTitleEl = socialEl.querySelector('.footer-social-title');
     if (socialTitleEl) {
-      socialTitleEl.dataset.aueProp = 'socialTitle';
+      socialTitleEl.dataset.aueProp = 'socialHeading';
       socialTitleEl.dataset.aueType = 'text';
       socialTitleEl.dataset.aueLabel = 'Título de la zona de redes';
     }

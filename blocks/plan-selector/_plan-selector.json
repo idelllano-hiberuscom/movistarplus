@@ -103,14 +103,14 @@
         },
         {
           "component": "aem-content",
-          "name": "ctaLink",
+          "name": "cta",
           "label": "URL destino del botón",
           "required": true
         },
         {
           "component": "reference",
           "valueType": "string",
-          "name": "badgeImage",
+          "name": "badge",
           "label": "Badge esquina superior (ej. 'Tarifa estrella'). Vacío = sin badge.",
           "multi": false
         },

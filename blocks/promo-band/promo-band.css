@@ -6,7 +6,7 @@
 
 /* 1. Variables locales del bloque */
 .promo-band {
-  --promo-band-bg-overlay: rgba(255, 255, 255, 0.1);
+  --promo-band-bg-overlay: rgb(255 255 255 / 10%);
   --promo-band-link-color: var(--color-blue-link, #3588ff);
   --promo-band-font-size: 1.3125rem;
   --promo-band-line-height: 1.575rem;
@@ -104,12 +104,12 @@
 }
 
 .promo-band__link:focus-visible {
-  outline: 2px solid currentColor;
+  outline: 2px solid currentcolor;
   outline-offset: 3px;
 }
 
 /* 9. Mobile: stack vertical (<768px) */
-@media (max-width: 47.9375rem) {
+@media (width <= 47.9375rem) {
   .promo-band {
     font-size: 1rem; /* ⚠️ TODO: validar con frame Mobile 390 */
   }

@@ -35,6 +35,7 @@
   background-color: var(--header-bg);
   color: var(--header-fg);
   font-family: var(--header-font-family);
+
   /* Reservar altura para evitar CLS */
   min-height: var(--header-height-mobile);
 }
@@ -265,6 +266,7 @@ body.is-header-drawer-open {
 }
 
 /* ---------- 8.b Estado aria-busy (placeholders mientras carga /nav) ---------- */
+
 /* El esqueleto se monta síncronamente sin contenido; ocultamos visualmente los
    contenedores marcados como aria-busy="true" para evitar un flash de cajas
    vacías. Permanecen accesibles al lector de pantalla (no usamos display:none). */
@@ -286,10 +288,11 @@ body.is-header-drawer-open {
 }
 
 /* ---------- 10. Tablet (768–1279) ---------- */
+
 /* ⚠️ TODO Confirmar layout exacto tablet 768 (nodo Figma 3:6698).
    Por defecto: incrementamos altura y padding pero mantenemos hamburguesa
    hasta el breakpoint desktop. */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .header.block {
     min-height: 80px;
   }
@@ -306,7 +309,7 @@ body.is-header-drawer-open {
 }
 
 /* ---------- 11. Desktop (≥1280) ---------- */
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .header.block {
     min-height: var(--header-height-desktop);
   }

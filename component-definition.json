@@ -113,6 +113,37 @@
           }
         },
         {
+          "title": "Channel Logos",
+          "id": "channel-logos",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Channel Logos",
+                  "filter": "channel-logos",
+                  "model": "channel-logos"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Channel Logos Item",
+          "id": "channel-logos-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Channel Logos Item",
+                  "model": "channel-logos-item"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Columns",
           "id": "columns",
           "plugins": {
@@ -128,60 +159,93 @@
           }
         },
         {
-          "title": "Fragment",
-          "id": "fragment",
+          "title": "Content Carousel",
+          "id": "content-carousel",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "name": "Fragment",
-                  "model": "fragment"
+                  "name": "Content Carousel",
+                  "filter": "content-carousel",
+                  "model": "content-carousel"
                 }
               }
             }
           }
         },
         {
-          "title": "Hero",
-          "id": "hero",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Hero",
-                  "model": "hero"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Header",
-          "id": "header",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Header",
-                  "model": "header"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Nav Item",
-          "id": "header-nav-item",
+          "title": "Content Carousel Item",
+          "id": "content-carousel-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "Nav Item",
-                  "model": "header-nav-item"
+                  "name": "Content Carousel Item",
+                  "model": "content-carousel-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "FAQ Accordion",
+          "id": "faq-accordion",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "FAQ Accordion",
+                  "filter": "faq-accordion",
+                  "model": "faq-accordion"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "FAQ Accordion Item",
+          "id": "faq-accordion-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "FAQ Accordion Item",
+                  "model": "faq-accordion-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Feature Icons Band",
+          "id": "feature-icons-band",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Feature Icons Band",
+                  "model": "feature-icons-band",
+                  "filter": "feature-icons-band"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Feature Icons Band Item",
+          "id": "feature-icons-band-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Feature Icons Band Item",
+                  "model": "feature-icons-band-item"
                 }
               }
             }
@@ -248,123 +312,45 @@
           }
         },
         {
-          "title": "Feature Icons Band",
-          "id": "feature-icons-band",
+          "title": "Fragment",
+          "id": "fragment",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "name": "Feature Icons Band",
-                  "filter": "feature-icons-band"
+                  "name": "Fragment",
+                  "model": "fragment"
                 }
               }
             }
           }
         },
         {
-          "title": "Feature Icons Band Item",
-          "id": "feature-icons-band-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Feature Icons Band Item",
-                  "model": "feature-icons-band-item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Channel Logos",
-          "id": "channel-logos",
+          "title": "Header",
+          "id": "header",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "name": "Channel Logos",
-                  "filter": "channel-logos",
-                  "model": "channel-logos"
+                  "name": "Header",
+                  "model": "header"
                 }
               }
             }
           }
         },
         {
-          "title": "Channel Logos Item",
-          "id": "channel-logos-item",
+          "title": "Nav Item",
+          "id": "header-nav-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "Channel Logos Item",
-                  "model": "channel-logos-item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Plan Selector",
-          "id": "plan-selector",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "Plan Selector",
-                  "filter": "plan-selector",
-                  "model": "plan-selector"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Plan Selector Item",
-          "id": "plan-selector-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Plan Selector Item",
-                  "model": "plan-selector-item"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "FAQ Accordion",
-          "id": "faq-accordion",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block",
-                "template": {
-                  "name": "FAQ Accordion",
-                  "filter": "faq-accordion",
-                  "model": "faq-accordion"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "FAQ Accordion Item",
-          "id": "faq-accordion-item",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "FAQ Accordion Item",
-                  "model": "faq-accordion-item"
+                  "name": "Nav Item",
+                  "model": "header-nav-item"
                 }
               }
             }
@@ -402,31 +388,46 @@
           }
         },
         {
-          "title": "Content Carousel",
-          "id": "content-carousel",
+          "title": "Hero",
+          "id": "hero",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block",
                 "template": {
-                  "name": "Content Carousel",
-                  "filter": "content-carousel",
-                  "model": "content-carousel"
+                  "name": "Hero",
+                  "model": "hero"
                 }
               }
             }
           }
         },
         {
-          "title": "Content Carousel Item",
-          "id": "content-carousel-item",
+          "title": "Plan Selector",
+          "id": "plan-selector",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Plan Selector",
+                  "filter": "plan-selector",
+                  "model": "plan-selector"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Plan Selector Item",
+          "id": "plan-selector-item",
           "plugins": {
             "xwalk": {
               "page": {
                 "resourceType": "core/franklin/components/block/v1/block/item",
                 "template": {
-                  "name": "Content Carousel Item",
-                  "model": "content-carousel-item"
+                  "name": "Plan Selector Item",
+                  "model": "plan-selector-item"
                 }
               }
             }

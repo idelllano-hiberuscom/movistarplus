@@ -178,7 +178,7 @@ function buildEditorialCard(cols) {
     cta.setAttribute('href', ctaHref);
     cta.textContent = ctaText;
     // UE: el <a> CTA expone el campo destino. ctaText comparte elemento — gana ctaLink.
-    cta.dataset.aueProp = 'ctaLink';
+    cta.dataset.aueProp = 'cta';
     cta.dataset.aueType = 'aem-content';
     article.appendChild(cta);
   }

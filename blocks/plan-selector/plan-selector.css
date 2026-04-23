@@ -16,16 +16,17 @@
    ==================================================================== */
 .plan-selector {
   --plan-selector-heading-size: 40px;
-  --plan-selector-card-bg: #ffffff;
-  --plan-selector-card-color: var(--color-black, #000000);
+  --plan-selector-card-bg: #fff;
+  --plan-selector-card-color: var(--color-black, #000);
   --plan-selector-card-bg-featured: #232323;
-  --plan-selector-card-color-featured: var(--color-white, #ffffff);
+  --plan-selector-card-color-featured: var(--color-white, #fff);
   --plan-selector-featured-border: #ffa000;
   --plan-selector-card-radius: 8px;
   --plan-selector-cta-radius: 28px;
   --plan-selector-gap: 20px;
   --plan-selector-heading-gap: 35px;
   --plan-selector-price-tax-color: #9c9c9c;
+
   /* ⚠️ TODO: Contrast of #9c9c9c on white is ~2.8:1 — fails WCAG AA for 12px text.
      Verify with design if a darker gray (e.g. #767676) should be used on non-featured cards. */
 }
@@ -34,7 +35,7 @@
    2. Container root
    ==================================================================== */
 .plan-selector {
-  background-color: var(--color-black, #000000);
+  background-color: var(--color-black, #000);
   padding: 40px 16px;
   font-family: var(--font-family-primary);
   box-sizing: border-box;
@@ -54,7 +55,7 @@
 .plan-selector__heading {
   font-size: var(--plan-selector-heading-size);
   font-weight: var(--font-weight-bold, 700);
-  color: var(--color-white, #ffffff);
+  color: var(--color-white, #fff);
   text-align: center;
   margin: 0 0 var(--plan-selector-heading-gap);
   line-height: 1.1;
@@ -215,8 +216,8 @@
    ==================================================================== */
 .plan-card__cta {
   display: block;
-  background-color: var(--color-brand-blue, #0066ff);
-  color: var(--color-white, #ffffff);
+  background-color: var(--color-brand-blue, #06f);
+  color: var(--color-white, #fff);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-body-lg, 20px);
   font-weight: var(--font-weight-regular, 400);
@@ -234,16 +235,17 @@
 }
 
 .plan-card__cta:focus-visible {
-  outline: 2px solid var(--color-white, #ffffff);
+  outline: 2px solid var(--color-white, #fff);
   outline-offset: 2px;
 }
 
 /* ====================================================================
    13. Responsive — Tablet (≥ 768px)
    ==================================================================== */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .plan-selector {
     --plan-selector-heading-size: 50px;
+
     padding: 50px 32px;
   }
 
@@ -260,9 +262,10 @@
 /* ====================================================================
    14. Responsive — Desktop (≥ 1280px)
    ==================================================================== */
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .plan-selector {
     --plan-selector-heading-size: 67px;
+
     padding: 50px 64px;
   }
 

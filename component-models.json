@@ -161,6 +161,86 @@
     ]
   },
   {
+    "id": "channel-logos",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Encabezado de la sección (H2)",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "subtitle",
+        "label": "Subtítulo descriptivo"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "scrollMode",
+        "label": "Comportamiento del scroll horizontal",
+        "required": true,
+        "options": [
+          {
+            "name": "Manual",
+            "value": "manual"
+          },
+          {
+            "name": "Auto Marquee",
+            "value": "auto-marquee"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "marqueeSpeed",
+        "label": "Velocidad de marquee si autoMarquee está activo",
+        "options": [
+          {
+            "name": "Lenta",
+            "value": "slow"
+          },
+          {
+            "name": "Media",
+            "value": "medium"
+          },
+          {
+            "name": "Rápida",
+            "value": "fast"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "channel-logos-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Logo del canal (recomendado: SVG o PNG transparente)",
+        "multi": false,
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "name",
+        "label": "Nombre del canal (texto alt + tooltip)",
+        "required": true
+      },
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "URL destino (página del canal). Vacío = no clicable."
+      }
+    ]
+  },
+  {
     "id": "columns",
     "fields": [
       {
@@ -180,38 +260,422 @@
     ]
   },
   {
-    "id": "fragment",
+    "id": "content-carousel",
     "fields": [
       {
-        "component": "aem-content",
-        "name": "reference",
-        "label": "Reference"
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Encabezado opcional (H2)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "subtitle",
+        "label": "Subtítulo opcional"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "variant",
+        "label": "Layout del carrusel",
+        "required": true,
+        "value": "portrait",
+        "options": [
+          {
+            "name": "Mosaico (grid)",
+            "value": "mosaic"
+          },
+          {
+            "name": "Carrusel vertical (2:3)",
+            "value": "portrait"
+          },
+          {
+            "name": "Carrusel horizontal (16:9)",
+            "value": "landscape"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "itemsPerView",
+        "label": "Items visibles a la vez (no aplica a mosaic)",
+        "value": "auto",
+        "options": [
+          {
+            "name": "Auto",
+            "value": "auto"
+          },
+          {
+            "name": "3",
+            "value": "3"
+          },
+          {
+            "name": "4",
+            "value": "4"
+          },
+          {
+            "name": "5",
+            "value": "5"
+          },
+          {
+            "name": "6",
+            "value": "6"
+          }
+        ]
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "showArrows",
+        "label": "Mostrar flechas de navegación",
+        "value": true
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "autoplay",
+        "label": "Autoplay del carrusel",
+        "value": false
+      },
+      {
+        "component": "number",
+        "valueType": "string",
+        "name": "autoplayInterval",
+        "label": "Intervalo autoplay (ms)",
+        "value": "5000"
       }
     ]
   },
   {
-    "id": "hero",
+    "id": "content-carousel-item",
     "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "cardVariant",
+        "label": "Tipo de tarjeta",
+        "required": true,
+        "value": "image",
+        "options": [
+          {
+            "name": "Imagen",
+            "value": "image"
+          },
+          {
+            "name": "Editorial",
+            "value": "editorial"
+          }
+        ]
+      },
       {
         "component": "reference",
         "valueType": "string",
         "name": "image",
-        "label": "Image",
+        "label": "Imagen del contenido (cardType=image)",
         "multi": false
       },
       {
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Alt",
-        "value": ""
+        "label": "Texto alternativo de la imagen"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "caption",
+        "label": "Caption inferior uppercase (cardType=image)"
+      },
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "URL destino (cardType=image)"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "rowSpan",
+        "label": "Span de filas (solo variant=mosaic)",
+        "value": "1",
+        "options": [
+          {
+            "name": "1",
+            "value": "1"
+          },
+          {
+            "name": "2",
+            "value": "2"
+          }
+        ]
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "colSpan",
+        "label": "Span de columnas (solo variant=mosaic)",
+        "value": "1",
+        "options": [
+          {
+            "name": "1",
+            "value": "1"
+          },
+          {
+            "name": "2",
+            "value": "2"
+          }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "editorialLabel",
+        "label": "Label superior (cardType=editorial)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "editorialHeading",
+        "label": "Heading principal (cardType=editorial)"
       },
       {
         "component": "richtext",
-        "name": "text",
-        "value": "",
-        "label": "Text",
-        "valueType": "string"
+        "valueType": "string",
+        "name": "editorialBody",
+        "label": "Texto descriptivo (cardType=editorial)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaText",
+        "label": "Texto del CTA (cardType=editorial)"
+      },
+      {
+        "component": "aem-content",
+        "name": "cta",
+        "label": "URL del CTA (cardType=editorial)"
+      }
+    ]
+  },
+  {
+    "id": "faq-accordion",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Encabezado de la sección (H2)",
+        "required": true
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "singleOpen",
+        "label": "Modo de apertura",
+        "options": [
+          {
+            "name": "Un único item abierto",
+            "value": "single-open"
+          },
+          {
+            "name": "Múltiples items abiertos",
+            "value": "multi-open"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "faq-accordion-item",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "question",
+        "label": "Pregunta (visible siempre)",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "answer",
+        "label": "Respuesta (visible al expandir, soporta formato)",
+        "required": true
+      },
+      {
+        "component": "boolean",
+        "valueType": "boolean",
+        "name": "defaultOpen",
+        "label": "Mostrar como expandido al cargar"
+      }
+    ]
+  },
+  {
+    "id": "feature-icons-band",
+    "fields": []
+  },
+  {
+    "id": "feature-icons-band-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "icon",
+        "label": "Icono o ilustración (200×100)",
+        "multi": false,
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "iconAlt",
+        "label": "Texto alternativo del icono",
+        "description": "Describe la ilustración (ej. \"Icono de televisor\"), no uses sólo \"Icono\".",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Encabezado corto del feature",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "body",
+        "label": "Texto descriptivo (1-2 líneas)"
+      }
+    ]
+  },
+  {
+    "id": "footer",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "logo",
+        "label": "Logo del footer",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "logoAlt",
+        "label": "Texto alternativo del logo",
+        "value": "Movistar Plus+"
+      },
+      {
+        "component": "aem-content",
+        "name": "logoLink",
+        "label": "Enlace del logo (normalmente la home)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "copyright",
+        "label": "Texto de copyright",
+        "description": "Puedes usar el placeholder {year} para el año dinámico.",
+        "value": "© Telefónica de España, S.A.U. {year}"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "socialHeading",
+        "label": "Título de la zona de redes",
+        "value": "Síguenos en redes"
+      }
+    ]
+  },
+  {
+    "id": "footer-column",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Título de la columna",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "footer-link",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "label",
+        "label": "Etiqueta visible",
+        "required": true
+      },
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "URL destino",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "footer-social",
+    "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "network",
+        "label": "Red social",
+        "required": true,
+        "options": [
+          {
+            "name": "Facebook",
+            "value": "facebook"
+          },
+          {
+            "name": "Twitter / X",
+            "value": "twitter"
+          },
+          {
+            "name": "Instagram",
+            "value": "instagram"
+          },
+          {
+            "name": "YouTube",
+            "value": "youtube"
+          },
+          {
+            "name": "TikTok",
+            "value": "tiktok"
+          },
+          {
+            "name": "LinkedIn",
+            "value": "linkedin"
+          }
+        ]
+      },
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "URL destino de la red social",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ariaLabel",
+        "label": "Texto accesible (aria-label)",
+        "description": "Si se deja vacío, se autogenera como \"Síguenos en {red}\"."
+      }
+    ]
+  },
+  {
+    "id": "fragment",
+    "fields": [
+      {
+        "component": "aem-content",
+        "name": "reference",
+        "label": "Reference"
       }
     ]
   },
@@ -246,7 +710,7 @@
       },
       {
         "component": "aem-content",
-        "name": "ctaLink",
+        "name": "cta",
         "label": "Enlace destino del botón"
       },
       {
@@ -294,349 +758,6 @@
         "name": "active",
         "label": "Marcar como sección activa",
         "value": false
-      }
-    ]
-  },
-  {
-    "id": "footer",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "logo",
-        "label": "Logo del footer",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "logoAlt",
-        "label": "Texto alternativo del logo",
-        "value": "Movistar Plus+"
-      },
-      {
-        "component": "aem-content",
-        "name": "logoLink",
-        "label": "Enlace del logo (normalmente la home)"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "copyright",
-        "label": "Texto de copyright",
-        "description": "Puedes usar el placeholder {year} para el año dinámico.",
-        "value": "© Telefónica de España, S.A.U. {year}"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "socialTitle",
-        "label": "Título de la zona de redes",
-        "value": "Síguenos en redes"
-      }
-    ]
-  },
-  {
-    "id": "footer-column",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "heading",
-        "label": "Título de la columna",
-        "required": true
-      }
-    ]
-  },
-  {
-    "id": "footer-link",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "label",
-        "label": "Etiqueta visible",
-        "required": true
-      },
-      {
-        "component": "aem-content",
-        "name": "link",
-        "label": "URL destino",
-        "required": true
-      }
-    ]
-  },
-  {
-    "id": "footer-social",
-    "fields": [
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "network",
-        "label": "Red social",
-        "required": true,
-        "options": [
-          { "name": "Facebook", "value": "facebook" },
-          { "name": "Twitter / X", "value": "twitter" },
-          { "name": "Instagram", "value": "instagram" },
-          { "name": "YouTube", "value": "youtube" },
-          { "name": "TikTok", "value": "tiktok" },
-          { "name": "LinkedIn", "value": "linkedin" }
-        ]
-      },
-      {
-        "component": "aem-content",
-        "name": "link",
-        "label": "URL destino de la red social",
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "ariaLabel",
-        "label": "Texto accesible (aria-label)",
-        "description": "Si se deja vacío, se autogenera como \"Síguenos en {red}\"."
-      }
-    ]
-  },
-  {
-    "id": "feature-icons-band-item",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "icon",
-        "label": "Icono o ilustración (200×100)",
-        "multi": false,
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "iconAlt",
-        "label": "Texto alternativo del icono",
-        "description": "Describe la ilustración (ej. \"Icono de televisor\"), no uses sólo \"Icono\".",
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "heading",
-        "label": "Encabezado corto del feature",
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "body",
-        "label": "Texto descriptivo (1-2 líneas)"
-      }
-    ]
-  },
-  {
-    "id": "channel-logos",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "heading",
-        "label": "Encabezado de la sección (H2)",
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "subtitle",
-        "label": "Subtítulo descriptivo"
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "scrollMode",
-        "label": "Comportamiento del scroll horizontal",
-        "required": true,
-        "options": [
-          { "name": "Manual", "value": "manual" },
-          { "name": "Auto Marquee", "value": "auto-marquee" }
-        ]
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "marqueeSpeed",
-        "label": "Velocidad de marquee si autoMarquee está activo",
-        "options": [
-          { "name": "Lenta", "value": "slow" },
-          { "name": "Media", "value": "medium" },
-          { "name": "Rápida", "value": "fast" }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "channel-logos-item",
-    "fields": [
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Logo del canal (recomendado: SVG o PNG transparente)",
-        "multi": false,
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "name",
-        "label": "Nombre del canal (texto alt + tooltip)",
-        "required": true
-      },
-      {
-        "component": "aem-content",
-        "name": "link",
-        "label": "URL destino (página del canal). Vacío = no clicable."
-      }
-    ]
-  },
-  {
-    "id": "plan-selector",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "heading",
-        "label": "Encabezado de la sección (H2)",
-        "required": true
-      }
-    ]
-  },
-  {
-    "id": "plan-selector-item",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "title",
-        "label": "Nombre del plan (ej. 'Movistar Plus mensual')",
-        "required": true
-      },
-      {
-        "component": "richtext",
-        "name": "features",
-        "label": "Lista de beneficios (ul/li)",
-        "valueType": "string",
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "priceInteger",
-        "label": "Parte entera del precio (ej. '9')",
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "priceDecimals",
-        "label": "Decimales y moneda (ej. ',99€'). Vacío para planes gratuitos."
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "period",
-        "label": "Periodo de facturación (ej. 'MES', 'AÑO', 'Sin coste')",
-        "required": true
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "taxLabel",
-        "label": "Texto fiscal pequeño (ej. 'Imp. incl.')"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "priceFootnote",
-        "label": "Texto bajo el precio (ej. 'Precio final al mes')"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "ctaText",
-        "label": "Texto del botón (ej. 'SUSCRIBIRME')",
-        "required": true
-      },
-      {
-        "component": "aem-content",
-        "name": "ctaLink",
-        "label": "URL destino del botón",
-        "required": true
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "badgeImage",
-        "label": "Badge esquina superior (ej. 'Tarifa estrella'). Vacío = sin badge.",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "badgeAlt",
-        "label": "Texto alternativo del badge"
-      },
-      {
-        "component": "boolean",
-        "name": "featured",
-        "label": "Marcar como tarjeta destacada (aplica estilo dark + borde naranja)",
-        "valueType": "boolean"
-      }
-    ]
-  },
-  {
-    "id": "faq-accordion",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "heading",
-        "label": "Encabezado de la sección (H2)",
-        "required": true
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "singleOpen",
-        "label": "Modo de apertura",
-        "options": [
-          { "name": "Un único item abierto", "value": "single-open" },
-          { "name": "Múltiples items abiertos", "value": "multi-open" }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "faq-accordion-item",
-    "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "question",
-        "label": "Pregunta (visible siempre)",
-        "required": true
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "answer",
-        "label": "Respuesta (visible al expandir, soporta formato)",
-        "required": true
-      },
-      {
-        "component": "boolean",
-        "valueType": "boolean",
-        "name": "defaultOpen",
-        "label": "Mostrar como expandido al cargar"
       }
     ]
   },
@@ -733,7 +854,7 @@
       },
       {
         "component": "aem-content",
-        "name": "ctaLink",
+        "name": "cta",
         "label": "Enlace destino del CTA"
       },
       {
@@ -745,159 +866,123 @@
     ]
   },
   {
-    "id": "content-carousel",
+    "id": "hero",
     "fields": [
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "heading",
-        "label": "Encabezado opcional (H2)"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "subtitle",
-        "label": "Subtítulo opcional"
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "variant",
-        "label": "Layout del carrusel",
-        "required": true,
-        "value": "portrait",
-        "options": [
-          { "name": "Mosaico (grid)", "value": "mosaic" },
-          { "name": "Carrusel vertical (2:3)", "value": "portrait" },
-          { "name": "Carrusel horizontal (16:9)", "value": "landscape" }
-        ]
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "itemsPerView",
-        "label": "Items visibles a la vez (no aplica a mosaic)",
-        "value": "auto",
-        "options": [
-          { "name": "Auto", "value": "auto" },
-          { "name": "3", "value": "3" },
-          { "name": "4", "value": "4" },
-          { "name": "5", "value": "5" },
-          { "name": "6", "value": "6" }
-        ]
-      },
-      {
-        "component": "boolean",
-        "valueType": "boolean",
-        "name": "showArrows",
-        "label": "Mostrar flechas de navegación",
-        "value": true
-      },
-      {
-        "component": "boolean",
-        "valueType": "boolean",
-        "name": "autoplay",
-        "label": "Autoplay del carrusel",
-        "value": false
-      },
-      {
-        "component": "number",
-        "valueType": "string",
-        "name": "autoplayInterval",
-        "label": "Intervalo autoplay (ms)",
-        "value": "5000"
-      }
-    ]
-  },
-  {
-    "id": "content-carousel-item",
-    "fields": [
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "cardType",
-        "label": "Tipo de tarjeta",
-        "required": true,
-        "value": "image",
-        "options": [
-          { "name": "Imagen", "value": "image" },
-          { "name": "Editorial", "value": "editorial" }
-        ]
-      },
       {
         "component": "reference",
         "valueType": "string",
         "name": "image",
-        "label": "Imagen del contenido (cardType=image)",
+        "label": "Image",
         "multi": false
       },
       {
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Texto alternativo de la imagen"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "caption",
-        "label": "Caption inferior uppercase (cardType=image)"
-      },
-      {
-        "component": "aem-content",
-        "name": "link",
-        "label": "URL destino (cardType=image)"
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "rowSpan",
-        "label": "Span de filas (solo variant=mosaic)",
-        "value": "1",
-        "options": [
-          { "name": "1", "value": "1" },
-          { "name": "2", "value": "2" }
-        ]
-      },
-      {
-        "component": "select",
-        "valueType": "string",
-        "name": "colSpan",
-        "label": "Span de columnas (solo variant=mosaic)",
-        "value": "1",
-        "options": [
-          { "name": "1", "value": "1" },
-          { "name": "2", "value": "2" }
-        ]
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "editorialLabel",
-        "label": "Label superior (cardType=editorial)"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "editorialHeading",
-        "label": "Heading principal (cardType=editorial)"
+        "label": "Alt",
+        "value": ""
       },
       {
         "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "plan-selector",
+    "fields": [
+      {
+        "component": "text",
         "valueType": "string",
-        "name": "editorialBody",
-        "label": "Texto descriptivo (cardType=editorial)"
+        "name": "heading",
+        "label": "Encabezado de la sección (H2)",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "plan-selector-item",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Nombre del plan (ej. 'Movistar Plus mensual')",
+        "required": true
+      },
+      {
+        "component": "richtext",
+        "name": "features",
+        "label": "Lista de beneficios (ul/li)",
+        "valueType": "string",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "priceInteger",
+        "label": "Parte entera del precio (ej. '9')",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "priceDecimals",
+        "label": "Decimales y moneda (ej. ',99€'). Vacío para planes gratuitos."
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "period",
+        "label": "Periodo de facturación (ej. 'MES', 'AÑO', 'Sin coste')",
+        "required": true
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "taxLabel",
+        "label": "Texto fiscal pequeño (ej. 'Imp. incl.')"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "priceFootnote",
+        "label": "Texto bajo el precio (ej. 'Precio final al mes')"
       },
       {
         "component": "text",
         "valueType": "string",
         "name": "ctaText",
-        "label": "Texto del CTA (cardType=editorial)"
+        "label": "Texto del botón (ej. 'SUSCRIBIRME')",
+        "required": true
       },
       {
         "component": "aem-content",
-        "name": "ctaLink",
-        "label": "URL del CTA (cardType=editorial)"
+        "name": "cta",
+        "label": "URL destino del botón",
+        "required": true
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "badge",
+        "label": "Badge esquina superior (ej. 'Tarifa estrella'). Vacío = sin badge.",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "badgeAlt",
+        "label": "Texto alternativo del badge"
+      },
+      {
+        "component": "boolean",
+        "name": "featured",
+        "label": "Marcar como tarjeta destacada (aplica estilo dark + borde naranja)",
+        "valueType": "boolean"
       }
     ]
   },
@@ -911,8 +996,14 @@
         "label": "Variante de fondo",
         "required": true,
         "options": [
-          { "name": "Con imagen de fondo", "value": "with-image" },
-          { "name": "Fondo liso", "value": "plain" }
+          {
+            "name": "Con imagen de fondo",
+            "value": "with-image"
+          },
+          {
+            "name": "Fondo liso",
+            "value": "plain"
+          }
         ]
       },
       {

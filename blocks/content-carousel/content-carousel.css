@@ -12,7 +12,9 @@
  */
 
 /* ========================================================================== */
+
 /* Container                                                                  */
+
 /* ========================================================================== */
 
 .content-carousel {
@@ -24,7 +26,7 @@
   background: transparent;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .content-carousel {
     --content-carousel-gap: 16px;
 
@@ -32,7 +34,7 @@
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .content-carousel {
     --content-carousel-gap: 16px;
 
@@ -47,14 +49,16 @@
 }
 
 /* ========================================================================== */
+
 /* Header                                                                     */
+
 /* ========================================================================== */
 
 .content-carousel__header {
   margin: 0 0 16px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .content-carousel__header {
     margin-bottom: 24px;
   }
@@ -70,7 +74,7 @@
   color: var(--color-white);
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .content-carousel__heading {
     font-size: var(--font-size-h2, 36px);
     letter-spacing: -0.53px;
@@ -86,7 +90,9 @@
 }
 
 /* ========================================================================== */
+
 /* Track — base (reset de <ul>)                                               */
+
 /* ========================================================================== */
 
 .content-carousel__track {
@@ -96,7 +102,9 @@
 }
 
 /* ========================================================================== */
+
 /* Variante MOSAIC — CSS Grid                                                 */
+
 /* ========================================================================== */
 
 .content-carousel--mosaic .content-carousel__track {
@@ -106,14 +114,14 @@
   gap: 16px;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .content-carousel--mosaic .content-carousel__track {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .content-carousel--mosaic .content-carousel__track {
     grid-template-columns: repeat(4, 1fr);
     gap: 25.6px;
@@ -128,7 +136,9 @@
 }
 
 /* ========================================================================== */
+
 /* Variantes PORTRAIT y LANDSCAPE — flex horizontal con scroll-snap           */
+
 /* ========================================================================== */
 
 .content-carousel--portrait .content-carousel__track,
@@ -136,8 +146,7 @@
   display: flex;
   flex-wrap: nowrap;
   gap: var(--content-carousel-gap);
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   scroll-snap-type: x mandatory;
   scroll-padding-inline: 0;
   scroll-behavior: smooth;
@@ -164,13 +173,13 @@
   aspect-ratio: 2 / 3;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .content-carousel--portrait .content-carousel__item {
     width: 28vw;
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .content-carousel--portrait .content-carousel__item {
     width: calc(
       (100% - var(--content-carousel-gap) * (var(--items-per-view, 5) - 1))
@@ -185,13 +194,13 @@
   aspect-ratio: 16 / 9;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .content-carousel--landscape .content-carousel__item {
     width: 45vw;
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .content-carousel--landscape .content-carousel__item {
     width: calc(
       (100% - var(--content-carousel-gap) * (var(--items-per-view, 4) - 1))
@@ -201,7 +210,9 @@
 }
 
 /* ========================================================================== */
+
 /* Card — base                                                                */
+
 /* ========================================================================== */
 
 .content-carousel .card {
@@ -218,7 +229,9 @@
 }
 
 /* ========================================================================== */
+
 /* Card image — <picture> + overlay + caption                                 */
+
 /* ========================================================================== */
 
 .content-carousel .card--image {
@@ -277,7 +290,9 @@
 }
 
 /* ========================================================================== */
+
 /* Card editorial                                                             */
+
 /* ========================================================================== */
 
 .content-carousel .card--editorial {
@@ -354,7 +369,9 @@
 }
 
 /* ========================================================================== */
+
 /* Arrows — ocultas en mobile, visibles en desktop                            */
+
 /* ========================================================================== */
 
 .content-carousel__arrow {
@@ -398,14 +415,16 @@
   margin: 0 auto;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   .content-carousel__arrow {
     display: block;
   }
 }
 
 /* ========================================================================== */
+
 /* Focus visible — WCAG 2.4.7                                                 */
+
 /* ========================================================================== */
 
 .content-carousel .card:focus-visible,
@@ -420,7 +439,9 @@
 }
 
 /* ========================================================================== */
+
 /* Reduced motion — WCAG 2.2.2                                                */
+
 /* ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {

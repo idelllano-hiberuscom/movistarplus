@@ -94,15 +94,15 @@
 
 /* 8. Tablet: 2 columnas (asumiendo 4 items). Si hay 3 → wrap a 1 por fila;
        si hay 6 → 2x3. Para distribución más equilibrada usamos flex-wrap. */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .feature-icons-band {
     --feature-icons-band-gap: 40px;
+
     padding-block: 48px;
   }
 
   .feature-icons-band-list {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     justify-content: center;
     align-items: flex-start;
   }
@@ -114,7 +114,7 @@
 }
 
 /* 9. Desktop: N columnas en una fila, centradas, con wrap si hay >5 items. */
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .feature-icons-band {
     padding: 50px 63.23px;
   }

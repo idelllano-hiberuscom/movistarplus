@@ -104,7 +104,7 @@
         {
           "component": "select",
           "valueType": "string",
-          "name": "cardType",
+          "name": "cardVariant",
           "label": "Tipo de tarjeta",
           "required": true,
           "value": "image",
@@ -185,7 +185,7 @@
         },
         {
           "component": "aem-content",
-          "name": "ctaLink",
+          "name": "cta",
           "label": "URL del CTA (cardType=editorial)"
         }
       ]

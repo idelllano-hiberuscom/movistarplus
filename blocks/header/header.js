@@ -32,16 +32,23 @@ import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const ICONS = {
-  search: `<svg xmlns="http://www.w3.org/2000/svg" width="17.4" height="18.4" viewBox="0 0 18 19" fill="none" aria-hidden="true" focusable="false"><circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M12.5 12.5L17 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
-  profile: `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true" focusable="false"><circle cx="17" cy="17" r="16" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="14" r="4.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 26.5C9.5 22.5 13 20.5 17 20.5C21 20.5 24.5 22.5 26 26.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`,
-  burger: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M3 6H21M3 12H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
-  close: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  search: '<svg xmlns="http://www.w3.org/2000/svg" width="17.4" height="18.4" viewBox="0 0 18 19" fill="none" aria-hidden="true" focusable="false"><circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M12.5 12.5L17 17.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  profile: '<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true" focusable="false"><circle cx="17" cy="17" r="16" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="14" r="4.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 26.5C9.5 22.5 13 20.5 17 20.5C21 20.5 24.5 22.5 26 26.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  burger: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M3 6H21M3 12H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  close: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
 };
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 function extractFragmentData(fragment) {
-  const data = { logo: null, logoLink: '/', logoAlt: 'Movistar Plus+', navItems: [], cta: null, utilities: [] };
+  const data = {
+    logo: null,
+    logoLink: '/',
+    logoAlt: 'Movistar Plus+',
+    navItems: [],
+    cta: null,
+    utilities: [],
+  };
   const sections = [...fragment.children];
   sections.forEach((section) => {
     const picture = section.querySelector('picture');
@@ -331,9 +338,14 @@ function setupDrawer(burger, drawer) {
     if (!focusables.length) return;
     const first = focusables[0];
     const last = focusables[focusables.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
   };
+  let onKey;
+  let onClickOutside;
   function close() {
     drawer.classList.remove('is-open');
     drawer.setAttribute('hidden', '');
@@ -344,8 +356,10 @@ function setupDrawer(burger, drawer) {
     document.removeEventListener('click', onClickOutside);
     if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
   }
-  function onKey(e) { if (e.key === 'Escape') close(); else trapFocus(e); }
-  function onClickOutside(e) { if (!drawer.contains(e.target) && !burger.contains(e.target)) close(); }
+  onKey = (e) => { if (e.key === 'Escape') close(); else trapFocus(e); };
+  onClickOutside = (e) => {
+    if (!drawer.contains(e.target) && !burger.contains(e.target)) close();
+  };
   function open() {
     lastFocused = document.activeElement;
     drawer.removeAttribute('hidden');

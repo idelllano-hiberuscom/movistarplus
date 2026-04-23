@@ -7,9 +7,9 @@
 
 .faq-accordion {
   /* Tokens locales del bloque */
-  --color-faq-item-default: rgba(54, 54, 54, 0.4);
-  --color-faq-item-active: rgba(89, 89, 89, 0.54);
-  --color-faq-item-hover: rgba(54, 54, 54, 0.6);
+  --color-faq-item-default: rgb(54 54 54 / 40%);
+  --color-faq-item-active: rgb(89 89 89 / 54%);
+  --color-faq-item-hover: rgb(54 54 54 / 60%);
   --color-text-grey-faq: #a7a7a7;
   --font-size-h2-faq: 34px;
   --faq-accordion-gap-items: 12px;
@@ -107,7 +107,7 @@
   font-size: 16px;
   line-height: 18px;
   font-weight: var(--font-weight-regular);
-  color: var(--color-text-grey-faq);
+  color: var(--color-white);
 }
 
 .faq-accordion__answer p {
@@ -128,7 +128,7 @@
 }
 
 /* Tablet 768px+ */
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .faq-accordion {
     padding: 50px 32px;
   }
@@ -139,7 +139,7 @@
 }
 
 /* Desktop 1280px+ */
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   .faq-accordion {
     padding: 50px 63px;
   }
