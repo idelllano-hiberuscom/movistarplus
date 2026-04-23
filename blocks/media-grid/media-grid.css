@@ -203,3 +203,11 @@
     transition: none;
   }
 }
+@media (width >= 1280px) {
+  .media-grid__list {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 260px); /* ← fijar las 2 filas explícitamente */
+    grid-auto-rows: 260px;
+    gap: 20px;
+  }
+}
