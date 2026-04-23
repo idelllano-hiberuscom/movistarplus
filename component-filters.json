@@ -15,7 +15,14 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "channel-logos",
+      "content-carousel",
+      "faq-accordion",
+      "feature-icons-band",
+      "hero-carousel",
+      "plan-selector",
+      "promo-band"
     ]
   },
   {

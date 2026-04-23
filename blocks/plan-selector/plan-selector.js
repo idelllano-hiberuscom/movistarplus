@@ -137,8 +137,9 @@ export default function decorate(block) {
     const ctaAnchor = cols[8]?.querySelector('a');
     const badgePicture = cols[9]?.querySelector('picture');
     const badgeAlt = cols[10]?.textContent.trim() || '';
-    const featuredVal = cols[11]?.textContent.trim().toLowerCase() || '';
-    const isFeatured = featuredVal === 'true' || featuredVal === 'on' || featuredVal === '1';
+    const featuredRaw = cols[11]?.textContent.trim() || '';
+    const featuredVal = featuredRaw.toLowerCase();
+    const isFeatured = featuredVal === 'true' || featuredVal === 'on' || featuredVal === '1' || featuredVal === 'yes' || featuredVal === 'checked';
 
     // Build card <li>
     const li = document.createElement('li');

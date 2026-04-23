@@ -87,7 +87,7 @@
   color: var(--plan-selector-card-color);
   border: 2px solid transparent;
   border-radius: var(--plan-selector-card-radius);
-  padding: 30px 32px 40px;
+  padding: 24px 28px 32px;
   box-sizing: border-box;
   overflow: visible;
 }
@@ -95,7 +95,7 @@
 /* ====================================================================
    7. Card — featured variant
    ==================================================================== */
-.plan-card--featured {
+.plan-card.plan-card--featured {
   background-color: var(--plan-selector-card-bg-featured);
   color: var(--plan-selector-card-color-featured);
   border-color: var(--plan-selector-featured-border);
@@ -164,7 +164,7 @@
 }
 
 /* Featured variant: invert check icon to white */
-.plan-card--featured .plan-card__features li::before {
+.plan-card.plan-card--featured .plan-card__features li::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M13.3 4.3a1 1 0 0 1 0 1.4l-6 6a1 1 0 0 1-1.4 0l-3-3a1 1 0 1 1 1.4-1.4L6.6 9.6l5.3-5.3a1 1 0 0 1 1.4 0z' fill='%23ffffff'/%3E%3C/svg%3E");
 }
 
@@ -250,7 +250,7 @@
   }
 
   .plan-card {
-    padding: 30px 40px 40px;
+    padding: 24px 36px 32px;
   }
 
   .plan-card__title {
@@ -276,7 +276,8 @@
   }
 
   .plan-card {
-    width: 366px;
+    flex: 1;
+    min-width: 0;
     max-width: none;
   }
 
