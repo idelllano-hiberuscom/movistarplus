@@ -20,17 +20,22 @@
  * - [Sin cambios] decorate() permanece SÍNCRONA.
  * - [Sin cambios] block.replaceChildren(inner) — patrón aceptado.
  *
- * DOM de entrada (matriz EDS):
+ * DOM de entrada (matriz EDS xwalk):
  *   block.plan-selector
- *     └── div (fila 1: encabezado)
- *           └── div (col 0) → <p> "Elige tu plan"
- *     └── div (fila 2+: tarjeta N)
+ *     └── div (fila 0: heading) → texto plano "Elige tu plan" [campo text = fila]
+ *     └── div (fila 1+: tarjeta N)
  *           ├── div (col 0: title)        → <p> nombre del plan
  *           ├── div (col 1: features)     → <ul><li>…</li></ul>
- *           ├── div (col 2: price grid)   → <p> × 5 (int, dec, period, tax, footnote)
- *           ├── div (col 3: cta)          → <p><a href>CTA text</a></p>
- *           ├── div (col 4: badge image)  → <picture> (opcional)
- *           └── div (col 5: featured)     → <p>"true"/"false"</p> (opcional)
+ *           ├── div (col 2: priceInteger) → texto
+ *           ├── div (col 3: priceDecimals)→ texto
+ *           ├── div (col 4: period)       → texto
+ *           ├── div (col 5: taxLabel)     → texto
+ *           ├── div (col 6: priceFootnote)→ texto
+ *           ├── div (col 7: ctaText)      → texto
+ *           ├── div (col 8: cta)          → <p><a href>CTA text</a></p>
+ *           ├── div (col 9: badge)        → <picture> (opcional)
+ *           ├── div (col 10: badgeAlt)    → texto (opcional)
+ *           └── div (col 11: featured)   → texto "true"/"false" (opcional)
  *
  * DOM de salida:
  *   <div class="plan-selector__inner">
@@ -90,8 +95,9 @@ function buildPriceAriaLabel(integer, decimals, period, tax) {
 export default function decorate(block) {
   const rows = [...block.children];
 
-  // --- 1. Parent block field (heading): viene en block.dataset.heading ---
-  const headingText = block.dataset.heading || '';
+  // --- 1. Parent block field (heading): campo text → almacenado como fila 0 en xwalk ---
+  const headingRow = rows[0];
+  const headingText = headingRow?.textContent.trim() || '';
 
   // --- 2. Build inner wrapper ---
   const inner = document.createElement('div');
@@ -101,18 +107,19 @@ export default function decorate(block) {
     const h2 = document.createElement('h2');
     h2.classList.add('plan-selector__heading');
     h2.textContent = headingText;
+    moveInstrumentation(headingRow, h2);
     h2.dataset.aueProp = 'heading';
     h2.dataset.aueType = 'text';
     h2.dataset.aueLabel = 'Encabezado de la sección';
     inner.append(h2);
   }
 
-  // --- 3. Build card list (cada fila = una tarjeta de plan) ---
+  // --- 3. Build card list (filas 1+ = tarjetas de plan) ---
   const ul = document.createElement('ul');
   ul.classList.add('plan-selector__list');
   ul.setAttribute('role', 'list');
 
-  for (let i = 0; i < rows.length; i += 1) {
+  for (let i = 1; i < rows.length; i += 1) {
     const row = rows[i];
     const cols = [...row.children];
 

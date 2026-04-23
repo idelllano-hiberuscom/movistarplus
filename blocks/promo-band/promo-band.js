@@ -9,39 +9,46 @@
  * QA Changes:
  * - Sin cambios funcionales necesarios
  *
- * DOM de entrada (matriz EDS):
- *   block (div.promo-band[.promo-band--with-image | .promo-band--plain])
- *     └── div (fila 1, única)
- *           ├── div (col 0) → backgroundImage (<picture> o vacío)
- *           ├── div (col 1) → icono (<picture>)
- *           └── div (col 2) → texto con enlace (<p> con <a>)
+ * DOM de entrada xwalk (una fila por campo no-select):
+ *   block (div.promo-band)
+ *     data-variant → select field (block.dataset.variant)
+ *     └── div (row 0) → backgroundImage (<picture> o vacío)
+ *     └── div (row 1) → backgroundImageAlt (texto plano)
+ *     └── div (row 2) → icon (<picture>)
+ *     └── div (row 3) → iconAlt (texto plano)
+ *     └── div (row 4) → text (texto plano con enlace embebido)
  *
  * @param {Element} block - Root element of the block
  */
 export default function decorate(block) {
-  const row = block.children[0];
-  if (!row) return;
+  const rows = [...block.children];
 
-  const [bgCol, iconCol, textCol] = [...row.children];
+  // variant es un campo select → se almacena en block.dataset
+  const variant = (block.dataset.variant || 'plain').toLowerCase();
+  block.classList.add(`promo-band--${variant}`);
+
+  // Campos reference y text se almacenan como filas en xwalk
+  const bgRow = rows[0];
+  const bgAltRow = rows[1];
+  const iconRow = rows[2];
+  const iconAltRow = rows[3];
+  const textRow = rows[4];
 
   // Inner wrapper — centrado y max-width
   const inner = document.createElement('div');
   inner.classList.add('promo-band__inner');
 
-  // --- Imagen de fondo (col 0) — solo si existe ---
-  const bgPicture = bgCol?.querySelector('picture');
+  // --- Imagen de fondo (row 0) — solo si existe ---
+  const bgPicture = bgRow?.querySelector('picture');
   if (bgPicture) {
     bgPicture.classList.add('promo-band__bg');
     const bgImg = bgPicture.querySelector('img');
     if (bgImg) {
       bgImg.setAttribute('loading', 'lazy');
       bgImg.setAttribute('decoding', 'async');
-      bgImg.setAttribute('alt', ''); // decorativa
+      const altText = bgAltRow?.textContent.trim() || '';
+      bgImg.setAttribute('alt', altText);
     }
-    // UE: DOM-bound prop
-    bgPicture.dataset.aueProp = 'backgroundImage';
-    bgPicture.dataset.aueType = 'media';
-    bgPicture.dataset.aueLabel = 'Imagen decorativa de fondo';
     inner.append(bgPicture);
   }
 
@@ -49,43 +56,38 @@ export default function decorate(block) {
   const content = document.createElement('div');
   content.classList.add('promo-band__content');
 
-  // Icono (col 1)
-  const iconPicture = iconCol?.querySelector('picture');
+  // Icono (row 2)
+  const iconPicture = iconRow?.querySelector('picture');
   if (iconPicture) {
     iconPicture.classList.add('promo-band__icon');
     const iconImg = iconPicture.querySelector('img');
     if (iconImg) {
       iconImg.setAttribute('loading', 'lazy');
       iconImg.setAttribute('decoding', 'async');
+      const altText = iconAltRow?.textContent.trim() || '';
+      iconImg.setAttribute('alt', altText);
     }
-    // UE: DOM-bound prop
-    iconPicture.dataset.aueProp = 'icon';
-    iconPicture.dataset.aueType = 'media';
-    iconPicture.dataset.aueLabel = 'Icono o logo';
     content.append(iconPicture);
   }
 
-  // Texto con enlace (col 2)
-  const textP = textCol?.querySelector('p');
-  if (textP) {
-    textP.classList.add('promo-band__text');
-    const link = textP.querySelector('a');
+  // Texto con enlace (row 4)
+  const textEl = textRow?.querySelector('p') || textRow;
+  if (textEl && textEl !== textRow?.parentElement) {
+    textEl.classList.add('promo-band__text');
+    const link = textEl.querySelector('a');
     if (link) {
       link.classList.add('promo-band__link');
     }
-    // UE: DOM-bound prop
-    textP.dataset.aueProp = 'text';
-    textP.dataset.aueType = 'richtext';
-    textP.dataset.aueLabel = 'Texto con enlace embebido';
-    content.append(textP);
+    content.append(textEl);
+  } else if (textRow) {
+    textRow.classList.add('promo-band__text');
+    const link = textRow.querySelector('a');
+    if (link) {
+      link.classList.add('promo-band__link');
+    }
+    content.append(textRow);
   }
 
   inner.append(content);
   block.replaceChildren(inner);
-
-  // --- INSTRUMENTACIÓN UE (xwalk) — Contenedor raíz ---
-  block.dataset.aueResource = `urn:aemconnection:${window.location.pathname}#promo-band`;
-  block.dataset.aueType = 'component';
-  block.dataset.aueModel = 'promo-band';
-  block.dataset.aueLabel = 'Promo Band';
 }

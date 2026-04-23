@@ -135,15 +135,18 @@ function setupKeyboardNav(track, viewport) {
 export default function decorate(block) {
   const rows = [...block.children];
 
-  // --- 1. Parent block fields (en block.dataset.*, NO en filas) ---
-  // xwalk renderiza dataset en camelCase: heading, subtitle, scrollMode, marqueeSpeed
-  const headingText = block.dataset.heading || '';
-  const subtitleText = block.dataset.subtitle || '';
+  // --- 1. Parent block fields ---
+  // text fields (heading, subtitle) → stored as child div rows in xwalk
+  // select fields (scrollMode, marqueeSpeed) → stored in block.dataset
+  const headingRow = rows[0];
+  const subtitleRow = rows[1];
+  const headingText = headingRow?.textContent.trim() || '';
+  const subtitleText = subtitleRow?.textContent.trim() || '';
   const scrollModeAttr = (block.dataset.scrollMode || 'manual').toLowerCase();
   const scrollMode = scrollModeAttr === 'auto-marquee' ? 'auto-marquee' : 'manual';
 
-  // --- 2. Item rows: cada fila = un logo (cols: image, name, link) ---
-  const logoStartIndex = 0;
+  // --- 2. Item rows: start after heading + subtitle rows ---
+  const logoStartIndex = 2;
 
   // --- 3. Build header ---
   const header = document.createElement('div');
@@ -153,6 +156,7 @@ export default function decorate(block) {
   h2.classList.add('channel-logos__heading');
   h2.textContent = headingText;
   // UE: inline editing for heading field (parent block field)
+  if (headingRow) moveInstrumentation(headingRow, h2);
   h2.dataset.aueProp = 'heading';
   h2.dataset.aueType = 'text';
   h2.dataset.aueLabel = 'Encabezado de la sección (H2)';
@@ -163,6 +167,7 @@ export default function decorate(block) {
   subtitle.classList.add('channel-logos__subtitle');
   if (subtitleText) subtitle.textContent = subtitleText;
   // UE: inline editing for subtitle field (parent block field)
+  if (subtitleRow) moveInstrumentation(subtitleRow, subtitle);
   subtitle.dataset.aueProp = 'subtitle';
   subtitle.dataset.aueType = 'text';
   subtitle.dataset.aueLabel = 'Subtítulo descriptivo';

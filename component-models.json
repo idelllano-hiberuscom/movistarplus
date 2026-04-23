@@ -1035,7 +1035,7 @@
         "required": true
       },
       {
-        "component": "richtext",
+        "component": "text",
         "valueType": "string",
         "name": "text",
         "label": "Texto con enlace embebido",
