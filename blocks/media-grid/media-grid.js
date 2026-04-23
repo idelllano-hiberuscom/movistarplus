@@ -5,24 +5,6 @@
  * superior-izquierda) suele ser un panel de texto (editorial) con titulo,
  * cuerpo y CTA. El resto son imagenes con caption y enlace opcional.
  *
- * Cada item soporta rowSpan y colSpan (1 o 2) para celdas grandes tipo
- * FA Cup (1x2) o banner horizontal (2x1).
- *
- * DOM de entrada (xwalk):
- *   block.media-grid
- *     - div (fila 0: heading del bloque, opcional)
- *     - div (fila N: item)
- *       - div (col 0) -> cell ("text" | "image")
- *       - div (col 1) -> title / caption
- *       - div (col 2) -> body (solo text)
- *       - div (col 3) -> ctaText (solo text)
- *       - div (col 4) -> cta (solo text)
- *       - div (col 5) -> image (solo image)
- *       - div (col 6) -> imageAlt (solo image)
- *       - div (col 7) -> link (solo image)
- *       - div (col 8) -> rowSpan ("1" | "2")
- *       - div (col 9) -> colSpan ("1" | "2")
- *
  * @param {Element} block - Root element of the block
  */
 import { moveInstrumentation } from '../../scripts/scripts.js';
@@ -153,7 +135,7 @@ export default function decorate(block) {
   ul.setAttribute('role', 'list');
 
   const itemRows = rows.slice(itemStart);
-  itemRows.forEach((row) => {
+  itemRows.forEach((row, index) => {
     const cols = [...row.children];
     const cellTypeRaw = readText(cols[0]).toLowerCase();
     const cellType = cellTypeRaw === 'text' ? 'text' : 'image';
@@ -164,8 +146,26 @@ export default function decorate(block) {
 
     const rowSpan = clampSpan(readText(cols[8]));
     const colSpan = clampSpan(readText(cols[9]));
+
     if (rowSpan === 2) li.classList.add('media-grid__cell--row-2');
     if (colSpan === 2) li.classList.add('media-grid__cell--col-2');
+
+    // Placement explícito via data-attribute para que el CSS pueda
+    // usar nth-child o el JS lo aplique como inline style.
+    // Esto resuelve el bug del auto-placement cuando rowSpan=2, colSpan=1:
+    // sin posición de columna explícita el navegador puede colocar la celda
+    // en cualquier columna libre, rompiendo el layout de 4 columnas.
+    li.dataset.gridIndex = index;
+    if (rowSpan === 2 && colSpan === 1) {
+      // Forzar placement explícito en columna 1, fila 1
+      // Solo si es la primera celda del grid (índice 0).
+      // Para celdas posteriores con row-span=2 dejamos que el CSS
+      // lo gestione con la clase, o se puede extender esta lógica.
+      if (index === 0) {
+        li.style.setProperty('grid-column', '1');
+        li.style.setProperty('grid-row', '1 / span 2');
+      }
+    }
 
     if (cellType === 'text') {
       buildTextCell(cols, li);
