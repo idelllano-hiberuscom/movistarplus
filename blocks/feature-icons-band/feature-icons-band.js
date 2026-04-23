@@ -58,12 +58,55 @@ export default function decorate(block) {
   // 1. Cachear filas originales antes de tocar nada.
   const rows = [...block.children];
 
+  // 1.a. Block-level fields (orden del modelo): heading, subtitle.
+  //      Son opcionales. Detectamos "fila de header" como aquellas filas
+  //      donde la primera celda NO contiene <picture> (porque los items sí).
+  //      Tomamos como mucho las 2 primeras filas sin <picture> al principio.
+  const headerRows = [];
+  let itemStart = 0;
+  for (let i = 0; i < rows.length && headerRows.length < 2; i += 1) {
+    if (rows[i].querySelector('picture')) break;
+    headerRows.push(rows[i]);
+    itemStart = i + 1;
+  }
+  const headingText = headerRows[0] ? headerRows[0].textContent.trim() : '';
+  const subtitleText = headerRows[1] ? headerRows[1].textContent.trim() : '';
+
+  // 1.b. Contenedor raíz final
+  const frag = document.createDocumentFragment();
+
+  if (headingText || subtitleText) {
+    const header = document.createElement('div');
+    header.classList.add('feature-icons-band-header');
+
+    const h2 = document.createElement('h2');
+    h2.classList.add('feature-icons-band-title');
+    h2.textContent = headingText;
+    if (headerRows[0]) moveInstrumentation(headerRows[0], h2);
+    h2.dataset.aueProp = 'heading';
+    h2.dataset.aueType = 'text';
+    h2.dataset.aueLabel = 'Encabezado de la sección (H2)';
+    header.append(h2);
+
+    const p = document.createElement('p');
+    p.classList.add('feature-icons-band-subtitle');
+    if (subtitleText) p.textContent = subtitleText;
+    if (headerRows[1]) moveInstrumentation(headerRows[1], p);
+    p.dataset.aueProp = 'subtitle';
+    p.dataset.aueType = 'text';
+    p.dataset.aueLabel = 'Subtítulo descriptivo';
+    header.append(p);
+
+    frag.append(header);
+  }
+
   // 2. Construir la nueva lista en memoria.
   const ul = document.createElement('ul');
   ul.setAttribute('role', 'list');
   ul.classList.add('feature-icons-band-list');
 
-  rows.forEach((row) => {
+  const itemRows = rows.slice(itemStart);
+  itemRows.forEach((row) => {
     const cols = [...row.children];
 
     // Extraer datos crudos de las 3 columnas esperadas.
@@ -135,7 +178,9 @@ export default function decorate(block) {
   //    `replaceChildren` sólo afecta a los hijos: `data-block-name` y
   //    `data-block-status` (que están en el propio block) se preservan.
   //    Mismo patrón que `blocks/cards/cards.js`.
-  block.replaceChildren(ul);
+  frag.append(ul);
+  block.replaceChildren(frag);
+  block.dataset.aueFilter = 'feature-icons-band';
 
   // ⚠️ TODO: Confirmar layout responsive tablet (Figma 3:5536) y mobile (3:7270).
   // ⚠️ TODO: ¿Items son enlaces? Si el cliente confirma, envolver heading o item en <a>.

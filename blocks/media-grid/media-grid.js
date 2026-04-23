@@ -1,0 +1,181 @@
+/**
+ * Media Grid Block — AEM Edge Delivery Services
+ *
+ * Grid de 4 columnas × 2 filas en desktop. La primera celda (esquina
+ * superior-izquierda) suele ser un panel de texto (editorial) con título,
+ * cuerpo y CTA. El resto son imágenes con caption y enlace opcional.
+ *
+ * Cada item soporta rowSpan y colSpan (1 o 2) para celdas "grandes" tipo
+ * FA Cup (1×2) o banner horizontal (2×1).
+ *
+ * DOM de entrada (xwalk):
+ *   block.media-grid
+ *     └── div (fila 0: heading del bloque — opcional)
+ *     └── div (fila N: item)
+ *           ├── div (col 0) → cellType ("text" | "image")
+ *           ├── div (col 1) → title / caption
+ *           ├── div (col 2) → body (solo text)
+ *           ├── div (col 3) → ctaText (solo text)
+ *           ├── div (col 4) → ctaLink (solo text)
+ *           ├── div (col 5) → image (solo image)
+ *           ├── div (col 6) → imageAlt (solo image)
+ *           ├── div (col 7) → link (solo image)
+ *           ├── div (col 8) → rowSpan ("1" | "2")
+ *           └── div (col 9) → colSpan ("1" | "2")
+ *
+ * @param {Element} block - Root element of the block
+ */
+import { moveInstrumentation } from '../../scripts/scripts.js';
+
+function readText(col) {
+  return col ? col.textContent.trim() : '';
+}
+
+function readAnchor(col) {
+  return col ? col.querySelector('a') : null;
+}
+
+function clampSpan(raw) {
+  const n = parseInt(raw, 10);
+  return n === 2 ? 2 : 1;
+}
+
+function buildTextCell(cols, li) {
+  const title = readText(cols[1]);
+  const body = readText(cols[2]);
+  const ctaText = readText(cols[3]);
+  const ctaAnchor = readAnchor(cols[4]);
+
+  li.classList.add('media-grid__cell--text');
+
+  if (title) {
+    const h3 = document.createElement('h3');
+    h3.classList.add('media-grid__title');
+    h3.textContent = title;
+    h3.dataset.aueProp = 'title';
+    h3.dataset.aueType = 'text';
+    h3.dataset.aueLabel = 'Título del panel editorial';
+    li.append(h3);
+  }
+
+  if (body) {
+    const p = document.createElement('p');
+    p.classList.add('media-grid__body');
+    p.textContent = body;
+    p.dataset.aueProp = 'body';
+    p.dataset.aueType = 'text';
+    p.dataset.aueLabel = 'Cuerpo del panel editorial';
+    li.append(p);
+  }
+
+  if (ctaAnchor) {
+    ctaAnchor.classList.add('media-grid__cta');
+    if (ctaText) ctaAnchor.textContent = ctaText;
+    ctaAnchor.dataset.aueProp = 'ctaLink';
+    ctaAnchor.dataset.aueType = 'aem-content';
+    ctaAnchor.dataset.aueLabel = 'Enlace del CTA';
+    li.append(ctaAnchor);
+  }
+}
+
+function buildImageCell(cols, li) {
+  const caption = readText(cols[1]);
+  const picture = cols[5]?.querySelector('picture') || null;
+  const imageAlt = readText(cols[6]);
+  const linkAnchor = readAnchor(cols[7]);
+
+  li.classList.add('media-grid__cell--image');
+
+  if (!picture) return;
+
+  const img = picture.querySelector('img');
+  if (img) {
+    img.setAttribute('loading', 'lazy');
+    img.setAttribute('decoding', 'async');
+    if (imageAlt) img.setAttribute('alt', imageAlt);
+  }
+  picture.classList.add('media-grid__picture');
+  picture.dataset.aueProp = 'image';
+  picture.dataset.aueType = 'media';
+  picture.dataset.aueLabel = 'Imagen de la celda';
+
+  let container = li;
+  if (linkAnchor && linkAnchor.href) {
+    const a = document.createElement('a');
+    a.classList.add('media-grid__link');
+    a.href = linkAnchor.getAttribute('href') || '#';
+    a.setAttribute('aria-label', caption || imageAlt || '');
+    li.append(a);
+    container = a;
+  }
+  container.append(picture);
+
+  if (caption) {
+    const cap = document.createElement('p');
+    cap.classList.add('media-grid__caption');
+    cap.textContent = caption;
+    cap.dataset.aueProp = 'caption';
+    cap.dataset.aueType = 'text';
+    cap.dataset.aueLabel = 'Pie de imagen / caption';
+    container.append(cap);
+  }
+}
+
+export default function decorate(block) {
+  const rows = [...block.children];
+
+  // Block-level field "heading" — primera fila sin <picture> y sin múltiples columnas (una sola celda de texto).
+  let itemStart = 0;
+  let headingRow = null;
+  if (rows[0] && rows[0].children.length <= 1 && !rows[0].querySelector('picture')) {
+    headingRow = rows[0];
+    itemStart = 1;
+  }
+  const headingText = readText(headingRow);
+
+  const inner = document.createElement('div');
+  inner.classList.add('media-grid__inner');
+
+  if (headingText) {
+    const h2 = document.createElement('h2');
+    h2.classList.add('media-grid__heading');
+    h2.textContent = headingText;
+    if (headingRow) moveInstrumentation(headingRow, h2);
+    h2.dataset.aueProp = 'heading';
+    h2.dataset.aueType = 'text';
+    h2.dataset.aueLabel = 'Encabezado de la sección';
+    inner.append(h2);
+  }
+
+  const ul = document.createElement('ul');
+  ul.classList.add('media-grid__list');
+  ul.setAttribute('role', 'list');
+
+  const itemRows = rows.slice(itemStart);
+  itemRows.forEach((row) => {
+    const cols = [...row.children];
+    const cellTypeRaw = readText(cols[0]).toLowerCase();
+    const cellType = cellTypeRaw === 'text' ? 'text' : 'image';
+
+    const li = document.createElement('li');
+    li.classList.add('media-grid__cell');
+    moveInstrumentation(row, li);
+
+    const rowSpan = clampSpan(readText(cols[8]));
+    const colSpan = clampSpan(readText(cols[9]));
+    if (rowSpan === 2) li.classList.add('media-grid__cell--row-2');
+    if (colSpan === 2) li.classList.add('media-grid__cell--col-2');
+
+    if (cellType === 'text') {
+      buildTextCell(cols, li);
+    } else {
+      buildImageCell(cols, li);
+    }
+
+    ul.append(li);
+  });
+
+  inner.append(ul);
+  block.replaceChildren(inner);
+  block.dataset.aueFilter = 'media-grid';
+}

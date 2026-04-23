@@ -28,10 +28,36 @@
 .feature-icons-band {
   width: 100%;
   padding: var(--feature-icons-band-padding-block) var(--feature-icons-band-padding-inline);
-  background-color: var(--color-white);
-  color: var(--color-black);
+  background-color: var(--color-black, #000);
+  color: var(--color-white, #fff);
   font-family: var(--font-family-primary);
   box-sizing: border-box;
+}
+
+/* 2.b. Header opcional (heading + subtitle) */
+.feature-icons-band-header {
+  text-align: center;
+  max-width: 1180px;
+  margin: 0 auto 32px;
+}
+
+.feature-icons-band-title {
+  margin: 0 0 12px;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-white, #fff);
+}
+
+.feature-icons-band-subtitle {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--color-white, #fff);
+}
+
+.feature-icons-band-subtitle:empty {
+  display: none;
 }
 
 /* 3. Lista (mobile-first: 1 columna) */
@@ -80,7 +106,7 @@
   line-height: 30px;
   letter-spacing: -0.17px;
   font-weight: var(--font-weight-bold, 700);
-  color: var(--color-black);
+  color: var(--color-white, #fff);
 }
 
 /* 7. Body */
@@ -89,7 +115,7 @@
   font-size: var(--font-size-body-md, 18px);
   line-height: 19px;
   font-weight: var(--font-weight-regular, 400);
-  color: var(--color-black);
+  color: var(--color-white, #fff);
 }
 
 /* 8. Tablet: 2 columnas (asumiendo 4 items). Si hay 3 → wrap a 1 por fila;

@@ -15,14 +15,7 @@
       "hero",
       "cards",
       "columns",
-      "fragment",
-      "channel-logos",
-      "content-carousel",
-      "faq-accordion",
-      "feature-icons-band",
-      "hero-carousel",
-      "plan-selector",
-      "promo-band"
+      "fragment"
     ]
   },
   {
@@ -104,6 +97,12 @@
     "id": "hero-carousel",
     "components": [
       "hero-carousel-item"
+    ]
+  },
+  {
+    "id": "media-grid",
+    "components": [
+      "media-grid-cell"
     ]
   },
   {

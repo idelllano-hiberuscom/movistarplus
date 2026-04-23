@@ -35,7 +35,22 @@
   "models": [
     {
       "id": "feature-icons-band",
-      "fields": []
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "label": "Encabezado de la sección (H2)",
+          "description": "Opcional. Deja vacío si la banda no lleva título."
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "subtitle",
+          "label": "Subtítulo descriptivo",
+          "description": "Opcional."
+        }
+      ]
     },
     {
       "id": "feature-icons-band-item",
