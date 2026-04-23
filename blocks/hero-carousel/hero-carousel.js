@@ -182,6 +182,23 @@ function readCellAnchor(cols, index) {
   return cols[index]?.querySelector('a') || null;
 }
 
+function resolveDisclaimerText(cols, priceStartIndex, ctaText) {
+  const primary = readCellText(cols, priceStartIndex + 5);
+  if (primary) return primary;
+
+  const fallbackNext = readCellText(cols, priceStartIndex + 4);
+  if (fallbackNext && fallbackNext !== ctaText && !readCellAnchor(cols, priceStartIndex + 4)) {
+    return fallbackNext;
+  }
+
+  const fallbackSame = readCellText(cols, priceStartIndex + 3);
+  if (fallbackSame && fallbackSame !== ctaText && !readCellAnchor(cols, priceStartIndex + 3)) {
+    return fallbackSame;
+  }
+
+  return '';
+}
+
 /* -------------------------- decorate -------------------------- */
 
 export default function decorate(block) {
@@ -332,8 +349,8 @@ export default function decorate(block) {
       content.append(span);
     }
 
-    // col 11: disclaimer
-    const disclaimerText = readCellText(cols, priceStartIndex + 5);
+    // col 11: disclaimer (con fallback cuando cta link no crea celda propia)
+    const disclaimerText = resolveDisclaimerText(cols, priceStartIndex, ctaText);
     if (disclaimerText) {
       const disclaimer = document.createElement('p');
       disclaimer.classList.add('hero-carousel__disclaimer');
@@ -385,6 +402,8 @@ export default function decorate(block) {
 
   // 8. Reemplazar contenido del bloque (NO innerHTML, NO replaceChildren sin args)
   block.replaceChildren(inner);
+  // Needed for UE: enables "+" add-item affordance for hero-carousel-item.
+  block.dataset.aueFilter = 'hero-carousel';
 
   // Si solo hay 1 slide, no hay controles de navegación
   if (total <= 1) {

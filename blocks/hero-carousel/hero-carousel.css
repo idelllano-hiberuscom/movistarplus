@@ -202,7 +202,7 @@
   text-transform: uppercase;
   text-decoration: none;
   letter-spacing: 0.04em;
-  border-radius: var(--radius-button, 5px);
+  border-radius: 8px;
   transition: transform 0.2s ease, opacity 0.2s ease;
   margin-top: 8px;
 }
