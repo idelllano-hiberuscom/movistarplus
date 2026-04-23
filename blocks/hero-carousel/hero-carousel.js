@@ -152,11 +152,41 @@ function buildPriceAriaLabel(integer, decimals, suffix) {
   return parts.join(', ');
 }
 
+function looksLikeSlideRow(row) {
+  const cols = [...row.children];
+  return cols.length >= 8 && Boolean(row.querySelector('picture'));
+}
+
+function collectSlideRows(block) {
+  const directRows = [...block.children].filter((row) => looksLikeSlideRow(row));
+  if (directRows.length) return directRows;
+
+  return [...block.querySelectorAll('div')].filter((row) => looksLikeSlideRow(row));
+}
+
+function findPriceStartIndex(cols) {
+  for (let i = 0; i < cols.length; i += 1) {
+    const text = cols[i]?.textContent.trim() || '';
+    if (/^\d+$/.test(text)) return i;
+  }
+  return 6;
+}
+
+function readCellText(cols, index) {
+  if (index < 0 || index >= cols.length) return '';
+  return cols[index]?.textContent.trim() || '';
+}
+
+function readCellAnchor(cols, index) {
+  if (index < 0 || index >= cols.length) return null;
+  return cols[index]?.querySelector('a') || null;
+}
+
 /* -------------------------- decorate -------------------------- */
 
 export default function decorate(block) {
-  // 1. Cache filas ANTES de mutar
-  const rows = [...block.children];
+  // 1. Detectar filas reales de slide y excluir filas de config/estructura.
+  const rows = collectSlideRows(block);
   if (!rows.length) return;
 
   // 2. Wrapper interno
@@ -180,6 +210,11 @@ export default function decorate(block) {
   rows.forEach((row, slideIndex) => {
     const cols = [...row.children];
     const isFirst = slideIndex === 0;
+    const priceStartIndex = findPriceStartIndex(cols);
+
+    const pictures = cols
+      .map((col) => col.querySelector('picture'))
+      .filter(Boolean);
 
     const li = document.createElement('li');
     li.classList.add('hero-carousel__slide');
@@ -190,8 +225,8 @@ export default function decorate(block) {
     moveInstrumentation(row, li);
 
     // --- col 0: imagen de fondo (<picture>) ---
-    const bgPicture = cols[0]?.querySelector('picture');
-    const bgAltText = cols[1]?.textContent.trim() || '';
+    const bgPicture = pictures[0] || null;
+    const bgAltText = readCellText(cols, 1);
     if (bgPicture) {
       bgPicture.classList.add('hero-carousel__bg');
       bgPicture.dataset.aueProp = 'backgroundImage';
@@ -223,8 +258,8 @@ export default function decorate(block) {
     content.classList.add('hero-carousel__content');
 
     // col 2: logo/título (opcional)
-    const titlePicture = cols[2]?.querySelector('picture');
-    const titleAltText = cols[3]?.textContent.trim() || '';
+    const titlePicture = pictures[1] || null;
+    const titleAltText = readCellText(cols, 3);
     if (titlePicture) {
       titlePicture.classList.add('hero-carousel__title-img');
       titlePicture.dataset.aueProp = 'titleImage';
@@ -241,7 +276,7 @@ export default function decorate(block) {
     }
 
     // col 4: heading → <h2>
-    const headingText = cols[4]?.textContent.trim() || '';
+    const headingText = readCellText(cols, priceStartIndex - 2);
     if (headingText) {
       const h2 = document.createElement('h2');
       h2.classList.add('hero-carousel__heading');
@@ -253,20 +288,21 @@ export default function decorate(block) {
     }
 
     // col 5: descripción richtext (mover hijos preservando <strong>, <em>, <a>...)
-    if (cols[5] && cols[5].firstChild) {
+    const descriptionCol = cols[priceStartIndex - 1] || null;
+    if (descriptionCol && descriptionCol.firstChild) {
       const descDiv = document.createElement('div');
       descDiv.classList.add('hero-carousel__description');
       descDiv.dataset.aueProp = 'description';
       descDiv.dataset.aueType = 'richtext';
       descDiv.dataset.aueLabel = 'Descripción / subtítulo';
-      while (cols[5].firstChild) descDiv.append(cols[5].firstChild);
+      while (descriptionCol.firstChild) descDiv.append(descriptionCol.firstChild);
       content.append(descDiv);
     }
 
     // cols 6/7/8: precio
-    const priceInt = cols[6]?.textContent.trim() || '';
-    const priceDec = cols[7]?.textContent.trim() || '';
-    const priceSuffix = cols[8]?.textContent.trim() || '';
+    const priceInt = readCellText(cols, priceStartIndex);
+    const priceDec = readCellText(cols, priceStartIndex + 1);
+    const priceSuffix = readCellText(cols, priceStartIndex + 2);
     if (priceInt || priceDec) {
       const priceDiv = document.createElement('div');
       priceDiv.classList.add('hero-carousel__price');
@@ -279,8 +315,9 @@ export default function decorate(block) {
     }
 
     // col 9: ctaText | col 10: cta (aem-content link)
-    const ctaText = cols[9]?.textContent.trim() || '';
-    const ctaAnchor = cols[10]?.querySelector('a');
+    const ctaText = readCellText(cols, priceStartIndex + 3);
+    const ctaAnchor = readCellAnchor(cols, priceStartIndex + 4)
+      || readCellAnchor(cols, priceStartIndex + 3);
     if (ctaAnchor) {
       ctaAnchor.classList.add('hero-carousel__cta');
       if (ctaText) ctaAnchor.textContent = ctaText;
@@ -296,7 +333,7 @@ export default function decorate(block) {
     }
 
     // col 11: disclaimer
-    const disclaimerText = cols[11]?.textContent.trim() || '';
+    const disclaimerText = readCellText(cols, priceStartIndex + 5);
     if (disclaimerText) {
       const disclaimer = document.createElement('p');
       disclaimer.classList.add('hero-carousel__disclaimer');
