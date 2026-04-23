@@ -156,6 +156,296 @@
               }
             }
           }
+        },
+        {
+          "title": "Header",
+          "id": "header",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Header",
+                  "model": "header"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Nav Item",
+          "id": "header-nav-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Nav Item",
+                  "model": "header-nav-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Footer",
+          "id": "footer",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Footer",
+                  "model": "footer"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Footer Column",
+          "id": "footer-column",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Footer Column",
+                  "model": "footer-column"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Footer Link",
+          "id": "footer-link",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Footer Link",
+                  "model": "footer-link"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Footer Social",
+          "id": "footer-social",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Footer Social",
+                  "model": "footer-social"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Feature Icons Band",
+          "id": "feature-icons-band",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Feature Icons Band",
+                  "filter": "feature-icons-band"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Feature Icons Band Item",
+          "id": "feature-icons-band-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Feature Icons Band Item",
+                  "model": "feature-icons-band-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Channel Logos",
+          "id": "channel-logos",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Channel Logos",
+                  "filter": "channel-logos",
+                  "model": "channel-logos"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Channel Logos Item",
+          "id": "channel-logos-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Channel Logos Item",
+                  "model": "channel-logos-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Plan Selector",
+          "id": "plan-selector",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Plan Selector",
+                  "filter": "plan-selector",
+                  "model": "plan-selector"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Plan Selector Item",
+          "id": "plan-selector-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Plan Selector Item",
+                  "model": "plan-selector-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "FAQ Accordion",
+          "id": "faq-accordion",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "FAQ Accordion",
+                  "filter": "faq-accordion",
+                  "model": "faq-accordion"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "FAQ Accordion Item",
+          "id": "faq-accordion-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "FAQ Accordion Item",
+                  "model": "faq-accordion-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Hero Carousel",
+          "id": "hero-carousel",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Hero Carousel",
+                  "filter": "hero-carousel",
+                  "model": "hero-carousel"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Hero Carousel Item",
+          "id": "hero-carousel-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Hero Carousel Item",
+                  "model": "hero-carousel-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Content Carousel",
+          "id": "content-carousel",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Content Carousel",
+                  "filter": "content-carousel",
+                  "model": "content-carousel"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Content Carousel Item",
+          "id": "content-carousel-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Content Carousel Item",
+                  "model": "content-carousel-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Promo Band",
+          "id": "promo-band",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Promo Band",
+                  "model": "promo-band"
+                }
+              }
+            }
+          }
         }
       ]
     }

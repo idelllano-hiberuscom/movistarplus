@@ -1,0 +1,163 @@
+/**
+ * FAQ Accordion Block — Styles
+ * Figma reference: faq-accordion-instructions.md
+ * Model: xwalk (EDS + Universal Editor)
+ * Mobile-first. Toggle nativo via <details>/<summary>.
+ */
+
+.faq-accordion {
+  /* Tokens locales del bloque */
+  --color-faq-item-default: rgba(54, 54, 54, 0.4);
+  --color-faq-item-active: rgba(89, 89, 89, 0.54);
+  --color-faq-item-hover: rgba(54, 54, 54, 0.6);
+  --color-text-grey-faq: #a7a7a7;
+  --font-size-h2-faq: 34px;
+  --faq-accordion-gap-items: 12px;
+  --faq-accordion-gap-heading: 30px;
+
+  background-color: var(--color-black);
+  padding: 50px 16px;
+  font-family: var(--font-family-primary);
+}
+
+.faq-accordion__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--faq-accordion-gap-heading);
+  width: 100%;
+}
+
+.faq-accordion__heading {
+  margin: 0;
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  line-height: 36px;
+  letter-spacing: -0.53px;
+  color: var(--color-white);
+  text-align: center;
+}
+
+.faq-accordion__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--faq-accordion-gap-items);
+}
+
+.faq-accordion__item {
+  position: relative;
+  background-color: var(--color-faq-item-default);
+  border-radius: 5px;
+  padding: 18px 48px 18px 18px;
+  transition: background-color 200ms ease;
+}
+
+.faq-accordion__item:hover {
+  background-color: var(--color-faq-item-hover);
+}
+
+.faq-accordion__item[open] {
+  background-color: var(--color-faq-item-active);
+}
+
+/* Quitar marker nativo del summary */
+.faq-accordion__question {
+  list-style: none;
+  cursor: pointer;
+  display: block;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+}
+
+.faq-accordion__question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-accordion__question:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+.faq-accordion__question-text {
+  display: block;
+}
+
+.faq-accordion__chevron {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translateY(-50%);
+  transition: transform 200ms ease;
+  color: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.faq-accordion__item[open] .faq-accordion__chevron {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.faq-accordion__answer {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-grey-faq);
+}
+
+.faq-accordion__answer p {
+  margin: 0;
+}
+
+.faq-accordion__answer p + p {
+  margin-top: 10px;
+}
+
+.faq-accordion__answer a {
+  color: var(--color-white);
+  text-decoration: underline;
+}
+
+.faq-accordion__answer strong {
+  font-weight: var(--font-weight-bold);
+}
+
+/* Tablet 768px+ */
+@media (min-width: 768px) {
+  .faq-accordion {
+    padding: 50px 32px;
+  }
+
+  .faq-accordion__heading {
+    font-size: 30px;
+  }
+}
+
+/* Desktop 1280px+ */
+@media (min-width: 1280px) {
+  .faq-accordion {
+    padding: 50px 63px;
+  }
+
+  .faq-accordion__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .faq-accordion__heading {
+    font-size: var(--font-size-h2-faq);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .faq-accordion__chevron,
+  .faq-accordion__item {
+    transition: none;
+  }
+}

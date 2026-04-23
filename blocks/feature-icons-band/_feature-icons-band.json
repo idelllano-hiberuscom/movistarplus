@@ -1,0 +1,78 @@
+{
+  "definitions": [
+    {
+      "title": "Feature Icons Band",
+      "id": "feature-icons-band",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Feature Icons Band",
+              "filter": "feature-icons-band"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Feature Icons Band Item",
+      "id": "feature-icons-band-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Feature Icons Band Item",
+              "model": "feature-icons-band-item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "feature-icons-band-item",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "icon",
+          "label": "Icono o ilustración (200×100)",
+          "multi": false,
+          "required": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "iconAlt",
+          "label": "Texto alternativo del icono",
+          "description": "Describe la ilustración (ej. \"Icono de televisor\"), no uses sólo \"Icono\".",
+          "required": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "label": "Encabezado corto del feature",
+          "required": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "body",
+          "label": "Texto descriptivo (1-2 líneas)"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "feature-icons-band",
+      "components": [
+        "feature-icons-band-item"
+      ]
+    }
+  ]
+}

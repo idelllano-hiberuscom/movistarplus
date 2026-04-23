@@ -1,0 +1,293 @@
+/**
+ * Plan Selector Block — Styles
+ * Figma reference: plan-selector (Desktop 3:8938, Tablet 3:5424, Mobile 3:7158)
+ * Model: xwalk (EDS + Universal Editor)
+ * Mobile-first.
+ *
+ * QA audit: ✅ Validado
+ * QA Changes:
+ * - Sin cambios necesarios.
+ * - ⚠️ Contraste #9c9c9c sobre blanco (tax label 12px) = ~2.8:1.
+ *   Pendiente decisión de diseño. Documentado en reporte QA.
+ */
+
+/* ====================================================================
+   1. Local tokens
+   ==================================================================== */
+.plan-selector {
+  --plan-selector-heading-size: 40px;
+  --plan-selector-card-bg: #ffffff;
+  --plan-selector-card-color: var(--color-black, #000000);
+  --plan-selector-card-bg-featured: #232323;
+  --plan-selector-card-color-featured: var(--color-white, #ffffff);
+  --plan-selector-featured-border: #ffa000;
+  --plan-selector-card-radius: 8px;
+  --plan-selector-cta-radius: 28px;
+  --plan-selector-gap: 20px;
+  --plan-selector-heading-gap: 35px;
+  --plan-selector-price-tax-color: #9c9c9c;
+  /* ⚠️ TODO: Contrast of #9c9c9c on white is ~2.8:1 — fails WCAG AA for 12px text.
+     Verify with design if a darker gray (e.g. #767676) should be used on non-featured cards. */
+}
+
+/* ====================================================================
+   2. Container root
+   ==================================================================== */
+.plan-selector {
+  background-color: var(--color-black, #000000);
+  padding: 40px 16px;
+  font-family: var(--font-family-primary);
+  box-sizing: border-box;
+}
+
+/* ====================================================================
+   3. Inner wrapper (max-width + center)
+   ==================================================================== */
+.plan-selector__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ====================================================================
+   4. Heading
+   ==================================================================== */
+.plan-selector__heading {
+  font-size: var(--plan-selector-heading-size);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-white, #ffffff);
+  text-align: center;
+  margin: 0 0 var(--plan-selector-heading-gap);
+  line-height: 1.1;
+}
+
+/* ====================================================================
+   5. Card list
+   ==================================================================== */
+.plan-selector__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--plan-selector-gap);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====================================================================
+   6. Card — base
+   ==================================================================== */
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--plan-selector-card-bg);
+  color: var(--plan-selector-card-color);
+  border: 2px solid transparent;
+  border-radius: var(--plan-selector-card-radius);
+  padding: 30px 32px 40px;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* ====================================================================
+   7. Card — featured variant
+   ==================================================================== */
+.plan-card--featured {
+  background-color: var(--plan-selector-card-bg-featured);
+  color: var(--plan-selector-card-color-featured);
+  border-color: var(--plan-selector-featured-border);
+}
+
+/* ====================================================================
+   8. Badge (absolute corner)
+   ==================================================================== */
+.plan-card__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+  display: block;
+}
+
+.plan-card__badge img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+/* ====================================================================
+   9. Title
+   ==================================================================== */
+.plan-card__title {
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: var(--font-weight-bold, 700);
+  margin: 0 0 16px;
+}
+
+/* ====================================================================
+   10. Features list
+   ==================================================================== */
+.plan-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  font-size: var(--font-size-body-lg, 20px);
+  line-height: 1.4;
+}
+
+.plan-card__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.plan-card__features li:last-child {
+  margin-bottom: 0;
+}
+
+/* Check icon via inline SVG data URI — no external file dependency */
+.plan-card__features li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M13.3 4.3a1 1 0 0 1 0 1.4l-6 6a1 1 0 0 1-1.4 0l-3-3a1 1 0 1 1 1.4-1.4L6.6 9.6l5.3-5.3a1 1 0 0 1 1.4 0z' fill='%230066ff'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
+/* Featured variant: invert check icon to white */
+.plan-card--featured .plan-card__features li::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M13.3 4.3a1 1 0 0 1 0 1.4l-6 6a1 1 0 0 1-1.4 0l-3-3a1 1 0 1 1 1.4-1.4L6.6 9.6l5.3-5.3a1 1 0 0 1 1.4 0z' fill='%23ffffff'/%3E%3C/svg%3E");
+}
+
+/* ====================================================================
+   11. Price area
+   ==================================================================== */
+.plan-card__price {
+  margin-bottom: 24px;
+}
+
+/* Integer + decimals share a line (inline by default for spans) */
+.plan-card__price-int {
+  font-size: 70px;
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.plan-card__price-dec {
+  font-size: 38px;
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -2px;
+  vertical-align: top;
+  line-height: 1;
+}
+
+.plan-card__price-period {
+  display: block;
+  font-size: 16px;
+  font-weight: var(--font-weight-bold, 700);
+  margin-top: 4px;
+}
+
+.plan-card__price-tax {
+  display: block;
+  font-size: 12px;
+  color: var(--plan-selector-price-tax-color);
+  margin-top: 2px;
+}
+
+.plan-card__price-footnote {
+  display: block;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+/* ====================================================================
+   12. CTA button
+   ==================================================================== */
+.plan-card__cta {
+  display: block;
+  background-color: var(--color-brand-blue, #0066ff);
+  color: var(--color-white, #ffffff);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-lg, 20px);
+  font-weight: var(--font-weight-regular, 400);
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  padding: 16px 20px;
+  border-radius: var(--plan-selector-cta-radius);
+  margin-top: auto;
+  transition: filter 0.2s ease;
+}
+
+.plan-card__cta:hover {
+  filter: brightness(0.9);
+}
+
+.plan-card__cta:focus-visible {
+  outline: 2px solid var(--color-white, #ffffff);
+  outline-offset: 2px;
+}
+
+/* ====================================================================
+   13. Responsive — Tablet (≥ 768px)
+   ==================================================================== */
+@media (min-width: 768px) {
+  .plan-selector {
+    --plan-selector-heading-size: 50px;
+    padding: 50px 32px;
+  }
+
+  .plan-card {
+    padding: 30px 40px 40px;
+  }
+
+  .plan-card__title {
+    font-size: 32px;
+    line-height: 1.15;
+  }
+}
+
+/* ====================================================================
+   14. Responsive — Desktop (≥ 1280px)
+   ==================================================================== */
+@media (min-width: 1280px) {
+  .plan-selector {
+    --plan-selector-heading-size: 67px;
+    padding: 50px 64px;
+  }
+
+  .plan-selector__list {
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  .plan-card {
+    width: 366px;
+    max-width: none;
+  }
+
+  .plan-card__title {
+    font-size: 38px;
+    line-height: 40px;
+  }
+}
+
+/* ====================================================================
+   15. Reduced motion
+   ==================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .plan-card__cta {
+    transition: none;
+  }
+}

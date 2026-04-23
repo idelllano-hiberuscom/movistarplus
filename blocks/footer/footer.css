@@ -1,20 +1,363 @@
-footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+/**
+ * Footer Block — Styles
+ * Figma reference: MovistarPlus Footer (3:9925 desktop, 3:6436 tablet, 3:8200 mobile)
+ * Model: xwalk (EDS + Universal Editor)
+ *
+ * Mobile-first. Tokens consumidos desde /styles/styles.css.
+ */
+
+/* ---------- 1. Variables locales del bloque ---------- */
+.footer.block {
+  --footer-bg: var(--color-footer-bg, rgb(216 216 216 / 6%));
+  --footer-fg: var(--color-white, #fff);
+  --footer-font-family: var(--font-family-primary, 'Helvetica Neue', Helvetica, Arial, sans-serif);
+  --footer-heading-size: var(--font-size-nav, 18px);
+  --footer-link-size: var(--font-size-footer-link, 12px);
+  --footer-link-line: var(--line-height-footer-link, 25px);
+  --footer-copyright-size: var(--font-size-copyright, 10px);
+  --footer-padding-x-mobile: 24px;
+  --footer-padding-x-desktop: 63.23px;
+  --footer-padding-top: 45px;
+  --footer-padding-bottom: 50px;
+  --footer-zone-gap: 50px;
+  --footer-social-gap: 20px;
+  --footer-legal-gap: 26px;
+  --footer-column-min: 150px;
+  --footer-column-max: 300px;
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+/* ---------- 2. Anti-flash de placeholders aria-busy ---------- */
+.footer.block [aria-busy="true"] {
+  visibility: hidden;
 }
 
-footer .footer p {
+/* ---------- 3. Contenedor raíz ---------- */
+.footer.block {
+  background-color: var(--footer-bg);
+  color: var(--footer-fg);
+  font-family: var(--footer-font-family);
+}
+
+.footer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--footer-zone-gap);
+  padding:
+    var(--footer-padding-top)
+    var(--footer-padding-x-mobile)
+    var(--footer-padding-bottom);
+  box-sizing: border-box;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ---------- 4. Zona superior: columnas ---------- */
+.footer-columns {
+  display: flex;
+  flex-direction: column; /* mobile: stack vertical */
+  gap: 32px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.footer-column-heading {
+  margin: 0;
+  font-size: var(--footer-heading-size);
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 20px;
+  letter-spacing: -0.4px;
+  color: var(--footer-fg);
+}
+
+.footer-column-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-column-item {
   margin: 0;
 }
 
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+.footer-column-link {
+  display: inline-block;
+  font-size: var(--footer-link-size);
+  line-height: var(--footer-link-line);
+  color: var(--footer-fg);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.footer-column-link:hover {
+  /* ⚠️ TODO: color hover real no extraído del Figma — usar opacidad como fallback. */
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.footer-column-link:focus-visible {
+  outline: 2px solid var(--footer-fg);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- 5. Zona inferior ---------- */
+.footer-bottom {
+  display: flex;
+  flex-direction: column; /* mobile: stack vertical centrado */
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+/* --- Brand --- */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo {
+  display: inline-flex;
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-logo picture,
+.footer-logo img {
+  display: block;
+  width: auto;
+  height: 24px;
+  max-width: 99px;
+}
+
+.footer-logo:focus-visible {
+  outline: 2px solid var(--footer-fg);
+  outline-offset: 2px;
+}
+
+.footer-copyright {
+  margin: 0;
+  font-size: var(--footer-copyright-size);
+  line-height: 12px;
+  color: var(--footer-fg);
+}
+
+/* --- Legales --- */
+.footer-legal {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--footer-legal-gap);
+}
+
+.footer-legal-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Divisor vertical 1px blanco entre items (excepto antes del primero) */
+.footer-legal-item + .footer-legal-item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--footer-legal-gap) / -2);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 12px;
+  background-color: var(--footer-fg);
+}
+
+.footer-legal-link,
+.footer-cookies-btn {
+  font-family: inherit;
+  font-size: var(--footer-link-size);
+  line-height: 20px;
+  color: var(--footer-fg);
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.footer-legal-link:hover,
+.footer-cookies-btn:hover {
+  /* ⚠️ TODO: color hover real no extraído. */
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.footer-legal-link:focus-visible,
+.footer-cookies-btn:focus-visible {
+  outline: 2px solid var(--footer-fg);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* --- Sociales --- */
+.footer-social {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-social-title {
+  margin: 0;
+  font-size: var(--footer-heading-size);
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 20px;
+  letter-spacing: -0.4px;
+  color: var(--footer-fg);
+}
+
+.footer-social-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--footer-social-gap);
+}
+
+.footer-social-item {
+  display: inline-flex;
+}
+
+.footer-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: inherit;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.footer-social-link:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.footer-social-link:focus-visible {
+  outline: 2px solid var(--footer-fg);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.footer-social-link img {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.footer-social-icon-fallback {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: currentcolor;
+  opacity: 0.6;
+  border-radius: 4px;
+}
+
+/* ---------- 6. Estado de error ---------- */
+.footer.block.footer--error .footer-wrapper {
+  /* Si el fragmento /footer falla, mantener al menos el landmark accesible
+     y el espacio reservado, sin contenido visible parpadeante. */
+  min-height: 120px;
+}
+
+/* ---------- 7. Tablet 768–1279 ---------- */
+/* ⚠️ TODO: confirmar layout exacto con get_design_context sobre 3:6436. */
+@media (min-width: 768px) {
+  .footer-wrapper {
+    padding:
+      var(--footer-padding-top)
+      40px
+      var(--footer-padding-bottom);
+  }
+
+  .footer-columns {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 32px 24px;
+  }
+
+  .footer-column {
+    flex: 1 1 calc(33.333% - 24px);
+    min-width: var(--footer-column-min);
+    max-width: var(--footer-column-max);
+  }
+
+  .footer-bottom {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+
+  .footer-brand {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-social {
+    align-items: flex-end;
+  }
+}
+
+/* ---------- 8. Desktop ≥ 1280 ---------- */
+@media (min-width: 1280px) {
+  .footer-wrapper {
+    padding:
+      var(--footer-padding-top)
+      var(--footer-padding-x-desktop)
+      var(--footer-padding-bottom);
+  }
+
+  .footer-columns {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .footer-column {
+    flex: 1 1 0;
+    min-width: var(--footer-column-min);
+    max-width: var(--footer-column-max);
+  }
+
+  .footer-bottom {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .footer-brand {
+    justify-content: flex-start;
+  }
+
+  .footer-legal {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .footer-social {
+    align-items: flex-end;
   }
 }

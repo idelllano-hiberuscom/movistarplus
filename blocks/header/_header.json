@@ -1,0 +1,126 @@
+{
+  "definitions": [
+    {
+      "title": "Header",
+      "id": "header",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Header",
+              "model": "header"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Nav Item",
+      "id": "header-nav-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Nav Item",
+              "model": "header-nav-item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "header",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "logo",
+          "label": "Logo de cabecera",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "logoAlt",
+          "label": "Texto alternativo del logo",
+          "value": "Movistar Plus+"
+        },
+        {
+          "component": "aem-content",
+          "name": "logoLink",
+          "label": "Enlace del logo (normalmente la home)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "ctaText",
+          "label": "Texto del botón principal",
+          "value": "SUSCRIBIRME AHORA"
+        },
+        {
+          "component": "aem-content",
+          "name": "ctaLink",
+          "label": "Enlace destino del botón"
+        },
+        {
+          "component": "boolean",
+          "name": "showSearch",
+          "label": "Mostrar icono de búsqueda",
+          "value": true
+        },
+        {
+          "component": "aem-content",
+          "name": "searchLink",
+          "label": "Enlace destino del buscador"
+        },
+        {
+          "component": "boolean",
+          "name": "showProfile",
+          "label": "Mostrar icono de perfil",
+          "value": true
+        },
+        {
+          "component": "aem-content",
+          "name": "profileLink",
+          "label": "Enlace destino del perfil/login"
+        }
+      ]
+    },
+    {
+      "id": "header-nav-item",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Etiqueta visible",
+          "required": true
+        },
+        {
+          "component": "aem-content",
+          "name": "link",
+          "label": "URL destino",
+          "required": true
+        },
+        {
+          "component": "boolean",
+          "name": "active",
+          "label": "Marcar como sección activa",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "header",
+      "components": [
+        "header-nav-item"
+      ]
+    }
+  ]
+}

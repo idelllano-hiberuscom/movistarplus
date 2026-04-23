@@ -1,0 +1,230 @@
+/**
+ * Channel Logos Block — Styles
+ * Figma reference: channel-logos (below the fold, y=2036)
+ * Model: xwalk (EDS + Universal Editor)
+ * UE instrumentation: ✅ Completado (Fase 3)
+ * QA audit: ✅ Validado
+ *
+ * QA Changes:
+ * - Añadido .channel-logos__subtitle:empty para ocultar el elemento vacío
+ *   (creado siempre para UE inline editing target).
+ * Mobile-first.
+ */
+
+/* 1. Variables locales del bloque */
+.channel-logos {
+  --channel-logos-card-bg: #1f1f1f;
+  --channel-logos-item-width: 180px;
+  --channel-logos-item-aspect: 3 / 2;
+  --channel-logos-item-padding: 8px;
+  --channel-logos-item-radius: var(--radius-button, 5px);
+  --channel-logos-logo-width: 164px;
+  --channel-logos-logo-height: 107px;
+  --channel-logos-gap: 8px;
+  --channel-logos-header-gap: 12px;
+  --channel-logos-padding-top: 50px;
+  --channel-logos-heading-size: 36px;
+  --channel-logos-heading-lh: 38px;
+  --channel-logos-heading-ls: -0.53px;
+  --channel-logos-subtitle-size: 20px;
+  --channel-logos-subtitle-lh: 22px;
+  --channel-logos-subtitle-opacity: 0.78;
+  --channel-logos-px: 16px;
+  /* Marquee duration — scales with item count; 60s default for ~70 items */
+  --channel-logos-marquee-duration: 60s;
+}
+
+/* 2. Contenedor raíz */
+.channel-logos {
+  width: 100%;
+  padding-top: var(--channel-logos-padding-top);
+  background-color: var(--color-black, #000);
+  color: var(--color-white, #fff);
+  font-family: var(--font-family-primary, sans-serif);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* 3. Header */
+.channel-logos__header {
+  padding-inline: var(--channel-logos-px);
+  margin-bottom: var(--channel-logos-header-gap);
+}
+
+.channel-logos__heading {
+  margin: 0 0 5px;
+  font-size: var(--channel-logos-heading-size);
+  line-height: var(--channel-logos-heading-lh);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: var(--channel-logos-heading-ls);
+  color: var(--color-white, #fff);
+}
+
+.channel-logos__subtitle {
+  margin: 0;
+  font-size: var(--channel-logos-subtitle-size);
+  line-height: var(--channel-logos-subtitle-lh);
+  font-weight: var(--font-weight-regular, 400);
+  color: var(--color-white, #fff);
+  opacity: var(--channel-logos-subtitle-opacity);
+}
+
+/* Hide empty subtitle (always in DOM for UE inline editing target) */
+.channel-logos__subtitle:empty {
+  display: none;
+}
+
+/* 4. Viewport — scroll container */
+.channel-logos__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.channel-logos__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Drag cursor — manual mode */
+.channel-logos__viewport[data-scroll-mode="manual"] {
+  cursor: grab;
+}
+
+.channel-logos__viewport--dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* 5. Track — horizontal list */
+.channel-logos__track {
+  display: flex;
+  gap: var(--channel-logos-gap);
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--channel-logos-px);
+  width: max-content;
+}
+
+.channel-logos__track:focus-visible {
+  outline: 2px solid var(--color-brand-blue, #0066ff);
+  outline-offset: 2px;
+}
+
+/* 6. Item — logo card */
+.channel-logos__item {
+  flex: 0 0 var(--channel-logos-item-width);
+  aspect-ratio: var(--channel-logos-item-aspect);
+  background-color: var(--channel-logos-card-bg);
+  border-radius: var(--channel-logos-item-radius);
+  padding: var(--channel-logos-item-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* 7. Link wrapper */
+.channel-logos__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
+.channel-logos__link:focus-visible {
+  outline: 2px solid var(--color-brand-blue, #0066ff);
+  outline-offset: 2px;
+  border-radius: var(--channel-logos-item-radius);
+}
+
+/* 8. Logo image */
+.channel-logos__item picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.channel-logos__item img {
+  display: block;
+  max-width: var(--channel-logos-logo-width);
+  max-height: var(--channel-logos-logo-height);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--channel-logos-item-radius);
+}
+
+/* ============================================
+   9. Auto-marquee mode — infinite CSS loop
+   ============================================ */
+.channel-logos__viewport[data-scroll-mode="auto-marquee"] {
+  overflow: clip;
+  cursor: default;
+}
+
+.channel-logos__viewport[data-scroll-mode="auto-marquee"] .channel-logos__track {
+  animation: channel-logos-marquee var(--channel-logos-marquee-duration) linear infinite;
+  /* No side padding in marquee — content loops seamlessly */
+  padding: 0;
+}
+
+/* Pause on hover and internal focus (WCAG 2.2.2) */
+.channel-logos__viewport[data-scroll-mode="auto-marquee"]:hover .channel-logos__track,
+.channel-logos__viewport[data-scroll-mode="auto-marquee"]:focus-within .channel-logos__track {
+  animation-play-state: paused;
+}
+
+@keyframes channel-logos-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ============================================
+   10. Reduced motion — disable marquee,
+       fall back to manual scroll (WCAG 2.3.3)
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .channel-logos__viewport[data-scroll-mode="auto-marquee"] {
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+  }
+
+  .channel-logos__viewport[data-scroll-mode="auto-marquee"] .channel-logos__track {
+    animation: none;
+    padding: 0 var(--channel-logos-px);
+  }
+
+  /* Hide cloned items (aria-hidden="true") to avoid duplicates in scroll */
+  .channel-logos__item[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* ============================================
+   11. Responsive — Tablet ≥ 768px
+   ============================================ */
+@media (min-width: 768px) {
+  .channel-logos {
+    --channel-logos-px: 40px;
+  }
+}
+
+/* ============================================
+   12. Responsive — Desktop ≥ 1280px
+   ============================================ */
+@media (min-width: 1280px) {
+  .channel-logos {
+    --channel-logos-px: 63.23px;
+  }
+}

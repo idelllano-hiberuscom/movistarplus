@@ -1,0 +1,200 @@
+{
+  "definitions": [
+    {
+      "title": "Content Carousel",
+      "id": "content-carousel",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Content Carousel",
+              "filter": "content-carousel",
+              "model": "content-carousel"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Content Carousel Item",
+      "id": "content-carousel-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Content Carousel Item",
+              "model": "content-carousel-item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "content-carousel",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "label": "Encabezado opcional (H2)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "subtitle",
+          "label": "Subtítulo opcional"
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "variant",
+          "label": "Layout del carrusel",
+          "required": true,
+          "value": "portrait",
+          "options": [
+            { "name": "Mosaico (grid)", "value": "mosaic" },
+            { "name": "Carrusel vertical (2:3)", "value": "portrait" },
+            { "name": "Carrusel horizontal (16:9)", "value": "landscape" }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "itemsPerView",
+          "label": "Items visibles a la vez (no aplica a mosaic)",
+          "value": "auto",
+          "options": [
+            { "name": "Auto", "value": "auto" },
+            { "name": "3", "value": "3" },
+            { "name": "4", "value": "4" },
+            { "name": "5", "value": "5" },
+            { "name": "6", "value": "6" }
+          ]
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "showArrows",
+          "label": "Mostrar flechas de navegación",
+          "value": true
+        },
+        {
+          "component": "boolean",
+          "valueType": "boolean",
+          "name": "autoplay",
+          "label": "Autoplay del carrusel",
+          "value": false
+        },
+        {
+          "component": "number",
+          "valueType": "string",
+          "name": "autoplayInterval",
+          "label": "Intervalo autoplay (ms)",
+          "value": "5000"
+        }
+      ]
+    },
+    {
+      "id": "content-carousel-item",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "cardType",
+          "label": "Tipo de tarjeta",
+          "required": true,
+          "value": "image",
+          "options": [
+            { "name": "Imagen", "value": "image" },
+            { "name": "Editorial", "value": "editorial" }
+          ]
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Imagen del contenido (cardType=image)",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Texto alternativo de la imagen"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "caption",
+          "label": "Caption inferior uppercase (cardType=image)"
+        },
+        {
+          "component": "aem-content",
+          "name": "link",
+          "label": "URL destino (cardType=image)"
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "rowSpan",
+          "label": "Span de filas (solo variant=mosaic)",
+          "value": "1",
+          "options": [
+            { "name": "1", "value": "1" },
+            { "name": "2", "value": "2" }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "colSpan",
+          "label": "Span de columnas (solo variant=mosaic)",
+          "value": "1",
+          "options": [
+            { "name": "1", "value": "1" },
+            { "name": "2", "value": "2" }
+          ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "editorialLabel",
+          "label": "Label superior (cardType=editorial)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "editorialHeading",
+          "label": "Heading principal (cardType=editorial)"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "editorialBody",
+          "label": "Texto descriptivo (cardType=editorial)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "ctaText",
+          "label": "Texto del CTA (cardType=editorial)"
+        },
+        {
+          "component": "aem-content",
+          "name": "ctaLink",
+          "label": "URL del CTA (cardType=editorial)"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "content-carousel",
+      "components": ["content-carousel-item"]
+    }
+  ]
+}

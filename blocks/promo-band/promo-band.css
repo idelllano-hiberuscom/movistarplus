@@ -1,0 +1,133 @@
+/**
+ * Promo Band Block — Styles
+ * Figma reference: Desktop 1280 — Variant A (3:9401), Variant B (3:9755)
+ * Model: xwalk (EDS + Universal Editor)
+ */
+
+/* 1. Variables locales del bloque */
+.promo-band {
+  --promo-band-bg-overlay: rgba(255, 255, 255, 0.1);
+  --promo-band-link-color: var(--color-blue-link, #3588ff);
+  --promo-band-font-size: 1.3125rem;
+  --promo-band-line-height: 1.575rem;
+  --promo-band-letter-spacing: -0.029em;
+  --promo-band-min-height: 7.25rem;
+  --promo-band-content-max: 51.25rem;
+  --promo-band-content-gap: 0.875rem;
+  --promo-band-icon-max: 5.6875rem;
+}
+
+/* 2. Contenedor raíz: full-bleed */
+.promo-band {
+  position: relative;
+  width: 100%;
+  min-height: var(--promo-band-min-height);
+  background-color: var(--promo-band-bg-overlay);
+  color: var(--color-white, #fff);
+  font-family: var(--font-family-primary, 'ApercuMovistar', 'Helvetica Neue', Helvetica, Arial, sans-serif);
+  font-size: var(--promo-band-font-size);
+  line-height: var(--promo-band-line-height);
+  letter-spacing: var(--promo-band-letter-spacing);
+  font-weight: var(--font-weight-regular, 400);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3. Inner wrapper centrado */
+.promo-band__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--promo-band-content-gap);
+  width: 100%;
+  max-width: var(--promo-band-content-max);
+  margin-inline: auto;
+  padding: 1rem;
+  z-index: 1;
+}
+
+/* 4. Imagen de fondo (variant with-image) */
+.promo-band__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.promo-band__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* 5. Content (icono + texto) */
+.promo-band__content {
+  display: flex;
+  align-items: center;
+  gap: var(--promo-band-content-gap);
+  position: relative;
+  z-index: 1;
+}
+
+/* 6. Icono */
+.promo-band__icon {
+  display: block;
+  flex: 0 0 auto;
+  max-width: var(--promo-band-icon-max);
+}
+
+.promo-band__icon img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 7. Texto */
+.promo-band__text {
+  margin: 0;
+}
+
+/* 8. Link embebido */
+.promo-band__link {
+  color: var(--promo-band-link-color);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.promo-band__link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.promo-band__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* 9. Mobile: stack vertical (<768px) */
+@media (max-width: 47.9375rem) {
+  .promo-band {
+    font-size: 1rem; /* ⚠️ TODO: validar con frame Mobile 390 */
+  }
+
+  .promo-band__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .promo-band__content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* 10. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .promo-band__link {
+    transition: none;
+  }
+}

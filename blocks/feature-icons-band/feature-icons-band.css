@@ -1,0 +1,133 @@
+/**
+ * Feature Icons Band Block — Styles
+ * Figma reference: feature-icons-band
+ * Model: xwalk (EDS + Universal Editor)
+ * Mobile-first.
+ *
+ * QA audit: ✅ Validado
+ * QA Changes:
+ * - Sin cambios necesarios. CSS limpio: no `!important`, no `will-change`
+ *   en estado estático, no animaciones de layout (width/height/top/left),
+ *   no `outline:none`, no `@import`, todos los selectores escopados al
+ *   prefijo `.feature-icons-band`, todas las custom properties con prefijo
+ *   `--feature-icons-band-*`.
+ */
+
+/* 1. Variables locales del bloque */
+.feature-icons-band {
+  --feature-icons-band-gap: 32px;
+  --feature-icons-band-padding-block: 40px;
+  --feature-icons-band-padding-inline: 24px;
+  --feature-icons-band-item-max: 405px;
+  --feature-icons-band-item-min: 180px;
+  --feature-icons-band-icon-w: 200px;
+  --feature-icons-band-icon-h: 100px;
+}
+
+/* 2. Contenedor raíz */
+.feature-icons-band {
+  width: 100%;
+  padding: var(--feature-icons-band-padding-block) var(--feature-icons-band-padding-inline);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-family: var(--font-family-primary);
+  box-sizing: border-box;
+}
+
+/* 3. Lista (mobile-first: 1 columna) */
+.feature-icons-band-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--feature-icons-band-gap);
+}
+
+/* 4. Item */
+.feature-icons-band-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: var(--feature-icons-band-item-max);
+  min-width: var(--feature-icons-band-item-min);
+  box-sizing: border-box;
+}
+
+/* 5. Icono */
+.feature-icons-band-icon {
+  display: block;
+  width: var(--feature-icons-band-icon-w);
+  height: var(--feature-icons-band-icon-h);
+  margin-bottom: 16px;
+}
+
+.feature-icons-band-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 6. Heading */
+.feature-icons-band-heading {
+  margin: 0 0 8px;
+  max-width: 303px;
+  font-size: var(--font-size-h3-banner, 31px);
+  line-height: 30px;
+  letter-spacing: -0.17px;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-black);
+}
+
+/* 7. Body */
+.feature-icons-band-body {
+  margin: 0;
+  font-size: var(--font-size-body-md, 18px);
+  line-height: 19px;
+  font-weight: var(--font-weight-regular, 400);
+  color: var(--color-black);
+}
+
+/* 8. Tablet: 2 columnas (asumiendo 4 items). Si hay 3 → wrap a 1 por fila;
+       si hay 6 → 2x3. Para distribución más equilibrada usamos flex-wrap. */
+@media (min-width: 768px) {
+  .feature-icons-band {
+    --feature-icons-band-gap: 40px;
+    padding-block: 48px;
+  }
+
+  .feature-icons-band-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .feature-icons-band-item {
+    flex: 0 1 calc((100% - var(--feature-icons-band-gap)) / 2);
+    max-width: var(--feature-icons-band-item-max);
+  }
+}
+
+/* 9. Desktop: N columnas en una fila, centradas, con wrap si hay >5 items. */
+@media (min-width: 1280px) {
+  .feature-icons-band {
+    padding: 50px 63.23px;
+  }
+
+  .feature-icons-band-list {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .feature-icons-band-item {
+    flex: 0 1 254.55px;
+    min-width: var(--feature-icons-band-item-min);
+    max-width: var(--feature-icons-band-item-max);
+  }
+}

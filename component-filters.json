@@ -13,9 +13,16 @@
       "button",
       "title",
       "hero",
+      "hero-carousel",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "feature-icons-band",
+      "channel-logos",
+      "plan-selector",
+      "faq-accordion",
+      "content-carousel",
+      "promo-band"
     ]
   },
   {
@@ -37,6 +44,72 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "header",
+    "components": [
+      "header-nav-item"
+    ]
+  },
+  {
+    "id": "footer-columns",
+    "components": [
+      "footer-column"
+    ]
+  },
+  {
+    "id": "footer-column-links",
+    "components": [
+      "footer-link"
+    ]
+  },
+  {
+    "id": "footer-legal-links",
+    "components": [
+      "footer-link"
+    ]
+  },
+  {
+    "id": "footer-social-links",
+    "components": [
+      "footer-social"
+    ]
+  },
+  {
+    "id": "feature-icons-band",
+    "components": [
+      "feature-icons-band-item"
+    ]
+  },
+  {
+    "id": "channel-logos",
+    "components": [
+      "channel-logos-item"
+    ]
+  },
+  {
+    "id": "plan-selector",
+    "components": [
+      "plan-selector-item"
+    ]
+  },
+  {
+    "id": "faq-accordion",
+    "components": [
+      "faq-accordion-item"
+    ]
+  },
+  {
+    "id": "hero-carousel",
+    "components": [
+      "hero-carousel-item"
+    ]
+  },
+  {
+    "id": "content-carousel",
+    "components": [
+      "content-carousel-item"
     ]
   }
 ]

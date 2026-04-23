@@ -1,0 +1,437 @@
+/**
+ * Content Carousel Block — Styles
+ * Figma reference: figma-analysis/content-carousel-instructions.md
+ * Model: xwalk (EDS + Universal Editor)
+ *
+ * Variantes (modificadores aplicados por JS):
+ *   .content-carousel--mosaic     → CSS Grid 2col (mobile) → 4col (desktop)
+ *   .content-carousel--portrait   → Flex horizontal scroll-snap, items aspect 2:3
+ *   .content-carousel--landscape  → Flex horizontal scroll-snap, items aspect 16:9
+ *
+ * Mobile-first. Breakpoints: 390 / 768 / 1280.
+ */
+
+/* ========================================================================== */
+/* Container                                                                  */
+/* ========================================================================== */
+
+.content-carousel {
+  --content-carousel-gap: 12px;
+
+  display: block;
+  padding: 32px 16px;
+  color: var(--color-white);
+  background: transparent;
+}
+
+@media (min-width: 768px) {
+  .content-carousel {
+    --content-carousel-gap: 16px;
+
+    padding: 40px 32px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .content-carousel {
+    --content-carousel-gap: 16px;
+
+    padding: 50px 63.23px;
+  }
+}
+
+.content-carousel__inner {
+  position: relative;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* ========================================================================== */
+/* Header                                                                     */
+/* ========================================================================== */
+
+.content-carousel__header {
+  margin: 0 0 16px;
+}
+
+@media (min-width: 768px) {
+  .content-carousel__header {
+    margin-bottom: 24px;
+  }
+}
+
+.content-carousel__heading {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+  color: var(--color-white);
+}
+
+@media (min-width: 1280px) {
+  .content-carousel__heading {
+    font-size: var(--font-size-h2, 36px);
+    letter-spacing: -0.53px;
+  }
+}
+
+.content-carousel__subtitle {
+  margin: 8px 0 0;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body, 16px);
+  color: var(--color-text-grey-channel, #a9a9a9);
+}
+
+/* ========================================================================== */
+/* Track — base (reset de <ul>)                                               */
+/* ========================================================================== */
+
+.content-carousel__track {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ========================================================================== */
+/* Variante MOSAIC — CSS Grid                                                 */
+/* ========================================================================== */
+
+.content-carousel--mosaic .content-carousel__track {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 199px;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .content-carousel--mosaic .content-carousel__track {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .content-carousel--mosaic .content-carousel__track {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25.6px;
+  }
+}
+
+.content-carousel--mosaic .content-carousel__item {
+  grid-row: span var(--row-span, 1);
+  grid-column: span var(--col-span, 1);
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ========================================================================== */
+/* Variantes PORTRAIT y LANDSCAPE — flex horizontal con scroll-snap           */
+/* ========================================================================== */
+
+.content-carousel--portrait .content-carousel__track,
+.content-carousel--landscape .content-carousel__track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--content-carousel-gap);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+
+.content-carousel--portrait .content-carousel__track::-webkit-scrollbar,
+.content-carousel--landscape .content-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.content-carousel--portrait .content-carousel__item,
+.content-carousel--landscape .content-carousel__item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  min-width: 0;
+}
+
+/* Portrait — pósters verticales (~2:3) */
+.content-carousel--portrait .content-carousel__item {
+  width: 45vw;
+  aspect-ratio: 2 / 3;
+}
+
+@media (min-width: 768px) {
+  .content-carousel--portrait .content-carousel__item {
+    width: 28vw;
+  }
+}
+
+@media (min-width: 1280px) {
+  .content-carousel--portrait .content-carousel__item {
+    width: calc(
+      (100% - var(--content-carousel-gap) * (var(--items-per-view, 5) - 1))
+      / var(--items-per-view, 5)
+    );
+  }
+}
+
+/* Landscape — formato apaisado (~16:9) */
+.content-carousel--landscape .content-carousel__item {
+  width: 75vw;
+  aspect-ratio: 16 / 9;
+}
+
+@media (min-width: 768px) {
+  .content-carousel--landscape .content-carousel__item {
+    width: 45vw;
+  }
+}
+
+@media (min-width: 1280px) {
+  .content-carousel--landscape .content-carousel__item {
+    width: calc(
+      (100% - var(--content-carousel-gap) * (var(--items-per-view, 4) - 1))
+      / var(--items-per-view, 4)
+    );
+  }
+}
+
+/* ========================================================================== */
+/* Card — base                                                                */
+/* ========================================================================== */
+
+.content-carousel .card {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--color-white);
+  text-decoration: none;
+  background: var(--color-overlay-card, rgb(255 255 255 / 10%));
+  border-radius: var(--radius-card-content, 6px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ========================================================================== */
+/* Card image — <picture> + overlay + caption                                 */
+/* ========================================================================== */
+
+.content-carousel .card--image {
+  display: block;
+}
+
+.content-carousel .card__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.content-carousel .card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.content-carousel .card__overlay {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  height: 50%;
+  pointer-events: none;
+  background: var(--gradient-card-bottom, linear-gradient(0deg, rgb(0 0 0 / 80%) 0%, rgb(0 0 0 / 0%) 100%));
+}
+
+.content-carousel .card__caption {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  z-index: 2;
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-caption, 14px);
+  line-height: 15.75px;
+  text-transform: uppercase;
+  color: var(--color-white);
+}
+
+/* Hover image card — solo dispositivos con puntero fino */
+@media (hover: hover) {
+  .content-carousel .card--image {
+    transition: transform 0.2s ease;
+  }
+
+  .content-carousel .card--image:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* ========================================================================== */
+/* Card editorial                                                             */
+/* ========================================================================== */
+
+.content-carousel .card--editorial {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  height: 100%;
+  background: var(--color-overlay-card, rgb(255 255 255 / 10%));
+}
+
+.content-carousel .card__label {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-blue-label, 26px);
+  line-height: 28px;
+  letter-spacing: -0.84px;
+  color: var(--color-blue-link, #3588ff);
+}
+
+.content-carousel .card__heading {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-h3-deportes, 30px);
+  line-height: 29px;
+  letter-spacing: -0.97px;
+  color: var(--color-white);
+}
+
+.content-carousel .card__body {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body, 16px);
+  line-height: 17px;
+  letter-spacing: -0.09px;
+  color: var(--color-text-grey-channel, #a9a9a9);
+}
+
+.content-carousel .card__body p {
+  margin: 0 0 8px;
+}
+
+.content-carousel .card__body p:last-child {
+  margin-bottom: 0;
+}
+
+.content-carousel .card__body strong {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+}
+
+.content-carousel .card__cta {
+  margin-top: auto;
+  display: inline-block;
+  padding: 8.5px 5px;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body, 16px);
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-white);
+  background: var(--color-brand-blue);
+  border-radius: var(--radius-button, 5px);
+  transition: opacity 0.2s ease;
+}
+
+.content-carousel .card__cta:hover,
+.content-carousel .card__cta:focus-visible {
+  opacity: 0.9;
+}
+
+/* ========================================================================== */
+/* Arrows — ocultas en mobile, visibles en desktop                            */
+/* ========================================================================== */
+
+.content-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--color-white);
+  background: rgb(0 0 0 / 60%);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.content-carousel__arrow:hover {
+  background: rgb(0 0 0 / 80%);
+}
+
+.content-carousel__arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.content-carousel__arrow--prev {
+  left: 8px;
+}
+
+.content-carousel__arrow--next {
+  right: 8px;
+}
+
+.content-carousel__arrow svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .content-carousel__arrow {
+    display: block;
+  }
+}
+
+/* ========================================================================== */
+/* Focus visible — WCAG 2.4.7                                                 */
+/* ========================================================================== */
+
+.content-carousel .card:focus-visible,
+.content-carousel__arrow:focus-visible,
+.content-carousel__track:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+.content-carousel__track:focus-visible {
+  outline-offset: -2px;
+}
+
+/* ========================================================================== */
+/* Reduced motion — WCAG 2.2.2                                                */
+/* ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .content-carousel__track {
+    scroll-behavior: auto;
+  }
+
+  .content-carousel .card,
+  .content-carousel .card--image,
+  .content-carousel .card__cta,
+  .content-carousel__arrow {
+    transition: none;
+  }
+}

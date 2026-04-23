@@ -1,272 +1,359 @@
-/* header and nav layout */
-header .nav-wrapper {
-  background-color: var(--background-color);
+/**
+ * Header Block — Styles
+ * Figma reference: MovistarPlus Header (desktop 122px)
+ * Model: xwalk (EDS + Universal Editor)
+ *
+ * Mobile-first. Tokens consumidos desde /styles/styles.css y /styles/fonts.css.
+ */
+
+/* ---------- 1. Variables locales del bloque ---------- */
+.header.block {
+  --header-bg: var(--color-black, #000);
+  --header-fg: var(--color-white, #fff);
+  --header-accent: var(--color-brand-blue, #06f);
+  --header-height-mobile: 64px; /* ⚠️ TODO: valor no extraído de Figma — confirmar */
+  --header-height-desktop: var(--height-header-desktop, 122px);
+  --header-padding-x-mobile: 16px;
+  --header-padding-x-desktop: 63.23px;
+  --header-nav-gap: 40px;
+  --header-tools-gap: 10px;
+  --header-cta-padding-y: 12.6px;
+  --header-cta-padding-x: 20.4px;
+  --header-cta-radius: var(--radius-button, 5px);
+  --header-font-family: var(--font-family-primary, 'Helvetica Neue', Helvetica, Arial, sans-serif);
+  --header-nav-size: var(--font-size-nav, 18px);
+}
+
+/* ---------- 2. Contenedor raíz (sticky para reservar altura y mantener visible) ---------- */
+.header.block {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   width: 100%;
-  z-index: 2;
-  position: fixed;
+  background-color: var(--header-bg);
+  color: var(--header-fg);
+  font-family: var(--header-font-family);
+  /* Reservar altura para evitar CLS */
+  min-height: var(--header-height-mobile);
 }
 
-header nav {
-  box-sizing: border-box;
-  display: grid;
-  grid-template:
-    'hamburger brand tools' var(--nav-height)
-    'sections sections sections' 1fr / auto 1fr auto;
+/* ---------- 3. Wrapper interno: layout horizontal ---------- */
+.header-wrapper {
+  display: flex;
   align-items: center;
-  gap: 0 24px;
-  margin: auto;
-  max-width: 1248px;
-  height: var(--nav-height);
-  padding: 0 24px;
-  font-family: var(--body-font-family);
+  justify-content: space-between;
+  gap: 12px;
+  height: var(--header-height-mobile);
+  padding: 0 var(--header-padding-x-mobile);
+  box-sizing: border-box;
 }
 
-header nav[aria-expanded='true'] {
-  grid-template:
-    'hamburger brand' var(--nav-height)
-    'sections sections' 1fr
-    'tools tools' var(--nav-height) / auto 1fr;
-  overflow-y: auto;
-  min-height: 100dvh;
+/* ---------- 4. Logo ---------- */
+.header-logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
 }
 
-@media (width >= 900px) {
-  header .nav-wrapper {
-    position: relative;
-  }
-
-  header nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 0 32px;
-    max-width: 1264px;
-    padding: 0 32px;
-  }
-
-  header nav[aria-expanded='true'] {
-    min-height: 0;
-    overflow: visible;
-  }
+.header-logo picture,
+.header-logo img {
+  display: block;
+  width: auto;
+  height: 32px; /* mobile */
+  max-width: 140px;
 }
 
-header nav p {
+/* ---------- 5. Nav principal (oculto en mobile, visible en desktop) ---------- */
+.header-nav {
+  display: none;
+}
+
+.header-nav-list {
+  list-style: none;
   margin: 0;
-  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--header-nav-gap);
 }
 
-header nav a:any-link {
-  color: currentcolor;
-}
-
-/* hamburger */
-header nav .nav-hamburger {
-  grid-area: hamburger;
-  height: 22px;
+.header-nav-item {
+  position: relative;
   display: flex;
   align-items: center;
 }
 
-header nav .nav-hamburger button {
-  height: 22px;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-  background-color: var(--background-color);
-  color: inherit;
-  overflow: initial;
-  text-overflow: initial;
-  white-space: initial;
-}
-
-header nav .nav-hamburger-icon,
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
-  box-sizing: border-box;
-  display: block;
-  position: relative;
-  width: 20px;
-}
-
-header nav .nav-hamburger-icon::before,
-header nav .nav-hamburger-icon::after {
+/* Dot azul separador a la derecha de cada item excepto el último */
+.header-nav-item:not(:last-child)::after {
   content: '';
   position: absolute;
-  background: currentcolor;
-}
-
-header nav[aria-expanded='false'] .nav-hamburger-icon,
-header nav[aria-expanded='false'] .nav-hamburger-icon::before,
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  height: 2px;
+  right: calc(var(--header-nav-gap) / -2 - 2px);
+  top: 50%;
+  width: 4px;
+  height: 4px;
   border-radius: 2px;
-  background: currentcolor;
+  background-color: var(--header-accent);
+  transform: translateY(-50%);
 }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::before {
-  top: -6px;
+.header-nav-link {
+  color: var(--header-fg);
+  text-decoration: none;
+  font-size: var(--header-nav-size);
+  line-height: 1.2;
+  font-weight: var(--font-weight-regular, 400);
+  transition: color 0.15s ease;
 }
 
-header nav[aria-expanded='false'] .nav-hamburger-icon::after {
-  top: 6px;
+.header-nav-link:hover {
+  /* ⚠️ TODO Confirmar color hover nav items con diseño */
+  color: var(--header-accent);
 }
 
-header nav[aria-expanded='true'] .nav-hamburger-icon {
-  height: 22px;
+.header-nav-item.is-active > .header-nav-link {
+  font-weight: var(--font-weight-bold, 700);
 }
 
-header nav[aria-expanded='true'] .nav-hamburger-icon::before,
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: 3px;
-  left: 1px;
-  transform: rotate(45deg);
-  transform-origin: 2px 1px;
-  width: 24px;
-  height: 2px;
-  border-radius: 2px;
+/* ---------- 6. Tools (CTA + iconos) ---------- */
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--header-tools-gap);
+  flex-shrink: 0;
 }
 
-header nav[aria-expanded='true'] .nav-hamburger-icon::after {
-  top: unset;
-  bottom: 3px;
-  transform: rotate(-45deg);
+.header-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--header-fg);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
 }
 
-@media (width >= 900px) {
-  header nav .nav-hamburger {
-    display: none;
-    visibility: hidden;
-  }
+.header-tool svg {
+  display: block;
 }
 
-/* brand */
-header .nav-brand {
-  grid-area: brand;
-  flex-basis: 128px;
-  font-size: var(--heading-font-size-s);
-  font-weight: 700;
-  line-height: 1;
+.header-search svg {
+  width: 17.4px;
+  height: 18.4px;
 }
 
-header nav .nav-brand img {
-  width: 128px;
-  height: auto;
-}
-
-/* sections */
-header nav .nav-sections {
-  grid-area: sections;
-  flex: 1 1 auto;
+.header-profile {
+  /* En mobile el perfil se mueve al drawer; el desktop sí lo muestra aquí. */
   display: none;
+}
+
+.header-profile svg {
+  width: 34px;
+  height: 34px;
+}
+
+/* CTA "SUSCRIBIRME AHORA" */
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--header-accent);
+  color: var(--header-fg);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: var(--header-font-family);
+  font-weight: var(--font-weight-bold, 700);
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 10px 14px;
+  border-radius: var(--header-cta-radius);
+  transition: filter 0.15s ease;
+  white-space: nowrap;
+}
+
+.header-cta:hover {
+  /* ⚠️ TODO Confirmar color hover CTA con diseño */
+  filter: brightness(0.9);
+}
+
+/* ---------- 7. Botón hamburguesa (solo mobile) ---------- */
+.header-burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--header-fg);
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* ---------- 8. Drawer móvil ---------- */
+.header-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  background-color: var(--header-bg);
+  color: var(--header-fg);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding: 24px var(--header-padding-x-mobile);
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.header-drawer[hidden] {
+  display: none;
+}
+
+.header-drawer-close {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: var(--header-fg);
+  padding: 8px;
+  cursor: pointer;
+}
+
+.header-drawer-list {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header-drawer-link {
+  display: block;
+  color: var(--header-fg);
+  text-decoration: none;
+  font-size: 22px;
+  line-height: 1.3;
+  padding: 8px 0;
+}
+
+.header-drawer-utils {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgb(255 255 255 / 15%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.header-drawer-cta {
+  margin-top: auto;
+  margin-bottom: 16px;
+  padding: var(--header-cta-padding-y) var(--header-cta-padding-x);
+  font-size: 19px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Bloquear scroll del body cuando el drawer está abierto */
+body.is-header-drawer-open {
+  overflow: hidden;
+}
+
+/* ---------- 8.b Estado aria-busy (placeholders mientras carga /nav) ---------- */
+/* El esqueleto se monta síncronamente sin contenido; ocultamos visualmente los
+   contenedores marcados como aria-busy="true" para evitar un flash de cajas
+   vacías. Permanecen accesibles al lector de pantalla (no usamos display:none). */
+.header-nav[aria-busy="true"],
+.header-tools[aria-busy="true"] {
   visibility: hidden;
 }
 
-header nav[aria-expanded='true'] .nav-sections {
-  display: block;
-  visibility: visible;
-  align-self: start;
+/* ---------- 9. Estados de focus (WCAG 2.4.7) ---------- */
+.header-logo:focus-visible,
+.header-nav-link:focus-visible,
+.header-tool:focus-visible,
+.header-cta:focus-visible,
+.header-burger:focus-visible,
+.header-drawer-close:focus-visible,
+.header-drawer-link:focus-visible {
+  outline: 2px solid var(--header-fg);
+  outline-offset: 2px;
 }
 
-header nav .nav-sections ul {
-  list-style: none;
-  padding-left: 0;
-  font-size: var(--body-font-size-s);
+/* ---------- 10. Tablet (768–1279) ---------- */
+/* ⚠️ TODO Confirmar layout exacto tablet 768 (nodo Figma 3:6698).
+   Por defecto: incrementamos altura y padding pero mantenemos hamburguesa
+   hasta el breakpoint desktop. */
+@media (min-width: 768px) {
+  .header.block {
+    min-height: 80px;
+  }
+
+  .header-wrapper {
+    height: 80px;
+    padding: 0 32px;
+  }
+
+  .header-logo img {
+    height: 36px;
+    max-width: 160px;
+  }
 }
 
-header nav .nav-sections ul > li {
-  font-weight: 500;
-}
-
-header nav .nav-sections ul > li > ul {
-  margin-top: 0;
-}
-
-header nav .nav-sections ul > li > ul > li {
-  font-weight: 400;
-}
-
-@media (width >= 900px) {
-  header nav .nav-sections {
-    display: block;
-    visibility: visible;
-    white-space: nowrap;
+/* ---------- 11. Desktop (≥1280) ---------- */
+@media (min-width: 1280px) {
+  .header.block {
+    min-height: var(--header-height-desktop);
   }
 
-  header nav[aria-expanded='true'] .nav-sections {
-    align-self: unset;
-  }
-
-  header nav .nav-sections .nav-drop {
-    position: relative;
-    padding-right: 16px;
-    cursor: pointer;
-  }
-
-  header nav .nav-sections .nav-drop::after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 0.5em;
-    right: 2px;
-    transform: rotate(135deg);
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentcolor;
-    border-radius: 0 1px 0 0;
-    border-width: 2px 2px 0 0;
-  }
-
-  header nav .nav-sections .nav-drop[aria-expanded='true']::after {
-    top: unset;
-    bottom: 0.5em;
-    transform: rotate(315deg);
-  }
-
-  header nav .nav-sections ul {
-    display: flex;
+  .header-wrapper {
+    height: var(--header-height-desktop);
+    padding: 0 var(--header-padding-x-desktop);
     gap: 24px;
-    margin: 0;
   }
 
-  header nav .nav-sections .default-content-wrapper > ul > li {
-    flex: 0 1 auto;
-    position: relative;
-  }
-
-  header nav .nav-sections .default-content-wrapper > ul > li > ul {
+  .header-burger {
     display: none;
-    position: relative;
   }
 
-  header nav .nav-sections .default-content-wrapper > ul > li[aria-expanded='true'] > ul {
-    display: block;
-    position: absolute;
-    left: -24px;
-    width: 200px;
-    top: 150%;
-    padding: 16px;
-    background-color: var(--light-color);
-    white-space: initial;
+  .header-nav {
+    display: flex;
+    flex: 1;
+    justify-content: center;
   }
 
-  header nav .nav-sections .default-content-wrapper > ul > li > ul::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 16px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--light-color);
+  .header-logo img {
+    height: 44px;
+    max-width: 100px;
   }
 
-  header nav .nav-sections .default-content-wrapper > ul > li > ul > li {
-    padding: 8px 0;
+  .header-profile {
+    display: inline-flex;
+  }
+
+  .header-cta {
+    font-size: 19px;
+    line-height: 22.8px;
+    padding: var(--header-cta-padding-y) var(--header-cta-padding-x);
+  }
+
+  /* En desktop el drawer no se usa: lo ocultamos con selector específico
+     en vez de !important para respetar la regla "no !important" del proyecto. */
+  .header.block .header-drawer,
+  .header.block .header-drawer.is-open {
+    display: none;
   }
 }
 
-/* tools */
-header nav .nav-tools {
-  grid-area: tools;
+/* ---------- 12. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .header-nav-link,
+  .header-cta {
+    transition: none;
+  }
 }

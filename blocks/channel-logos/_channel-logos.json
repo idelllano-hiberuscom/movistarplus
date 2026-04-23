@@ -1,0 +1,110 @@
+{
+  "definitions": [
+    {
+      "title": "Channel Logos",
+      "id": "channel-logos",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Channel Logos",
+              "filter": "channel-logos",
+              "model": "channel-logos"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Channel Logos Item",
+      "id": "channel-logos-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Channel Logos Item",
+              "model": "channel-logos-item"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "channel-logos",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "label": "Encabezado de la sección (H2)",
+          "required": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "subtitle",
+          "label": "Subtítulo descriptivo"
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "scrollMode",
+          "label": "Comportamiento del scroll horizontal",
+          "required": true,
+          "options": [
+            { "name": "Manual", "value": "manual" },
+            { "name": "Auto Marquee", "value": "auto-marquee" }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "marqueeSpeed",
+          "label": "Velocidad de marquee si autoMarquee está activo",
+          "options": [
+            { "name": "Lenta", "value": "slow" },
+            { "name": "Media", "value": "medium" },
+            { "name": "Rápida", "value": "fast" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "channel-logos-item",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Logo del canal (recomendado: SVG o PNG transparente)",
+          "multi": false,
+          "required": true
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "name",
+          "label": "Nombre del canal (texto alt + tooltip)",
+          "required": true
+        },
+        {
+          "component": "aem-content",
+          "name": "link",
+          "label": "URL destino (página del canal). Vacío = no clicable."
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "channel-logos",
+      "components": [
+        "channel-logos-item"
+      ]
+    }
+  ]
+}
