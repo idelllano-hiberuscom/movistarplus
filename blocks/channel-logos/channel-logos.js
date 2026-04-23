@@ -246,6 +246,8 @@ export default function decorate(block) {
 
   // --- 6. Replace block content (precedent: cards.js / feature-icons-band.js) ---
   block.replaceChildren(header, viewport);
+  // Ensure data-aue-filter is present after replaceChildren (needed for UE + button)
+  block.dataset.aueFilter = 'channel-logos';
 
   // --- 7. Marquee: clone items for seamless infinite CSS loop ---
   if (scrollMode === 'auto-marquee') {

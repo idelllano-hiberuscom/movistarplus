@@ -49,7 +49,8 @@ export default function decorate(block) {
       const altText = bgAltRow?.textContent.trim() || '';
       bgImg.setAttribute('alt', altText);
     }
-    inner.append(bgPicture);
+    // NOTE: bgPicture se añade directamente a block (no a inner)
+    // para que position:absolute inset:0 cubra el ancho completo del band
   }
 
   // --- Content wrapper (icono + texto) ---
@@ -89,5 +90,11 @@ export default function decorate(block) {
   }
 
   inner.append(content);
-  block.replaceChildren(inner);
+
+  // bg image va como hermano de inner (directo en block) para cubrir full-bleed
+  if (bgPicture) {
+    block.replaceChildren(bgPicture, inner);
+  } else {
+    block.replaceChildren(inner);
+  }
 }

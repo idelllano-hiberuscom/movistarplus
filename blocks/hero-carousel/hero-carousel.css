@@ -25,7 +25,11 @@
 /* ----- Contenedor raíz ----- */
 .hero-carousel {
   position: relative;
-  width: 100%;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   background: var(--color-black, #000);
   color: var(--color-white, #fff);
   font-family: var(--font-family-primary, 'Helvetica Neue', Arial, sans-serif);

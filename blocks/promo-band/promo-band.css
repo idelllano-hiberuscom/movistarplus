@@ -20,7 +20,11 @@
 /* 2. Contenedor raíz: full-bleed */
 .promo-band {
   position: relative;
-  width: 100%;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   min-height: var(--promo-band-min-height);
   background-color: var(--promo-band-bg-overlay);
   color: var(--color-white, #fff);
