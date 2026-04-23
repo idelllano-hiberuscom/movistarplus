@@ -31,3 +31,99 @@
     order: unset;
   }
 }
+
+/* ============================================================
+   Variant: image-card
+   Usage: Columns (image-card)
+   Left column  → promotional image (full-bleed)
+   Right column → card with tag, title, description, CTA
+   ============================================================ */
+.columns.image-card > div {
+  gap: 0;
+}
+
+.columns.image-card > div > .columns-img-col {
+  order: 0;
+}
+
+.columns.image-card > div > .columns-img-col img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.columns.image-card > div > div:not(.columns-img-col) {
+  background-color: var(--color-black, #000);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Tag / eyebrow — author wraps the label in <em> */
+.columns.image-card > div > div:not(.columns-img-col) em {
+  color: var(--color-brand-blue, #06f);
+  font-style: normal;
+  font-size: var(--font-size-blue-label, 14px);
+  font-weight: var(--font-weight-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Title */
+.columns.image-card > div > div:not(.columns-img-col) h2,
+.columns.image-card > div > div:not(.columns-img-col) h3 {
+  font-size: var(--font-size-h, 28px);
+  line-height: 1.2;
+  color: var(--color-white, #fff);
+  margin: 8px 0 16px;
+}
+
+/* Body text */
+.columns.image-card > div > div:not(.columns-img-col) p {
+  color: var(--color-text-muted, #a6a6a6);
+  font-size: var(--font-size-body, 16px);
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+
+/* Bold fragments inside body */
+.columns.image-card > div > div:not(.columns-img-col) p strong {
+  color: var(--color-white, #fff);
+  font-weight: var(--font-weight-bold, 700);
+}
+
+/* CTA button */
+.columns.image-card > div > div:not(.columns-img-col) .button-container {
+  margin-top: 24px;
+}
+
+.columns.image-card > div > div:not(.columns-img-col) a.button:any-link {
+  background-color: var(--color-brand-blue, #06f);
+  color: var(--color-white, #fff);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold, 700);
+  font-size: var(--font-size-body, 16px);
+  border-radius: var(--radius-button, 5px);
+  padding: 14px 32px;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+}
+
+/* Desktop: image 70%, card 30% */
+@media (width >= 900px) {
+  .columns.image-card > div {
+    align-items: stretch;
+    flex-direction: unset;
+    gap: 0;
+  }
+
+  .columns.image-card > div > .columns-img-col {
+    flex: 7;
+  }
+
+  .columns.image-card > div > div:not(.columns-img-col) {
+    flex: 3;
+    padding: 40px 32px;
+  }
+}

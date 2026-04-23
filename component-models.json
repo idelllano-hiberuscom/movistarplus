@@ -244,6 +244,22 @@
     "id": "columns",
     "fields": [
       {
+        "component": "select",
+        "valueType": "string",
+        "name": "classes",
+        "label": "Variante",
+        "options": [
+          {
+            "name": "Por defecto",
+            "value": ""
+          },
+          {
+            "name": "Imagen + Card",
+            "value": "image-card"
+          }
+        ]
+      },
+      {
         "component": "text",
         "valueType": "number",
         "name": "columns",

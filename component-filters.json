@@ -120,42 +120,5 @@
     "components": [
       "plan-selector-item"
     ]
-  },
-  {
-  "id": "footer",
-  "components": [
-    "footer-column",
-    "footer-link",
-    "footer-social"
-  ]
-},
-{
-  "id": "header",
-  "components": [
-    "header-nav-item"
-  ]
-},
-{
-  "id": "section",
-  "components": [
-    "text",
-    "image",
-    "button",
-    "title",
-    "hero",
-    "cards",
-    "channel-logos",
-    "columns",
-    "content-carousel",
-    "faq-accordion",
-    "feature-icons-band",
-    "footer",
-    "fragment",
-    "header",
-    "hero-carousel",
-    "media-grid",
-    "plan-selector",
-    "promo-band"
-  ]
-}
+  }
 ]
