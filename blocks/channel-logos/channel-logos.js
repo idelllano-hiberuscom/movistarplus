@@ -136,17 +136,21 @@ export default function decorate(block) {
   const rows = [...block.children];
 
   // --- 1. Parent block fields ---
-  // text fields (heading, subtitle) → stored as child div rows in xwalk
-  // select fields (scrollMode, marqueeSpeed) → stored in block.dataset
+  // En xwalk cada campo del bloque (text, select, etc.) se serializa como una fila.
+  // Orden del modelo channel-logos: heading, subtitle, scrollMode, marqueeSpeed.
   const headingRow = rows[0];
   const subtitleRow = rows[1];
+  const scrollModeRow = rows[2];
+  const marqueeSpeedRow = rows[3];
   const headingText = headingRow?.textContent.trim() || '';
   const subtitleText = subtitleRow?.textContent.trim() || '';
-  const scrollModeAttr = (block.dataset.scrollMode || 'manual').toLowerCase();
+  const scrollModeAttr = (scrollModeRow?.textContent.trim() || 'manual').toLowerCase();
   const scrollMode = scrollModeAttr === 'auto-marquee' ? 'auto-marquee' : 'manual';
+  const marqueeSpeed = (marqueeSpeedRow?.textContent.trim() || 'medium').toLowerCase();
+  block.dataset.marqueeSpeed = marqueeSpeed;
 
-  // --- 2. Item rows: start after heading + subtitle rows ---
-  const logoStartIndex = 2;
+  // --- 2. Item rows: start after the 4 block-level field rows ---
+  const logoStartIndex = 4;
 
   // --- 3. Build header ---
   const header = document.createElement('div');
