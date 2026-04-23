@@ -172,7 +172,6 @@
     font-size: 40px;
   }
 }
-
 /* Desktop: 4 cols × 2 rows */
 @media (width >= 1280px) {
   .media-grid {
@@ -184,22 +183,18 @@
     grid-template-rows: repeat(2, 260px);
     grid-auto-rows: 260px;
     gap: 20px;
+    /* Añadir 'dense' hace que el grid rellene los huecos vacíos automáticamente */
+    grid-auto-flow: dense; 
   }
 
-  /* Placement explícito para col-span=1 + row-span=2 (celda editorial típica) */
-  /* Fija la celda en col 1 para que el auto-placement no la mueva */
-  .media-grid__cell--row-2:not(.media-grid__cell--col-2) {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-  }
-
-  .media-grid__cell--col-2:not(.media-grid__cell--row-2) {
-    grid-column: span 2;
-  }
-
-  .media-grid__cell--col-2.media-grid__cell--row-2 {
-    grid-column: span 2;
+  /* Usar reglas simples de span, igual que tienes en la versión Tablet */
+  
+  .media-grid__cell--row-2 {
     grid-row: span 2;
+  }
+
+  .media-grid__cell--col-2 {
+    grid-column: span 2;
   }
 
   .media-grid__title {
