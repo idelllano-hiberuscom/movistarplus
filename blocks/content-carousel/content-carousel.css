@@ -17,6 +17,12 @@
 
 /* ========================================================================== */
 
+/* Break out of the section wrapper max-width constraint */
+.content-carousel-container .content-carousel-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
 .content-carousel {
   --content-carousel-gap: 12px;
 
@@ -378,12 +384,12 @@
   position: absolute;
   top: 50%;
   z-index: 3;
-  display: none;
+  display: block;
   width: 44px;
   height: 44px;
   padding: 0;
   color: var(--color-white);
-  background: rgb(0 0 0 / 60%);
+  background: var(--color-brand-blue, #06f);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -415,11 +421,7 @@
   margin: 0 auto;
 }
 
-@media (width >= 1024px) {
-  .content-carousel__arrow {
-    display: block;
-  }
-}
+/* Arrows visible at all breakpoints — scroll handled by JS */
 
 /* ========================================================================== */
 

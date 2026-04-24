@@ -59,30 +59,24 @@ export default function decorate(block) {
   const rows = [...block.children];
 
   // 1.a. Block-level fields (orden del modelo): heading, subtitle.
-  //      Son opcionales. Detectamos "fila de header" como aquellas filas
-  //      donde la primera celda NO contiene <picture> (porque los items sí).
-  //      Tomamos como mucho las 2 primeras filas sin <picture> al principio.
-  const headerRows = [];
-  let itemStart = 0;
-  for (let i = 0; i < rows.length && headerRows.length < 2; i += 1) {
-    if (rows[i].querySelector('picture')) break;
-    headerRows.push(rows[i]);
-    itemStart = i + 1;
-  }
-  const headingText = headerRows[0] ? headerRows[0].textContent.trim() : '';
-  const subtitleText = headerRows[1] ? headerRows[1].textContent.trim() : '';
+  //      En xwalk, los campos del modelo del bloque se serializan como las
+  //      primeras N filas. El modelo feature-icons-band tiene 2 campos.
+  const BLOCK_FIELD_COUNT = 2;
+  const headingText = rows[0] ? rows[0].textContent.trim() : '';
+  const subtitleText = rows[1] ? rows[1].textContent.trim() : '';
 
   // 1.b. Contenedor raíz final
   const frag = document.createDocumentFragment();
 
-  if (headingText || subtitleText) {
+  // Always create header (even when empty) for UE inline editing targets.
+  {
     const header = document.createElement('div');
     header.classList.add('feature-icons-band-header');
 
     const h2 = document.createElement('h2');
     h2.classList.add('feature-icons-band-title');
     h2.textContent = headingText;
-    if (headerRows[0]) moveInstrumentation(headerRows[0], h2);
+    if (rows[0]) moveInstrumentation(rows[0], h2);
     h2.dataset.aueProp = 'heading';
     h2.dataset.aueType = 'text';
     h2.dataset.aueLabel = 'Encabezado de la sección (H2)';
@@ -91,7 +85,7 @@ export default function decorate(block) {
     const p = document.createElement('p');
     p.classList.add('feature-icons-band-subtitle');
     if (subtitleText) p.textContent = subtitleText;
-    if (headerRows[1]) moveInstrumentation(headerRows[1], p);
+    if (rows[1]) moveInstrumentation(rows[1], p);
     p.dataset.aueProp = 'subtitle';
     p.dataset.aueType = 'text';
     p.dataset.aueLabel = 'Subtítulo descriptivo';
@@ -105,7 +99,7 @@ export default function decorate(block) {
   ul.setAttribute('role', 'list');
   ul.classList.add('feature-icons-band-list');
 
-  const itemRows = rows.slice(itemStart);
+  const itemRows = rows.slice(BLOCK_FIELD_COUNT);
   itemRows.forEach((row) => {
     const cols = [...row.children];
 
