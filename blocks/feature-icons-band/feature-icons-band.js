@@ -123,12 +123,12 @@ export default function decorate(block) {
     const src = originalImg?.getAttribute('src') || '';
     const altRaw = originalImg?.getAttribute('alt') || '';
     const alt = altRaw || itemHeadingText; // fallback al heading si el autor no puso alt
-    const optimizedPic = createOptimizedPicture(src, alt, false, [{ width: '200' }]);
+    const optimizedPic = createOptimizedPicture(src, alt, false, [{ width: '128' }]);
     optimizedPic.classList.add('feature-icons-band-icon');
     const optimizedImg = optimizedPic.querySelector('img');
     if (optimizedImg) {
-      optimizedImg.setAttribute('width', '200');
-      optimizedImg.setAttribute('height', '100');
+      optimizedImg.setAttribute('width', '64');
+      optimizedImg.setAttribute('height', '64');
       optimizedImg.setAttribute('loading', 'lazy');
       optimizedImg.setAttribute('decoding', 'async');
       // Preservar la instrumentación UE de la <img> (campo `icon` editable).

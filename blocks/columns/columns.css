@@ -38,6 +38,13 @@
    Left column  → promotional image (full-bleed)
    Right column → card with tag, title, description, CTA
    ============================================================ */
+
+/* Break out of section wrapper max-width */
+.columns-container:has(.columns.image-card) .columns-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
 .columns.image-card > div {
   gap: 0;
 }
