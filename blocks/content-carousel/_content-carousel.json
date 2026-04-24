@@ -134,6 +134,7 @@
         },
         {
           "component": "aem-content",
+          "valueType": "string",
           "name": "link",
           "label": "URL destino (cardType=image)"
         },
@@ -185,6 +186,7 @@
         },
         {
           "component": "aem-content",
+          "valueType": "string",
           "name": "cta",
           "label": "URL del CTA (cardType=editorial)"
         }

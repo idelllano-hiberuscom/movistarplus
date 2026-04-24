@@ -187,13 +187,12 @@ function buildEditorialCard(cols) {
 }
 
 /**
- * Construye el header opcional (<header><h2/><p subtitle/></header>) si dataset.heading existe.
- * @param {Element} block
+ * Construye el header opcional (<header><h2/><p subtitle/></header>).
+ * @param {string} heading
+ * @param {string} subtitle
  * @returns {HTMLElement|null}
  */
-function buildHeader(block) {
-  const heading = (block.dataset.heading || '').trim();
-  const subtitle = (block.dataset.subtitle || '').trim();
+function buildHeader(heading, subtitle) {
   if (!heading && !subtitle) return null;
 
   const header = document.createElement('header');
@@ -306,30 +305,42 @@ const ARROW_NEXT_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="f
 /* -------------------------------------------------------------------------- */
 
 export default function decorate(block) {
-  // 1. Lectura de defaults desde dataset (sanitizados)
+  // 1. Cache all rows — block-level fields come as the first N rows in xwalk.
+  //    Model field order: heading, subtitle, variant, itemsPerView, showArrows,
+  //    autoplay, autoplayInterval (7 fields).
+  const allRows = [...block.children];
+  const BLOCK_FIELD_COUNT = 7;
+
+  // Read block-level config from the first rows (xwalk serializes them as rows).
+  const headingText = allRows[0] ? readText(allRows[0]) : '';
+  const subtitleText = allRows[1] ? readText(allRows[1]) : '';
+  const variantRaw = allRows[2] ? readText(allRows[2]) : '';
+  const itemsPerViewRaw = allRows[3] ? readText(allRows[3]) : 'auto';
+  const showArrowsRaw = allRows[4] ? readText(allRows[4]) : 'true';
+  const autoplayRaw = allRows[5] ? readText(allRows[5]) : 'false';
+  const autoplayIntervalRaw = allRows[6] ? readText(allRows[6]) : '5000';
+
   const allowedVariants = ['mosaic', 'portrait', 'landscape'];
-  const variant = allowedVariants.includes(block.dataset.variant)
-    ? block.dataset.variant
-    : 'portrait';
-  const itemsPerView = block.dataset.itemsPerView || 'auto';
-  const showArrows = block.dataset.showArrows !== 'false';
-  const autoplay = block.dataset.autoplay === 'true';
-  const autoplayInterval = parseInt(block.dataset.autoplayInterval, 10) || 5000;
+  const variant = allowedVariants.includes(variantRaw) ? variantRaw : 'portrait';
+  const itemsPerView = itemsPerViewRaw || 'auto';
+  const showArrows = showArrowsRaw !== 'false';
+  const autoplay = autoplayRaw === 'true';
+  const autoplayInterval = parseInt(autoplayIntervalRaw, 10) || 5000;
 
   block.classList.add(`content-carousel--${variant}`);
   if (itemsPerView !== 'auto') {
     block.style.setProperty('--items-per-view', itemsPerView);
   }
 
-  // 2. Cache de filas — cada fila = 1 item completo
-  const rows = [...block.children];
+  // 2. Item rows start after the block-level field rows.
+  const rows = allRows.slice(BLOCK_FIELD_COUNT);
 
   // 3. Wrapper interno para alojar header + track + flechas (NO sustituye a block)
   const inner = document.createElement('div');
   inner.classList.add('content-carousel__inner');
 
   // 4. Header opcional
-  const header = buildHeader(block);
+  const header = buildHeader(headingText, subtitleText);
   if (header) inner.appendChild(header);
 
   // 5. Track <ul role="list">
@@ -390,6 +401,8 @@ export default function decorate(block) {
 
   // 7. Sustituir hijos del block por el wrapper (con argumento — preserva data-block-name/status)
   block.replaceChildren(inner);
+  // Restore UE filter so the + add-item button appears in Universal Editor
+  block.dataset.aueFilter = 'content-carousel';
 
   // 8. Setup interactivo solo en variantes carrusel
   if (variant !== 'mosaic') {
