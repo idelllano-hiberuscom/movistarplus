@@ -93,6 +93,7 @@
         },
         {
           "component": "aem-content",
+          "valueType": "string",
           "name": "link",
           "label": "URL destino (página del canal). Vacío = no clicable."
         }
