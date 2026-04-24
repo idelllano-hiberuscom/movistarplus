@@ -194,53 +194,65 @@ export default function decorate(block) {
   logoRows.forEach((row) => {
     const cols = [...row.children];
     const pictureEl = cols[0]?.querySelector('picture');
-    if (!pictureEl) return;
 
     const li = document.createElement('li');
     li.classList.add('channel-logos__item');
     moveInstrumentation(row, li);
 
-    // Extract optional link from col 1
     // Extract name (col 1) and link (col 2)
     const nameText = cols[1]?.textContent.trim() || '';
     const linkEl = cols[2]?.querySelector('a');
     const linkHref = linkEl?.getAttribute('href') || '';
 
-    // Original image data
-    const originalImg = pictureEl.querySelector('img');
-    const imgSrc = originalImg?.getAttribute('src') || '';
-    const imgAlt = originalImg?.getAttribute('alt') || nameText || '';
+    let contentEl;
 
-    // Optimized picture (below-the-fold — lazy, not LCP)
-    const optimizedPic = createOptimizedPicture(imgSrc, imgAlt, false, [{ width: '164' }]);
-    const optimizedImg = optimizedPic.querySelector('img');
-    if (optimizedImg) {
-      optimizedImg.setAttribute('width', '164');
-      optimizedImg.setAttribute('height', '107');
-      optimizedImg.setAttribute('loading', 'lazy');
-      optimizedImg.setAttribute('decoding', 'async');
-      if (originalImg) moveInstrumentation(originalImg, optimizedImg);
+    if (pictureEl) {
+      // Original image data
+      const originalImg = pictureEl.querySelector('img');
+      const imgSrc = originalImg?.getAttribute('src') || '';
+      const imgAlt = originalImg?.getAttribute('alt') || nameText || '';
+
+      // Optimized picture (below-the-fold — lazy, not LCP)
+      const optimizedPic = createOptimizedPicture(imgSrc, imgAlt, false, [{ width: '164' }]);
+      const optimizedImg = optimizedPic.querySelector('img');
+      if (optimizedImg) {
+        optimizedImg.setAttribute('width', '164');
+        optimizedImg.setAttribute('height', '107');
+        optimizedImg.setAttribute('loading', 'lazy');
+        optimizedImg.setAttribute('decoding', 'async');
+        if (originalImg) moveInstrumentation(originalImg, optimizedImg);
+      }
+
+      // UE: media selector for image field (on <picture>)
+      optimizedPic.dataset.aueProp = 'image';
+      optimizedPic.dataset.aueType = 'media';
+      optimizedPic.dataset.aueLabel = 'Logo del canal';
+      contentEl = optimizedPic;
+    } else {
+      // Placeholder for new items without image (UE authoring)
+      const placeholder = document.createElement('div');
+      placeholder.classList.add('channel-logos__placeholder');
+      placeholder.dataset.aueProp = 'image';
+      placeholder.dataset.aueType = 'media';
+      placeholder.dataset.aueLabel = 'Logo del canal';
+      placeholder.textContent = nameText || '+';
+      contentEl = placeholder;
     }
-
-    // UE: media selector for image field (on <picture>)
-    optimizedPic.dataset.aueProp = 'image';
-    optimizedPic.dataset.aueType = 'media';
-    optimizedPic.dataset.aueLabel = 'Logo del canal';
 
     // Wrap in link if href exists
     if (linkHref) {
       const a = document.createElement('a');
       a.classList.add('channel-logos__link');
       a.href = linkHref;
-      a.setAttribute('aria-label', `Canal ${imgAlt}`);
+      a.setAttribute('aria-label', `Canal ${nameText}`);
       // UE: content selector for link field
       a.dataset.aueProp = 'link';
       a.dataset.aueType = 'aem-content';
       a.dataset.aueLabel = 'URL destino';
-      a.append(optimizedPic);
+      a.append(contentEl);
       li.append(a);
     } else {
-      li.append(optimizedPic);
+      li.append(contentEl);
     }
 
     track.append(li);

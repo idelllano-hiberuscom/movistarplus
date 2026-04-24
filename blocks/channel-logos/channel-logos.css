@@ -159,6 +159,21 @@
   border-radius: var(--channel-logos-item-radius);
 }
 
+/* Placeholder for new items without image (UE authoring) */
+.channel-logos__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--color-text-muted, #a6a6a6);
+  font-size: 14px;
+  border: 1px dashed var(--color-text-muted, #a6a6a6);
+  border-radius: var(--channel-logos-item-radius);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
 /* ============================================
    9. Auto-marquee mode — infinite CSS loop
    ============================================ */
