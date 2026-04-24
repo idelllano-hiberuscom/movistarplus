@@ -137,9 +137,9 @@ export default function decorate(block) {
     const ctaAnchor = cols[8]?.querySelector('a');
     const badgePicture = cols[9]?.querySelector('picture');
     const badgeAlt = cols[10]?.textContent.trim() || '';
-    const featuredRaw = cols[11]?.textContent.trim() || '';
-    const featuredVal = featuredRaw.toLowerCase();
-    const isFeatured = featuredVal === 'true' || featuredVal === 'on' || featuredVal === '1' || featuredVal === 'yes' || featuredVal === 'checked';
+    const featuredRaw = cols[11]?.textContent.trim().toLowerCase() || '';
+    // xwalk boolean: treat any non-empty value that isn't explicitly false as true
+    const isFeatured = featuredRaw !== '' && featuredRaw !== 'false' && featuredRaw !== '0' && featuredRaw !== 'no' && featuredRaw !== 'off';
 
     // Build card <li>
     const li = document.createElement('li');

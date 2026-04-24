@@ -248,21 +248,15 @@ function populateDrawer(drawerEl, data) {
 
 /**
  * Inyecta los atributos `data-aue-*` (xwalk) sobre el DOM ya poblado.
- * El recurso UE apunta al fragmento `/nav` (no a la página actual): la
- * edición real del header sucede en esa página de autoría.
+ * Usa el `data-aue-resource` nativo que AEM ya puso en el block element.
+ * Si no existe (preview local, etc.) la instrumentación se omite.
  *
  * @param {Element} block   Contenedor raíz del bloque.
- * @param {string}  navPath Path del fragmento que contiene la estructura
- *                          editable del header (por ejemplo `/nav`).
  */
-function instrumentUE(block, navPath) {
-  const resource = `urn:aemconnection:${navPath}#header`;
-
-  // --- Contenedor raíz del bloque ---
-  block.dataset.aueResource = resource;
-  block.dataset.aueType = 'component';
-  block.dataset.aueModel = 'header';
-  block.dataset.aueLabel = 'Cabecera';
+function instrumentUE(block) {
+  // Usar el resource que AEM ya asignó al bloque; NO inventar uno sintético.
+  const resource = block.getAttribute('data-aue-resource');
+  if (!resource) return; // sin resource nativo → nada que instrumentar
 
   // --- Logo (imagen + enlace destino) ---
   const logoEl = block.querySelector('.header-logo');
@@ -273,7 +267,6 @@ function instrumentUE(block, navPath) {
       picture.dataset.aueType = 'media';
       picture.dataset.aueLabel = 'Logo de cabecera';
     }
-    // El propio enlace del logo es editable como link destino.
     logoEl.dataset.aueProp = 'logoLink';
     logoEl.dataset.aueType = 'aem-content';
     logoEl.dataset.aueLabel = 'Enlace del logo (normalmente la home)';
@@ -282,20 +275,13 @@ function instrumentUE(block, navPath) {
   // --- Nav: contenedor de items repetibles ---
   const navEl = block.querySelector('.header-nav');
   if (navEl) {
-    navEl.dataset.aueResource = `${resource}/navItems`;
     navEl.dataset.aueType = 'container';
-    navEl.dataset.aueModel = 'header-nav-items';
-    navEl.dataset.aueFilter = 'header-nav-item'; // ← OBLIGATORIO para añadir/reordenar items en UE
+    navEl.dataset.aueFilter = 'header-nav-item';
     navEl.dataset.aueLabel = 'Items del menú principal';
-    navEl.dataset.aueBehavior = 'component';
 
     const items = navEl.querySelectorAll('.header-nav-item');
     items.forEach((li, index) => {
-      li.dataset.aueResource = `${resource}/navItems/${index}`;
-      li.dataset.aueType = 'component';
-      li.dataset.aueModel = 'header-nav-item';
       li.dataset.aueLabel = `Item ${index + 1}`;
-
       const link = li.querySelector('.header-nav-link');
       if (link) {
         link.dataset.aueProp = 'label';
@@ -305,7 +291,7 @@ function instrumentUE(block, navPath) {
     });
   }
 
-  // --- CTA "SUSCRIBIRME AHORA" (texto editable inline; el link es ctaLink) ---
+  // --- CTA "SUSCRIBIRME AHORA" ---
   const ctaEl = block.querySelector('.header-tools .header-cta');
   if (ctaEl) {
     ctaEl.dataset.aueProp = 'ctaText';
@@ -417,9 +403,9 @@ async function loadNav(block) {
   if (toolsEl) populateTools(toolsEl, data);
   if (drawerEl) populateDrawer(drawerEl, data);
 
-  // Instrumentación UE: apunta al fragmento /nav (no a la página actual).
+  // Instrumentación UE: usa el data-aue-resource nativo que AEM ya puso en el bloque.
   // Se aplica DESPUÉS de poblar el DOM para que los selectores encuentren los nodos.
-  instrumentUE(block, navPath);
+  instrumentUE(block);
 }
 
 export default function decorate(block) {
