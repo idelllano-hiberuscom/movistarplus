@@ -158,7 +158,9 @@ body.appear {
 }
 
 header {
-  height: var(--nav-height);
+  height: 0;
+  position: relative;
+  z-index: 100;
 }
 
 header .header,

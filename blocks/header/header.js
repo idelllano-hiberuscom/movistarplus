@@ -330,6 +330,21 @@ function instrumentUE(block, navPath) {
   }
 }
 
+/**
+ * Toggles .header--solid on block when user scrolls past the hero section.
+ * Transparent over hero, solid black afterwards.
+ * @param {Element} block
+ */
+function setupScrollBehaviour(block) {
+  const update = () => {
+    const hero = document.querySelector('.hero-carousel, .hero');
+    const threshold = hero ? hero.offsetTop + hero.offsetHeight : 0;
+    block.classList.toggle('header--solid', window.scrollY > threshold);
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+}
+
 function setupDrawer(burger, drawer) {
   let lastFocused = null;
   const trapFocus = (e) => {
@@ -418,6 +433,7 @@ export default function decorate(block) {
   const drawer = buildEmptyDrawer();
   block.append(wrapper, drawer);
   setupDrawer(burger, drawer);
+  setupScrollBehaviour(block);
   loadNav(block).catch((err) => {
     // Logging operativo (no debug). Necesario para diagnosticar fallos
     // de fetch del fragmento /nav en producción.

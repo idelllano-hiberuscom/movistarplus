@@ -24,20 +24,26 @@
   --header-nav-size: var(--font-size-nav, 18px);
 }
 
-/* ---------- 2. Contenedor raíz (sticky para reservar altura y mantener visible) ---------- */
+/* ---------- 2. Contenedor raíz (fixed, transparent over hero, solid on scroll) ---------- */
 .header.block {
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
   width: 100%;
-  background-color: var(--header-bg);
+  background-color: transparent;
   color: var(--header-fg);
   font-family: var(--header-font-family);
+  transition: background-color 0.3s ease;
 
   /* Reservar altura para evitar CLS */
   min-height: var(--header-height-mobile);
+}
+
+/* Solid background when scrolled past the hero */
+.header.block.header--solid {
+  background-color: var(--header-bg);
 }
 
 /* ---------- 3. Wrapper interno: layout horizontal ---------- */
