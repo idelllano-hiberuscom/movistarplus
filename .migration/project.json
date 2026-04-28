@@ -1,0 +1,9 @@
+{
+  "type": "xwalk",
+  "libraryUrl": "https://main--sta-xwalk-boilerplate--aemysites.aem.page/tools/sidekick/library.json",
+  "contentHostUrl": "author-p34633-e913315.adobeaemcloud.com",
+  "aemSitePath": "/content/movistarplus",
+  "aemAssetsFolderPath": "/content/dam/movistarplus",
+  "aemSiteName": "movistarplus",
+  "aemSiteTitle": "movistarplus"
+}

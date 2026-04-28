@@ -83,6 +83,36 @@
       "id": "blocks",
       "components": [
         {
+          "title": "Cards Dark",
+          "id": "cards-dark",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Cards Dark",
+                  "filter": "cards-dark"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Card",
+          "id": "card",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Card",
+                  "model": "card"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Cards",
           "id": "cards",
           "plugins": {
@@ -382,6 +412,21 @@
                 "template": {
                   "name": "Hero Carousel Item",
                   "model": "hero-carousel-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Hero Dark",
+          "id": "hero-dark",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Hero Dark",
+                  "model": "hero-dark"
                 }
               }
             }

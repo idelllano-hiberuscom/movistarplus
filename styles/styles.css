@@ -1,40 +1,38 @@
 /*
- * Copyright 2020 Adobe. All rights reserved.
- * This file is licensed to you under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License. You may obtain a copy
- * of the License at http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
- * OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Movistar Plus+ — Global Design System
+ * Migrated from https://www.movistarplus.es/
  */
 
-:root {
-  /* === MovistarPlus brand tokens === */
+/* fallback fonts */
+@font-face {
+  font-family: apercumovistar-fallback;
+  size-adjust: 100%;
+  src: local('Helvetica Neue'), local('Helvetica'), local('Arial');
+}
 
-  /* Neutros */
+@font-face {
+  font-family: apercumovistar-black-fallback;
+  size-adjust: 95%;
+  src: local('Arial Black'), local('Helvetica Neue'), local('Arial');
+}
+
+:root {
+  /* === Color palette === */
   --color-black: #000;
   --color-white: #fff;
-  --color-text-muted: #a6a6a6;
-  --color-text-disclaimer: #adadad;
-  --color-text-grey-faq: #a7a7a7;
-  --color-text-grey-channel: #a7a7a7;
-
-  /* Marca / acción */
   --color-brand-blue: #06f;
   --color-blue-link: #3588ff;
-
-  /* Fondos contextuales */
-  --color-footer-bg: #000;
+  --color-blue-hover: #5fa3ff;
+  --color-text-muted: #a6a6a6;
+  --color-text-disclaimer: #adadad;
+  --color-text-grey: #a7a7a7;
+  --color-footer-bg: rgba(216 216 216 / 6%);
   --color-overlay-card: rgb(255 255 255 / 6%);
-
-  /* FAQ item backgrounds */
   --color-faq-item-default: rgb(54 54 54 / 40%);
   --color-faq-item-active: rgb(89 89 89 / 54%);
   --color-faq-item-hover: rgb(54 54 54 / 60%);
 
-  /* Gradientes */
+  /* === Gradients === */
   --gradient-hero-overlay:
     linear-gradient(
       0deg,
@@ -42,37 +40,34 @@
       rgb(0 0 0 / 96%) 5.79%,
       rgb(0 0 0 / 89%) 10.88%,
       rgb(0 0 0 / 80%) 15.63%,
-      rgb(0 0 0 / 69.8%) 20.37%,
+      rgb(0 0 0 / 70%) 20.37%,
       rgb(0 0 0 / 58%) 25.46%,
-      rgb(0 0 0 / 46.3%) 31.25%,
-      rgb(0 0 0 / 34.5%) 38.08%,
-      rgb(0 0 0 / 23.5%) 46.3%,
+      rgb(0 0 0 / 46%) 31.25%,
+      rgb(0 0 0 / 35%) 38.08%,
+      rgb(0 0 0 / 24%) 46.3%,
       rgb(0 0 0 / 14%) 56.25%,
-      rgb(0 0 0 / 6.7%) 68.29%,
+      rgb(0 0 0 / 7%) 68.29%,
       rgb(0 0 0 / 2%) 82.75%,
       rgb(0 0 0 / 0%) 100%
     );
   --gradient-card-bottom:
-    linear-gradient(
-      180deg,
-      rgb(0 0 0 / 0%) 0%,
-      rgb(0 0 0 / 80%) 100%
-    );
+    linear-gradient(180deg, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 80%) 100%);
 
-  /* Radios */
-  --radius-button: 5px;
-  --radius-card-content: 8px;
-
-  /* Tipografía MovistarPlus */
-  --font-family-primary:
-    apercumovistar, 'Helvetica Neue', helvetica, arial, sans-serif;
+  /* === Typography — ApercuMovistar === */
+  --font-family-primary: ApercuMovistar, apercumovistar-fallback, 'Helvetica Neue', helvetica, arial, sans-serif;
+  --font-family-heading: 'ApercuMovistar Black', apercumovistar-black-fallback, 'Arial Black', sans-serif;
+  --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-bold: 700;
+  --font-weight-black: 900;
 
-  /* Escala tipográfica */
+  /* Type scale */
   --font-size-display: 64px;
   --font-size-display-decimal: 38px;
   --font-size-h1: 40px;
+  --font-size-h2: 40px;
+  --font-size-h3: 38px;
+  --font-size-h: 28px;
   --font-size-body-lg: 20px;
   --font-size-body-md: 18px;
   --font-size-body: 16px;
@@ -82,66 +77,67 @@
   --font-size-footer-link: 14px;
   --font-size-copyright: 12px;
   --font-size-blue-label: 14px;
-  --font-size-h: 28px;
+  --font-size-button: 19px;
 
-  /* === Boilerplate defaults overridden to MovistarPlus theme === */
-  --background-color: #000;
+  /* Line heights */
+  --line-height-tight: 1.05;
+  --line-height-heading: 1.1;
+  --line-height-body: 1.3;
+  --line-height-relaxed: 1.6;
+
+  /* === Spacing === */
+  --spacing-xs: 4px;
+  --spacing-s: 8px;
+  --spacing-m: 16px;
+  --spacing-l: 24px;
+  --spacing-xl: 40px;
+  --spacing-xxl: 64px;
+  --section-spacing: 40px;
+
+  /* === Border radius === */
+  --radius-button: 5px;
+  --radius-card: 8px;
+  --radius-input: 4px;
+
+  /* === Transitions === */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s;
+
+  /* === Layout === */
+  --content-max-width: 1180px;
+  --section-max-width: 1200px;
+  --nav-height: 64px;
+
+  /* === Boilerplate overrides === */
+  --background-color: var(--color-black);
   --light-color: #f8f8f8;
   --dark-color: #505050;
-  --text-color: #fff;
+  --text-color: var(--color-white);
   --link-color: var(--color-blue-link);
-  --link-hover-color: #5fa3ff;
-
-  /* fonts (boilerplate) — alias to MovistarPlus primary */
+  --link-hover-color: var(--color-blue-hover);
   --body-font-family: var(--font-family-primary);
-  --heading-font-family: var(--font-family-primary);
-
-  /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
-
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
+  --heading-font-family: var(--font-family-heading);
+  --body-font-size-m: 20px;
+  --body-font-size-s: 18px;
+  --body-font-size-xs: 16px;
+  --heading-font-size-xxl: 40px;
+  --heading-font-size-xl: 40px;
+  --heading-font-size-l: 38px;
+  --heading-font-size-m: 28px;
   --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
-
-  /* nav height */
-  --nav-height: 64px;
-}
-
-/* fallback fonts */
-@font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
-  src: local('Arial');
-}
-
-@font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
+  --heading-font-size-xs: 20px;
 }
 
 @media (width >= 900px) {
   :root {
-    /* body sizes */
     --body-font-size-m: 18px;
     --body-font-size-s: 16px;
     --body-font-size-xs: 14px;
-
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
-    --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
-    --heading-font-size-s: 20px;
-    --heading-font-size-xs: 18px;
   }
 }
+
+/* === Base === */
 
 body {
   display: none;
@@ -150,7 +146,9 @@ body {
   color: var(--text-color);
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-m);
-  line-height: 1.6;
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body.appear {
@@ -173,6 +171,8 @@ footer .footer[data-block-status="loaded"] {
   visibility: visible;
 }
 
+/* === Typography === */
+
 h1,
 h2,
 h3,
@@ -182,9 +182,10 @@ h6 {
   margin-top: 0.8em;
   margin-bottom: 0.25em;
   font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
-  scroll-margin: 40px;
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-heading);
+  letter-spacing: -0.013em;
+  scroll-margin: calc(var(--nav-height) + 16px);
 }
 
 h1 { font-size: var(--heading-font-size-xxl); }
@@ -210,45 +211,26 @@ pre {
 }
 
 pre {
-  padding: 16px;
-  border-radius: 8px;
+  padding: var(--spacing-m);
+  border-radius: var(--radius-card);
   background-color: var(--light-color);
   overflow-x: auto;
   white-space: pre;
 }
 
-main > div {
-  margin: 0;
+strong,
+b {
+  font-family: 'ApercuMovistar Bold', var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
 }
 
-/* Ancho restringido para contenido textual por defecto (text/title/image standalone) */
-main > div > p,
-main > div > h1,
-main > div > h2,
-main > div > h3,
-main > div > h4,
-main > div > h5,
-main > div > h6,
-main > div > ul,
-main > div > ol,
-main > div > picture {
-  max-width: 1180px;
-  margin-inline: auto;
-  padding-inline: 16px;
-}
+/* === Links === */
 
-input,
-textarea,
-select,
-button {
-  font: inherit;
-}
-
-/* links */
 a:any-link {
   color: var(--link-color);
   text-decoration: none;
   overflow-wrap: break-word;
+  transition: color var(--transition-fast);
 }
 
 a:hover {
@@ -256,50 +238,77 @@ a:hover {
   text-decoration: underline;
 }
 
-/* buttons */
+a:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+/* === Buttons === */
+
 a.button:any-link,
 button {
   box-sizing: border-box;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   max-width: 100%;
   margin: 12px 0;
-  border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
-  font-family: var(--body-font-family);
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.25;
+  border: none;
+  border-radius: var(--radius-button);
+  padding: 13px 20px;
+  font-family: var(--heading-font-family);
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.2;
   text-align: center;
   text-decoration: none;
-  background-color: var(--link-color);
-  color: var(--background-color);
+  text-transform: uppercase;
+  background-color: var(--color-brand-blue);
+  color: var(--color-white);
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transition: opacity var(--transition-slow);
 }
 
 a.button:hover,
 a.button:focus,
 button:hover,
 button:focus {
-  background-color: var(--link-hover-color);
+  opacity: 0.85;
+  background-color: var(--color-brand-blue);
+  color: var(--color-white);
   cursor: pointer;
+}
+
+a.button:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
 }
 
 button:disabled,
 button:disabled:hover {
-  background-color: var(--light-color);
-  cursor: unset;
+  background-color: var(--dark-color);
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 a.button.secondary,
 button.secondary {
-  background-color: unset;
-  border: 2px solid currentcolor;
-  color: var(--text-color);
+  background-color: transparent;
+  border: 2px solid var(--color-white);
+  color: var(--color-white);
 }
+
+a.button.secondary:hover,
+button.secondary:hover {
+  background-color: rgb(255 255 255 / 10%);
+  opacity: 1;
+}
+
+/* === Images === */
 
 main img {
   max-width: 100%;
@@ -318,15 +327,68 @@ main img {
   width: 100%;
 }
 
-/* sections */
+/* === Inputs === */
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="search"],
+textarea,
+select {
+  padding: 10px 14px;
+  border: 1px solid var(--color-text-muted);
+  border-radius: var(--radius-input);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-brand-blue);
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(0 102 255 / 30%);
+}
+
+/* === Content layout === */
+
+main > div {
+  margin: 0;
+}
+
+main > div > p,
+main > div > h1,
+main > div > h2,
+main > div > h3,
+main > div > h4,
+main > div > h5,
+main > div > h6,
+main > div > ul,
+main > div > ol,
+main > div > picture {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  padding-inline: var(--spacing-m);
+}
+
+/* === Sections === */
+
 main > .section {
-  margin: 40px 0;
+  margin: var(--section-spacing) 0;
 }
 
 main > .section > div {
-  max-width: 1200px;
+  max-width: var(--section-max-width);
   margin: auto;
-  padding: 0 24px;
+  padding: 0 var(--spacing-l);
 }
 
 main > .section:first-of-type {
@@ -339,10 +401,69 @@ main > .section:first-of-type {
   }
 }
 
-/* section metadata */
+/* Section metadata variants */
 main .section.light,
 main .section.highlight {
   background-color: var(--light-color);
+  color: var(--color-black);
   margin: 0;
-  padding: 40px 0;
+  padding: var(--section-spacing) 0;
+}
+
+main .section.light h1,
+main .section.light h2,
+main .section.light h3,
+main .section.light h4,
+main .section.light h5,
+main .section.light h6,
+main .section.highlight h1,
+main .section.highlight h2,
+main .section.highlight h3,
+main .section.highlight h4,
+main .section.highlight h5,
+main .section.highlight h6 {
+  color: var(--color-black);
+}
+
+main .section.light a:any-link,
+main .section.highlight a:any-link {
+  color: var(--color-brand-blue);
+}
+
+main .section.dark {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+/* === Lists === */
+
+ul,
+ol {
+  padding-left: 1.5em;
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+li::marker {
+  color: var(--color-text-muted);
+}
+
+/* === Horizontal rule === */
+
+hr {
+  border: none;
+  border-top: 1px solid rgb(255 255 255 / 15%);
+  margin: var(--section-spacing) 0;
+}
+
+/* === Blockquote === */
+
+blockquote {
+  border-left: 3px solid var(--color-brand-blue);
+  padding-left: var(--spacing-m);
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin: 1em 0;
 }

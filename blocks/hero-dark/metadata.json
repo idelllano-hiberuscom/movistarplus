@@ -1,0 +1,40 @@
+{
+  "variantName": "hero-dark",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-04-28T10:45:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.movistarplus.es/",
+    "originPage": "Movistar Plus+ homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "featured-highlight",
+    "imagePattern": "large",
+    "structure": "image + subtitle + heading + description + CTA"
+  },
+  "contentPattern": {
+    "structure": "image + subtitle + heading + description + CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "featured content sections on dark backgrounds",
+      "highlight/promotion sections with image and CTA",
+      "streaming content features"
+    ],
+    "notSuitableFor": [
+      "light-themed hero sections",
+      "full-width banner heroes",
+      "text-only hero sections"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-04-28T10:45:00.000Z"
+  }
+}

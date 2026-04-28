@@ -29,6 +29,12 @@
     ]
   },
   {
+    "id": "cards-dark",
+    "components": [
+      "card"
+    ]
+  },
+  {
     "id": "cards",
     "components": [
       "card"

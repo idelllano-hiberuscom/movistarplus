@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "projectType": "xwalk"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://www.movistarplus.es/"
+      ],
+      "description": "Movistar Plus+ homepage with hero content, featured shows, channel listings, and promotional sections",
+      "blocks": [
+        {
+          "name": "hero-carousel",
+          "instances": ["section#m66c59d1ec3498818d50ec4db"]
+        },
+        {
+          "name": "hero-dark",
+          "instances": ["section#m64ba88277f47881e2325be36", "section#m66191b04c349885e443e0cf2"]
+        },
+        {
+          "name": "plan-selector",
+          "instances": ["section#m698c45f5c349880b3c5d4f69"]
+        },
+        {
+          "name": "feature-icons-band",
+          "instances": ["section#m661d31edc3498864727521d2", "section#m660fcb9fc3498859916b2440"]
+        },
+        {
+          "name": "channel-logos",
+          "instances": ["section#m6788c28c7f4788477b7c1e32"]
+        },
+        {
+          "name": "media-grid",
+          "instances": ["section#m64be96b7c34988316053359c", "section#m64bfe4887f47880f4d1c8ff2", "section#m64bfeb97c349883f0e668272", "section#m654d15a0c349883e3e28242d", "section#m654d13637f47883dc53d0cdf"]
+        },
+        {
+          "name": "promo-band",
+          "instances": ["section#m65f8607f7f4788457b274356", "section#m66a8f24c7f4788666e693db0", "section#m64bea684c349885f444336c4"]
+        },
+        {
+          "name": "content-carousel",
+          "instances": ["section#m67efc3487f478827303e64d1"]
+        },
+        {
+          "name": "cards-dark",
+          "instances": ["section#m681cbc65c3498813c315f6bc", "section#m6938329bc349884fd4145182"]
+        },
+        {
+          "name": "faq-accordion",
+          "instances": ["section#m665986e97f47883688067ac3"]
+        }
+      ]
+    }
+  ]
+}
